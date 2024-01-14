@@ -49,6 +49,11 @@ button {
   font-weight: 500;
 }
 
+a {
+  text-decoration: none;
+  display: inline-block;
+}
+/* 
 textarea:hover,
 input:hover,
 button:hover {
@@ -383,4 +388,4 @@ i {
   align-items: center;
   justify-content: center;
   width: 100%;
-}
+} */
