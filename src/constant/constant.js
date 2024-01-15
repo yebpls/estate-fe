@@ -1,1 +1,1 @@
-export const APIURL = "https://staging.learnings.social/api";
+export const APIURL = "http://localhost:8080";

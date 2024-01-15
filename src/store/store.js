@@ -1,7 +1,11 @@
-// const { configureStore } = require("@reduxjs/toolkit");
+import accountReducer from "./slices/accountSlice";
 
-// const store = configureStore({
-//   reducers: {},
-// });
+const { configureStore } = require("@reduxjs/toolkit");
 
-// export default store;
+const store = configureStore({
+  reducer: {
+    accountReducer,
+  },
+});
+
+export default store;
