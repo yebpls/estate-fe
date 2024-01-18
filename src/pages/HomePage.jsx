@@ -1,7 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import storageService from "../config/storageService";
 
 function HomePage() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    storageService.removeAccessToken();
+    // dispatch(setIsLogin(false));
+    // dispatch(setRole(""));
+    storageService.removeRole();
+
+    navigate("/");
+    window.location.reload();
+  };
   return (
     <div>
       <div>
@@ -12,6 +23,9 @@ function HomePage() {
       </div>
       <div>
         <Link to="/register">Register</Link>
+      </div>
+      <div>
+        <button onClick={handleLogout}>Log out</button>
       </div>
     </div>
   );
