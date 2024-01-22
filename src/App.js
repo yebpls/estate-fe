@@ -5,7 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { useEffect } from "react";
 import storageService from "./config/storageService";
-import { jwtDecode } from "jwt-decode";
+import  jwtDecode  from "jwt-decode";
 import Protected from "./components/Protected";
 import { useSelector } from "react-redux";
 import MainLayout from "./layouts/MainLayout";
