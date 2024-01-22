@@ -8,6 +8,7 @@ import storageService from "./config/storageService";
 import { jwtDecode } from "jwt-decode";
 import Protected from "./components/Protected";
 import { useSelector } from "react-redux";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
   const { isLogin } = useSelector((state) => state.accountReducer);
@@ -34,7 +35,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<HomePage />} />
+        </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/register"
