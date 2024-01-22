@@ -1,14 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import News from "../components/HomePage/News";
-import Project from "../components/HomePage/Project";
+import { Link, useNavigate } from "react-router-dom";
+import storageService from "../config/storageService";
 
 function HomePage() {
-  return (
-    <div>
-      
-    </div>
-  );
+  return <div></div>;
 }
 
 export default HomePage;
