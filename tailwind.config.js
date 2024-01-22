@@ -40,6 +40,10 @@ module.exports = {
         gray_8: "#D0D5DD",
         gray_9: "rgba(0, 0, 0, 0.78)", //bg-color-gray
       },
+
+      boxShadow: {
+        box_shadow_1: "0px 4px 10px rgba(182,182,182,0.18)",
+      },
     },
   },
   plugins: [],
