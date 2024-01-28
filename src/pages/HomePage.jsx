@@ -10,10 +10,10 @@ import SearchPage from "./SearchPage";
 function HomePage() {
   return (
     <div className="mt-30 ">
-      {/* <News />
+      <News />
       <Project />
       <RemarkableProject />
-      <ProjectByLocation /> */}
+      <ProjectByLocation />
       <SearchPage />
     </div>
   );

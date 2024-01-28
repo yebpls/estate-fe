@@ -35,17 +35,8 @@ function App() {
     }
   }, []);
 
-  const fetch = async () => {
-    try {
-      const res = await accountApi.test();
-      console.log(res);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   useEffect(() => {
-    fetch();
+    // fetch();
   }, []);
   return (
     <BrowserRouter>
