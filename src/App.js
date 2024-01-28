@@ -9,6 +9,7 @@ import storageService from "./config/storageService";
 import Protected from "./components/Protected";
 import { useSelector } from "react-redux";
 import MainLayout from "./layouts/MainLayout";
+import accountApi from "./api/accountApi";
 import { jwtDecode } from "jwt-decode";
 
 function App() {
@@ -32,6 +33,19 @@ function App() {
         storageService.setRole(token.role);
       }
     }
+  }, []);
+
+  const fetch = async () => {
+    try {
+      const res = await accountApi.test();
+      console.log(res);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    fetch();
   }, []);
   return (
     <BrowserRouter>
