@@ -31,15 +31,11 @@ export default function Project() {
             apartments.map((apartment) => (
               <div className="bg-white w-1/4 px-5 pt-5 mb-5 h-80 hover:bg-slate-100 rounded-md">
                 <Link to="" className="w-full">
-                  <div className="w-full">
+                  <div className="w-full h-48">
                     <img
-                      className="w-full"
-                      src={
-                        "https://tse1.mm.bing.net/th?id=OIP.4XB8NF1awQyApnQDDmBmQwHaEo&pid=Api&P=0&h=180"
-                      }
+                      className="w-full h-full"
+                      src={apartment.mainImage}
                       alt="Description of your image"
-                      maxWidth
-                      maxHeight
                     />
                   </div>
                   <div className="mt-3 ml-5">
