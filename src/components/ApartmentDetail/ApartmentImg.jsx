@@ -15,11 +15,11 @@ export default function ApartmentImg() {
 
   return (
     <div>
-      <div className="w-1/2">
+      <div>
         <div className="p-2">
           <Image
             width="100%"
-            height="50vh"
+            height="70vh"
             className="object-cover"
             src={selectedImageUrl}
           />

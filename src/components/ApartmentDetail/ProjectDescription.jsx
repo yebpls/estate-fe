@@ -2,8 +2,8 @@ import React from "react";
 
 export default function ProjectDescription() {
   return (
-    <div className="w-full bg-white rounded-md p-3">
-      <p className="text-red-500 font-semibold p-1">Thông tin mô tả</p>
+    <div className="w-full bg-gray-100 rounded-md p-3 my-5">
+      <p className="text-red-500 font-semibold text-xl">Thông tin mô tả</p>
       <p className="text-sm p-1">
         Chủ đầu tư Kita Gallery luôn luôn hướng đến mục tiêu tốt nhất cho khách
         hàng về các căn hộ cao cấp, sang trọng ở đường Võ Văn Kiệt, Q. Bình Tân
@@ -28,6 +28,10 @@ export default function ProjectDescription() {
       <p className="text-sm p-1">
         30 ngày sau có thông báo của Kita Gallery, sẽ thanh toán 30% giá trị căn
         hộ + hợp đồng mua bán
+      </p>
+
+      <p className="font-semibold mx-auto py-2 text-xl">
+        Trân trọng cảm ơn quý khách hàng!
       </p>
     </div>
   );
