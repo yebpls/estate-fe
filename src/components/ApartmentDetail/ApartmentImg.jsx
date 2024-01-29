@@ -1,7 +1,7 @@
 import { Image, Modal } from "antd";
 import React, { useState } from "react";
 
-export default function ApartmentImg() {
+export default function ApartmentImg({ apartment }) {
   const [productImages, setProductImages] = useState([
     "https://mylisting365.co.uk/blog/wp-content/uploads/2014/09/realestateagentuk.jpg",
     "https://blog.hdestates.com/wp-content/uploads/2020/04/HD-Real-Estate-Photography-scaled.jpg",
@@ -10,12 +10,14 @@ export default function ApartmentImg() {
   ]);
   const [isPreviewOpen, setPreviewOpen] = useState(false);
   const [selectedImageUrl, setSelectedImageUrl] = useState(
-    "https://blog.hdestates.com/wp-content/uploads/2020/04/HD-Real-Estate-Photography-scaled.jpg"
+    apartment?.mainImage
+    // "https://visaho.vn/upload_images/images/2022/04/01/dien-tich-can-ho-chung-cu-2-min.jpg"
   );
 
   return (
     <div>
       <div>
+        <p>{apartment?.mainImage}</p>
         <div className="p-2">
           <Image
             width="100%"

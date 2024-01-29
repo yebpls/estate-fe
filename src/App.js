@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import MainLayout from "./layouts/MainLayout";
 import accountApi from "./api/accountApi";
 import { jwtDecode } from "jwt-decode";
+import ApartmentDetail from "./pages/ApartmentDetail";
 
 function App() {
   const { isLogin } = useSelector((state) => state.accountReducer);
@@ -53,6 +54,8 @@ function App() {
             </Protected>
           }
         />
+        /
+        <Route path="/apartment/:id" element={<ApartmentDetail />} />
       </Routes>
     </BrowserRouter>
   );
