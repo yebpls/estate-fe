@@ -1,4 +1,3 @@
-import { Card } from "antd";
 import React from "react";
 import SearchBar from "../components/SearchPage/SearchBar";
 import ApartmentImg from "../components/ApartmentDetail/ApartmentImg";

@@ -14,7 +14,7 @@ function HomePage() {
       <News />
       <Project />
       <RemarkableProject />
-      <ProjectByLocation /> */}
+      <ProjectByLocation />
       {/* <SearchPage /> */}
       <ApartmentDetail />
     </div>
