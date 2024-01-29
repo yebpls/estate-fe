@@ -11,11 +11,11 @@ import ApartmentDetail from "./ApartmentDetail";
 function HomePage() {
   return (
     <div className="mt-30 ">
-      {/* <News />
+      <News />
       <Project />
       <RemarkableProject />
-      <ProjectByLocation /> */}
-      {/* <SearchPage /> */}
+      <ProjectByLocation />
+      <SearchPage />
       <ApartmentDetail />
     </div>
   );
