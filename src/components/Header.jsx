@@ -15,7 +15,7 @@ function Header() {
   };
 
   return (
-    <div className="bg-white py-4 px-14  flex justify-between shadow-box_shadow_1 fixed w-full">
+    <div className="bg-white py-4 px-14  flex justify-between shadow-box_shadow_1 w-full">
       <Link to="" className="block w-14 h-14">
         <img className="w-full h-full" src="images/logo.png" alt="" />
       </Link>

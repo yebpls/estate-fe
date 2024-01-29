@@ -5,11 +5,12 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { useEffect } from "react";
 import storageService from "./config/storageService";
-import { jwtDecode } from "jwt-decode";
+
 import Protected from "./components/Protected";
 import { useSelector } from "react-redux";
 import MainLayout from "./layouts/MainLayout";
 import accountApi from "./api/accountApi";
+import { jwtDecode } from "jwt-decode";
 
 function App() {
   const { isLogin } = useSelector((state) => state.accountReducer);
@@ -34,17 +35,8 @@ function App() {
     }
   }, []);
 
-  const fetch = async () => {
-    try {
-      const res = await accountApi.test();
-      console.log(res);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   useEffect(() => {
-    fetch();
+    // fetch();
   }, []);
   return (
     <BrowserRouter>
