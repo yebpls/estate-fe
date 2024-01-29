@@ -4,13 +4,12 @@ import { Link } from "react-router-dom";
 export default function UploaderDetail() {
   return (
     <div>
-      <div className="w-48 h-72 m-5 block text-center bg-orange-300">
-        <div className="p-3 pt-5">
+      <div className="w-48 h-80 m-5 block text-center bg-gray-100 rounded-md">
+        <div className="p-3 w-24 h-24 mx-auto">
           <img
-            className="mx-auto"
-            src={"../public/images/hochiminh.jpg"}
+            className="mx-auto w-full h-full rounded-full"
+            src={"./images/avatar.jpg"}
             alt="Description of your image"
-            style={{ width: 43, height: 40 }}
           />
         </div>
         <p className="font-semibold text-sm p-1">Được đăng bởi</p>
