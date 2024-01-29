@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllApartment } from "../../store/slices/apartmentSlice";
+import ProjectCard from "./ProjectCard";
 
 export default function Project() {
   const { apartments } = useSelector((state) => state.apartmentReducer);
@@ -29,28 +30,7 @@ export default function Project() {
         <div className="flex flex-wrap w-full">
           {apartments &&
             apartments.map((apartment) => (
-              <div className="bg-white w-1/4 px-5 pt-5 mb-5 h-80 hover:bg-slate-100 rounded-md">
-                <Link to="" className="w-full">
-                  <div className="w-full h-48">
-                    <img
-                      className="w-full h-full"
-                      src={apartment.mainImage}
-                      alt="Description of your image"
-                    />
-                  </div>
-                  <div className="mt-3 ml-5">
-                    <h6 className="font-bold text-lg">
-                      {apartment.apartmentNumber}
-                    </h6>
-                    <p className="text-red-400 text-lg">
-                      {apartment.price}Đ - {apartment.area}m2
-                    </p>
-                    <p className="text-blue-400 text-lg">
-                      Thu Duc, Ho Chi Minh
-                    </p>
-                  </div>
-                </Link>
-              </div>
+              <ProjectCard key={apartment.id} apartment={apartment} />
             ))}
         </div>
 
