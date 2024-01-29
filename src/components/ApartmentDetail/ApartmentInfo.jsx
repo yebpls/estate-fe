@@ -1,6 +1,8 @@
 import React from "react";
 
-export default function ApartmentInfo() {
+export default function ApartmentInfo({ apartment }) {
+  const formattedNumber = apartment?.price / 1000000000;
+
   return (
     <div className="flex flex-col">
       <p className="text-red-500 font-semibold text-xl mx-auto m-2">
@@ -11,23 +13,27 @@ export default function ApartmentInfo() {
           <div className="w-32 h-32 bg-gray-100  mt-2 mx-auto ml-3 flex flex-col">
             <p className="font-semibold mx-auto py-2 text-lg">Mức giá</p>
             <p className="font-semibold text-2xl mx-auto py-1 text-red-500">
-              500 Triệu
+              {formattedNumber} Tỷ
             </p>
             <p className="text-sm mx-auto py-1 text-red-500">(10 triệu/m2)</p>
           </div>
           <div className="w-32 h-32 bg-gray-100  mt-2 mx-auto mr-3 flex flex-col">
             <p className="font-semibold mx-auto py-2 pt-5 text-lg">Diện tích</p>
             <p className="font-semibold text-2xl mx-auto py-1 text-red-500">
-              50 m2
+              {apartment?.area}
             </p>
           </div>
           <div className="w-32 h-32 bg-gray-100  mb-2 mx-auto ml-3 flex flex-col">
             <p className="font-semibold mx-auto py-1 text-lg">Quy mô</p>
 
-            <p className="text-sm mx-auto py-1 text-red-500">1 phòng bếp</p>
-            <p className="text-sm mx-auto py-1 text-red-500">3 phòng nằm</p>
             <p className="text-sm mx-auto py-1 text-red-500">
-              1 phòng sinh hoạt
+              {apartment?.kitchen} phòng bếp
+            </p>
+            <p className="text-sm mx-auto py-1 text-red-500">
+              {apartment?.bedRoom} phòng nằm
+            </p>
+            <p className="text-sm mx-auto py-1 text-red-500">
+              {apartment?.livingRoom} phòng sinh hoạt
             </p>
           </div>
           <div className="w-32 h-32 bg-gray-100   mb-2 mx-auto mr-3 flex flex-col">

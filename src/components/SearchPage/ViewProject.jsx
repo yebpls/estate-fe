@@ -18,8 +18,6 @@ export default function ViewProject() {
                 "https://tse1.mm.bing.net/th?id=OIP.4XB8NF1awQyApnQDDmBmQwHaEo&pid=Api&P=0&h=180"
               }
               alt="Description of your image"
-              maxWidth
-              maxHeight
             />
           </div>
           <div className="w-1/4 flex flex-col">
@@ -30,8 +28,6 @@ export default function ViewProject() {
                   "https://tse1.mm.bing.net/th?id=OIP.4XB8NF1awQyApnQDDmBmQwHaEo&pid=Api&P=0&h=180"
                 }
                 alt="Description of your image"
-                maxWidth
-                maxHeight
               />
             </div>
             <div className="h-1/2 p-1">
@@ -41,13 +37,10 @@ export default function ViewProject() {
                   "https://tse1.mm.bing.net/th?id=OIP.4XB8NF1awQyApnQDDmBmQwHaEo&pid=Api&P=0&h=180"
                 }
                 alt="Description of your image"
-                maxWidth
-                maxHeight
               />
             </div>
           </div>
         </div>
-        <div></div>
       </div>
     </div>
   );

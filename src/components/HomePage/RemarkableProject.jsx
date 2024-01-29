@@ -23,7 +23,7 @@ export default function RemarkableProject() {
               <h6 className="font-bold text-lg p-1">Project Name</h6>
               <p className="text-red-400 text-lg p-1">Square</p>
               <p className="text-blue-400 text-lg p-1">Thu Duc, Ho Chi Minh</p>
-              <p class="bg-green-400 text-gray-100 text-lg max-w-max rounded-md p-1">
+              <p className="bg-green-400 text-gray-100 text-lg max-w-max rounded-md p-1">
                 Đang mở bán
               </p>
             </div>
@@ -44,7 +44,7 @@ export default function RemarkableProject() {
               <h6 className="font-bold text-lg p-1">Project Name</h6>
               <p className="text-red-400 text-lg p-1">Square</p>
               <p className="text-blue-400 text-lg p-1">Thu Duc, Ho Chi Minh</p>
-              <p class="bg-green-400 text-gray-100 text-lg max-w-max rounded-md p-1">
+              <p className="bg-green-400 text-gray-100 text-lg max-w-max rounded-md p-1">
                 Đang mở bán
               </p>
             </div>

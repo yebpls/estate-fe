@@ -8,7 +8,7 @@ export default function UploaderDetail() {
         <div className="p-3 w-24 h-24 mx-auto">
           <img
             className="mx-auto w-full h-full rounded-full"
-            src={"./images/avatar.jpg"}
+            src={"images/logo.png"}
             alt="Description of your image"
           />
         </div>
