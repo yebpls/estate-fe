@@ -6,6 +6,7 @@ import Project from "../components/HomePage/Project";
 import RemarkableProject from "../components/HomePage/RemarkableProject";
 import ProjectByLocation from "../components/HomePage/ProjectByLocation";
 import SearchPage from "./SearchPage";
+import ApartmentDetail from "./ApartmentDetail";
 
 function HomePage() {
   return (
@@ -13,8 +14,9 @@ function HomePage() {
       <News />
       <Project />
       <RemarkableProject />
-      <ProjectByLocation />
-      <SearchPage />
+      <ProjectByLocation /> */}
+      {/* <SearchPage /> */}
+      <ApartmentDetail />
     </div>
   );
 }
