@@ -12,6 +12,9 @@ import MainLayout from "./layouts/MainLayout";
 import accountApi from "./api/accountApi";
 import { jwtDecode } from "jwt-decode";
 import ApartmentDetail from "./pages/ApartmentDetail";
+import ProjectOfInvestor from "./components/InvestorPage/ProjectOfInvestor";
+import ApartmentOfInvestor from "./components/InvestorPage/ApartmentOfInvestor";
+import BuildingOfInvestor from "./components/InvestorPage/BuildingOfInvestor";
 
 function App() {
   const { isLogin } = useSelector((state) => state.accountReducer);
@@ -44,7 +47,12 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="/apartment/:id" element={<ApartmentDetail />} />
+          <Route path="/investor" element={<ProjectOfInvestor />} />
+          <Route path="/investor_building" element={<BuildingOfInvestor />} />
+          <Route path="/investor_apartment" element={<ApartmentOfInvestor />} />
         </Route>
+
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/register"
@@ -54,8 +62,6 @@ function App() {
             </Protected>
           }
         />
-        /
-        <Route path="/apartment/:id" element={<ApartmentDetail />} />
       </Routes>
     </BrowserRouter>
   );

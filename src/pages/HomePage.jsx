@@ -7,16 +7,18 @@ import RemarkableProject from "../components/HomePage/RemarkableProject";
 import ProjectByLocation from "../components/HomePage/ProjectByLocation";
 import SearchPage from "./SearchPage";
 import ApartmentDetail from "./ApartmentDetail";
+import ProjectOfInvestor from "../components/InvestorPage/ProjectOfInvestor";
 
 function HomePage() {
   return (
-    <div className="mt-30 ">
-      <News />
+    <div className="mt-30">
+      {/* <News />
       <Project />
       <RemarkableProject />
-      <ProjectByLocation />
-      {/* <SearchPage /> */}
-      {/* <ApartmentDetail /> */}
+      <ProjectByLocation /> */}
+      {/* <SearchPage />
+      <ApartmentDetail /> */}
+      <ProjectOfInvestor />
     </div>
   );
 }
