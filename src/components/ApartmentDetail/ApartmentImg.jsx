@@ -2,7 +2,6 @@ import { Image, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 
 export default function ApartmentImg({ apartment }) {
-export default function ApartmentImg({ apartment }) {
   const [productImages, setProductImages] = useState([
     "https://mylisting365.co.uk/blog/wp-content/uploads/2014/09/realestateagentuk.jpg",
     "https://blog.hdestates.com/wp-content/uploads/2020/04/HD-Real-Estate-Photography-scaled.jpg",
@@ -14,7 +13,6 @@ export default function ApartmentImg({ apartment }) {
   useEffect(() => {
     setSelectedImageUrl(apartment?.mainImage || "");
   }, [apartment?.mainImage]);
-  
 
   return (
     <div>
