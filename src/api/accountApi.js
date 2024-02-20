@@ -9,6 +9,18 @@ const accountApi = {
     const url = "/test";
     return axiosClient.get(url);
   },
+  getAccountDetail(id) {
+    const url = `/api/investor/${id}`;
+    return axiosClient.get(url);
+  },
+  getInvestorId(id) {
+    const url = `/api/investor/${id}`;
+    return axiosClient.get(url);
+  },
+  getAgencyId(id) {
+    const url = `/api/agency/${id}`;
+    return axiosClient.get(url);
+  },
   // loginWithGoogle(params) {
   //   const url = "/Authorization/google-login";
   //   return axiosClient.post(url, params);

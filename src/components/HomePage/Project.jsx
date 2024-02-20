@@ -3,9 +3,12 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllApartment } from "../../store/slices/apartmentSlice";
 import ProjectCard from "./ProjectCard";
+import { Spin } from "antd";
 
 export default function Project() {
-  const { apartments } = useSelector((state) => state.apartmentReducer);
+  const { apartments, isLoading } = useSelector(
+    (state) => state.apartmentReducer
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -17,7 +20,7 @@ export default function Project() {
         <div className="pt-5 flex justify-between w-full">
           <div className="flex items-center">
             <div className="font-bold mx-2 text-red-500 text-xl">
-              <p>Các dự căn hộ chung cư dành cho bạn</p>
+              <p>Các căn hộ chung cư dành cho bạn</p>
             </div>
           </div>
 
@@ -28,6 +31,11 @@ export default function Project() {
           </div>
         </div>
         <div className="flex flex-wrap w-full">
+          {isLoading && (
+            <div className="flex justify-center mx-auto items-center h-[200px]">
+              <Spin size="large" />
+            </div>
+          )}
           {apartments &&
             apartments.map((apartment) => (
               <ProjectCard key={apartment.id} apartment={apartment} />

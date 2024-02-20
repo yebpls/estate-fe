@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function ProjectByLocation() {
   return (
-    <div>
+    <div className="mb-10">
       <div className="font-bold text-xl mx-2 ml-40">
         <p>Dự án bất động sản theo địa điểm</p>
       </div>

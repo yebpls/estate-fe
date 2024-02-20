@@ -5,8 +5,8 @@ export const apartmentApi = {
     const url = "/api/apartment";
     return axiosClient.get(url);
   },
-  getApartmentById(id) {
-    const url = `api/apartment/${id}`;
+  getById(id) {
+    const url = `/api/apartment/${id}`;
     return axiosClient.get(url);
   },
 };

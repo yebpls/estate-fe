@@ -12,13 +12,10 @@ import InvestorLayout from "../layouts/InvestorLayout";
 function HomePage() {
   return (
     <div className="mt-30">
-      {/* <News />
+      <News />
       <Project />
       <RemarkableProject />
-      <ProjectByLocation /> */}
-      {/* <SearchPage />
-      <ApartmentDetail /> */}
-      <InvestorLayout />
+      <ProjectByLocation />
     </div>
   );
 }

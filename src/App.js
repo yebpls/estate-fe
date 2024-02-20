@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -7,7 +13,7 @@ import { useEffect } from "react";
 import storageService from "./config/storageService";
 
 import Protected from "./components/Protected";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import MainLayout from "./layouts/MainLayout";
 import accountApi from "./api/accountApi";
 import { jwtDecode } from "jwt-decode";
@@ -16,15 +22,24 @@ import InvestorLayout from "./layouts/InvestorLayout";
 import InvestorProject from "./components/InvestorPage/InvestorProject";
 import InvestorInfo from "./components/InvestorPage/InvestorInfo";
 import InvestorApartment from "./components/InvestorPage/InvestorApartment";
+import {
+  getInvestorId,
+  setAccId,
+  setIsLogin,
+  setRole,
+} from "./store/slices/accountSlice";
 
 function App() {
-  const { isLogin } = useSelector((state) => state.accountReducer);
+  const { isLogin, role, id } = useSelector((state) => state.accountReducer);
+  const dispatch = useDispatch();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     let token = storageService.getAccessToken();
     console.log(isLogin);
     if (token) {
       token = jwtDecode(token);
+      console.log(token);
       const currentTime = Math.floor(Date.now() / 1000);
       if (currentTime > token.expire) {
         // storageService.removeAccessToken();
@@ -33,8 +48,9 @@ function App() {
         storageService.removeRole();
         // dispatch(setRole(""));
       } else {
-        // dispatch(setIsLogin(true));
-        // dispatch(setRole(token[ROLE]));
+        dispatch(setIsLogin(true));
+        dispatch(setRole(token.role));
+        dispatch(setAccId(token.sub));
         storageService.setRole(token.role);
       }
     }
@@ -51,6 +67,7 @@ function App() {
           <Route path="/apartment/:id" element={<ApartmentDetail />} />
         </Route>
         <Route path="/investor" element={<InvestorLayout />}>
+          <Route index element={<Navigate to="/investor/project" />} />
           <Route path="/investor/project" element={<InvestorProject />} />
           <Route path="/investor/info" element={<InvestorInfo />} />
           <Route path="/investor/project/1" element={<InvestorApartment />} />
