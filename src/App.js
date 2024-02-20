@@ -22,7 +22,7 @@ import InvestorLayout from "./layouts/InvestorLayout";
 import InvestorProject from "./components/InvestorPage/InvestorProject";
 import InvestorInfo from "./components/InvestorPage/InvestorInfo";
 import InvestorApartment from "./components/InvestorPage/InvestorApartment";
-import { setIsLogin, setRole } from "./store/slices/accountSlice";
+import { setAccId, setIsLogin, setRole } from "./store/slices/accountSlice";
 
 function App() {
   const { isLogin, role } = useSelector((state) => state.accountReducer);
@@ -34,6 +34,7 @@ function App() {
     console.log(isLogin);
     if (token) {
       token = jwtDecode(token);
+      console.log(token);
       const currentTime = Math.floor(Date.now() / 1000);
       if (currentTime > token.expire) {
         // storageService.removeAccessToken();
@@ -44,9 +45,8 @@ function App() {
       } else {
         dispatch(setIsLogin(true));
         dispatch(setRole(token.role));
+        dispatch(setAccId(token.sub));
         storageService.setRole(token.role);
-        if (role === "INVESTOR") {
-        }
       }
     }
   }, []);
