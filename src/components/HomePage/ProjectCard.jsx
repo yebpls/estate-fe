@@ -7,7 +7,7 @@ function ProjectCard({ apartment }) {
 
   return (
     <div className="bg-white w-1/4 px-5 pt-5 mb-5 h-80 hover:bg-slate-100 rounded-md">
-      <Link to="" className="w-full">
+      <Link to={`/project/${apartment.id}`} className="w-full">
         <div className="w-full h-48">
           <img
             className="w-full h-full"
@@ -16,7 +16,9 @@ function ProjectCard({ apartment }) {
           />
         </div>
         <div className="mt-3 ml-5">
-          <h6 className="font-bold text-lg">{apartment.apartmentNumber}</h6>
+          <h6 className="font-bold text-lg">
+            {apartment.projectName} - {apartment.apartmentNumber}
+          </h6>
           <p className="text-red-400 text-lg">
             {formattedNumber}Đ - {apartment.area}m2
           </p>

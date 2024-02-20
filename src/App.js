@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import MainLayout from "./layouts/MainLayout";
 import accountApi from "./api/accountApi";
 import { jwtDecode } from "jwt-decode";
+import ApartmentDetail from "./pages/ApartmentDetail";
 
 function App() {
   const { isLogin } = useSelector((state) => state.accountReducer);
@@ -43,6 +44,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="/project/:id" element={<ApartmentDetail />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route
