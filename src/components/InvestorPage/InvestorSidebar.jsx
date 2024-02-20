@@ -17,6 +17,7 @@ export default function InvestorSidebar() {
                 </span>
               </Link>
             </li>
+
             <li>
               <Link
                 to={`/investor/info`}
