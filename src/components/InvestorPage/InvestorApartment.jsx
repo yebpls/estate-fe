@@ -84,6 +84,9 @@ export default function InvestorApartment() {
       <thead className="border-b font-medium dark:border-neutral-500 text-sm">
         <tr>
           <th scope="col" className="px-6 py-4">
+            STT
+          </th>
+          <th scope="col" className="px-6 py-4">
             Image
           </th>
           <th scope="col" className="pl-36  py-4">
@@ -95,7 +98,7 @@ export default function InvestorApartment() {
           <th scope="col" className="pl-12 py-4">
             Address
           </th>
-          <th scope="col" className="pl-52 py-4">
+          <th scope="col" className="pl-72 py-4">
             Building Name
           </th>
           <th scope="col" className="pl-14 py-4">

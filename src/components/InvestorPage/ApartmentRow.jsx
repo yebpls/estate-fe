@@ -15,7 +15,10 @@ export default function ApartmentRow() {
   };
   return (
     <div>
-      <tr className="flex hover:bg-slate-100">
+      <tr className="flex items-center hover:bg-slate-100">
+        <td className="mx-6 py-4">
+          <p>1</p>
+        </td>
         <td className=" px-6 py-4">
           <div className="w-40 h-20">
             <img
@@ -25,16 +28,14 @@ export default function ApartmentRow() {
             />
           </div>
         </td>
-        <td className="whitespace-nowrap px-6 mx-2 mt-12 py-4 font-medium text-sm">
+        <td className="whitespace-nowrap px-6 mx-2  py-4 font-medium text-sm">
           Number
         </td>
-        <td className="whitespace-nowrap px-6 mx-2 mt-12 py-4 text-sm">
-          Price
-        </td>
-        <td className=" mx-2 mt-14 py-auto text-sm">
+        <td className="whitespace-nowrap px-6 mx-2  py-4 text-sm">Price</td>
+        <td className=" mx-2  py-auto text-sm">
           12 Le Loi Boulevard, Tan Uyen Town, Binh Duong
         </td>
-        <td className="whitespace-nowrap px-6 mx-2  mt-12 py-4 text-sm">
+        <td className="whitespace-nowrap  ml-10 mr-6   py-4 text-sm">
           Building Name
         </td>
 
@@ -43,7 +44,7 @@ export default function ApartmentRow() {
     </td> */}
         <td className="whitespace-nowrap px-6 py-4 flex justify-between">
           <button
-            className="text-white h-8 px-4 mt-14 mx-1 rounded-md bg-blue-500 text-sm"
+            className="text-white h-8 px-4  mx-1 rounded-md bg-blue-500 text-sm"
             onClick={openEdiApartment}
           >
             Sửa
@@ -107,7 +108,7 @@ export default function ApartmentRow() {
               />
             </div>
           </Modal>
-          <button className="text-white h-8 px-4 mt-14 mx-1  rounded-md bg-red-500 text-sm">
+          <button className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm">
             Xoá
           </button>
         </td>

@@ -9,6 +9,8 @@ const initialState = {
   loading: false,
   error: null,
   success: false,
+  investor: null,
+  agency: null,
 };
 
 const accountSlice = createSlice({

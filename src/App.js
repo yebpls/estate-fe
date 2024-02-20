@@ -45,9 +45,8 @@ function App() {
         dispatch(setIsLogin(true));
         dispatch(setRole(token.role));
         storageService.setRole(token.role);
-        // if (role === "INVESTOR") {
-        //   navigate("/investor");
-        // }
+        if (role === "INVESTOR") {
+        }
       }
     }
   }, []);

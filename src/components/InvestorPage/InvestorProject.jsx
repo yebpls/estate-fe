@@ -18,56 +18,29 @@ export default function InvestorProject() {
       <p className="m-2 text-center text-2xl  font-semibold text-blue-700">
         Dự án
       </p>
-      <Button
-        style={{ backgroundColor: "#4974a5", color: "white" }}
-        onClick={showModal}
-      >
-        Add new building
-      </Button>
-      <Modal
-        okText="Add"
-        okButtonProps={{ style: { backgroundColor: "#4974a5" } }}
-        title="New apart Info"
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-        className="text-cyan-700"
-      >
-        {/* Apartment Number */}
-        <div className="m-2">
-          <p className="m-2">Số phòng</p>
-          <Input placeholder="Số phòng" id="number" name="number"></Input>
-        </div>
-        {/* Apartment Image */}
-        <div className="m-2">
-          <p className="m-2">Ảnh</p>
-          <Input placeholder="Ảnh" id="image" name="image"></Input>
-        </div>
-        {/* Apartment Price */}
-        <div className="m-2">
-          <p className="m-2">Giá</p>
-          <Input placeholder="giá" id="price" name="price"></Input>
-        </div>
-      </Modal>
-      <div className="w-full">
+
+      <div className="w-full pl-26">
         <thead className="border-b w-full font-medium dark:border-neutral-500">
           <tr>
-            <th scope="col" className="px-11 py-4">
+            <th scope="col" className=" inline-block ml-11 mr-4 py-4">
+              STT
+            </th>
+            <th scope="col" className=" inline-block ml-16 py-4">
               Hình ảnh
             </th>
-            <th scope="col" className="pl-32 py-4">
+            <th scope="col" className=" inline-block ml-36 py-4">
               Tên
             </th>
-            <th scope="col" className="pl-20 py-4">
+            <th scope="col" className=" inline-block ml-24 py-4">
               Ngày bắt đầu
             </th>
-            <th scope="col" className="pl-24 py-4">
+            <th scope="col" className=" inline-block ml-20 py-4">
               Ngày kết thúc
             </th>
-            <th scope="col" className="pl-20 py-4">
+            <th scope="col" className=" inline-block ml-20 py-4">
               Trạng thái
             </th>
-            <th scope="col" className="pl-14 py-4">
+            <th scope="col" className=" inline-block ml-14 py-4">
               Hành động
             </th>
           </tr>

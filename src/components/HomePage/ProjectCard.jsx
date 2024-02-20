@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 function ProjectCard({ apartment }) {
   const formattedNumber = apartment.price.toLocaleString("de-DE");
-  console.log(formattedNumber);
 
   return (
     <div className="bg-white w-1/4 px-5 pt-5 mb-5 h-80 hover:bg-slate-100 rounded-md">
