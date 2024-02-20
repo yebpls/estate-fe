@@ -7,7 +7,7 @@ import RemarkableProject from "../components/HomePage/RemarkableProject";
 import ProjectByLocation from "../components/HomePage/ProjectByLocation";
 import SearchPage from "./SearchPage";
 import ApartmentDetail from "./ApartmentDetail";
-import ProjectOfInvestor from "../components/InvestorPage/ProjectOfInvestor";
+import InvestorLayout from "../layouts/InvestorLayout";
 
 function HomePage() {
   return (
@@ -15,9 +15,10 @@ function HomePage() {
       <News />
       <Project />
       <RemarkableProject />
-      <ProjectByLocation />
-      {/* <SearchPage /> */}
-      {/* <ApartmentDetail /> */}
+      <ProjectByLocation /> */}
+      {/* <SearchPage />
+      <ApartmentDetail /> */}
+      <InvestorLayout />
     </div>
   );
 }

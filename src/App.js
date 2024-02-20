@@ -12,12 +12,10 @@ import MainLayout from "./layouts/MainLayout";
 import accountApi from "./api/accountApi";
 import { jwtDecode } from "jwt-decode";
 import ApartmentDetail from "./pages/ApartmentDetail";
-<<<<<<< HEAD
-import ProjectOfInvestor from "./components/InvestorPage/ProjectOfInvestor";
-import ApartmentOfInvestor from "./components/InvestorPage/ApartmentOfInvestor";
-import BuildingOfInvestor from "./components/InvestorPage/BuildingOfInvestor";
-=======
->>>>>>> origin/sontt
+import InvestorLayout from "./layouts/InvestorLayout";
+import InvestorProject from "./components/InvestorPage/InvestorProject";
+import InvestorInfo from "./components/InvestorPage/InvestorInfo";
+import InvestorApartment from "./components/InvestorPage/InvestorApartment";
 
 function App() {
   const { isLogin } = useSelector((state) => state.accountReducer);
@@ -51,11 +49,12 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/apartment/:id" element={<ApartmentDetail />} />
-          <Route path="/investor" element={<ProjectOfInvestor />} />
-          <Route path="/investor_building" element={<BuildingOfInvestor />} />
-          <Route path="/investor_apartment" element={<ApartmentOfInvestor />} />
         </Route>
-
+        <Route path="/investor" element={<InvestorLayout />}>
+          <Route path="/investor/project" element={<InvestorProject />} />
+          <Route path="/investor/info" element={<InvestorInfo />} />
+          <Route path="/investor/project/1" element={<InvestorApartment />} />
+        </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/register"
