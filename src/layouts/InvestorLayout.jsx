@@ -11,7 +11,7 @@ function InvestorLayout() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getInvestorId(id));
-  }, [id]);
+  }, [id, dispatch]);
   return (
     <div>
       <Header />

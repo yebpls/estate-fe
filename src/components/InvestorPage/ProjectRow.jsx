@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function ProjectRow() {
+export default function ProjectRow({ project }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openEditProject = () => {
     setIsModalOpen(true);
@@ -32,6 +32,11 @@ export default function ProjectRow() {
     setIsModalAddOpen(false);
   };
 
+  const startDate = new Date(project.startDate);
+  let startDateFormat = startDate.toISOString().split("T")[0];
+  const endDate = new Date(project.endDate);
+  let endDateFormat = endDate.toISOString().split("T")[0];
+
   return (
     <tr className="flex items-center mb-2 py-2">
       <Link
@@ -43,24 +48,20 @@ export default function ProjectRow() {
         </td>
         <td className="mr-10">
           <div className="w-40 h-20">
-            <img
-              src={`https://cdnassets.hw.net/04/2c/967deff449bd8a24c5fbb96dccd2/6474f8a03a894163ac235432988b491f.png`}
-              alt=""
-              className="w-full h-full"
-            />
+            <img src={project.image} alt="" className="w-full h-full" />
           </div>
         </td>
-        <td className="whitespace-nowrap inline-block mx-12 ml-14  font-medium">
-          Name
+        <td className="whitespace-nowrap inline-block w-32  ml-2  font-medium">
+          {project.name}
         </td>
-        <td className="whitespace-nowrap inline-block ml-12 ">19/02/2024</td>
-        <td className="whitespace-nowrap inline-block ml-28 ">24/02/2024</td>
-
-        {/* <td className="whitespace-nowrap inline-block px-6 ">
-        {pet.isSold ? "Đã bán" : "Chưa bán"}
-      </td> */}
+        <td className="whitespace-nowrap inline-block ml-12 ">
+          {startDateFormat}
+        </td>
+        <td className="whitespace-nowrap inline-block ml-28 ">
+          {endDateFormat}
+        </td>
         <td className="whitespace-nowrap inline-block ml-24  font-medium">
-          Available
+          {project.status === 1 ? "Còn hoạt động" : "Hết hoạt động"}
         </td>
       </Link>
       <td className="whitespace-nowrap  ml-8 py-4 flex justify-between items-center">

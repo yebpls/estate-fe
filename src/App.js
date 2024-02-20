@@ -22,10 +22,15 @@ import InvestorLayout from "./layouts/InvestorLayout";
 import InvestorProject from "./components/InvestorPage/InvestorProject";
 import InvestorInfo from "./components/InvestorPage/InvestorInfo";
 import InvestorApartment from "./components/InvestorPage/InvestorApartment";
-import { setAccId, setIsLogin, setRole } from "./store/slices/accountSlice";
+import {
+  getInvestorId,
+  setAccId,
+  setIsLogin,
+  setRole,
+} from "./store/slices/accountSlice";
 
 function App() {
-  const { isLogin, role } = useSelector((state) => state.accountReducer);
+  const { isLogin, role, id } = useSelector((state) => state.accountReducer);
   const dispatch = useDispatch();
   // const navigate = useNavigate();
 

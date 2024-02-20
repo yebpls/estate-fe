@@ -16,7 +16,7 @@ function ProjectCard({ apartment }) {
         </div>
         <div className="mt-3 ml-5">
           <h6 className="font-bold text-lg">
-            {apartment.projectName} - {apartment.apartmentNumber}
+            {apartment.projectName} - Phòng {apartment.apartmentNumber}
           </h6>
           <p className="text-red-400 text-lg">
             {formattedNumber}Đ - {apartment.area}m2

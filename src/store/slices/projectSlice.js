@@ -1,4 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { projectApi } from "../../api/projectApi";
+
+export const getAllProjectByInvesId = createAsyncThunk(
+  "investor/get_all_project",
+  async (id) => {
+    try {
+      const res = await projectApi.getAll(id);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 const initialState = {
   projects: null,
@@ -10,12 +23,12 @@ const projectSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    // builder.addCase(getAllApartment.pending, (state, action) => {
-    //   return { ...state, apartments: action.payload, isLoading: true };
-    // });
-    // builder.addCase(getAllApartment.fulfilled, (state, action) => {
-    //   return { ...state, apartments: action.payload, isLoading: false };
-    // });
+    builder.addCase(getAllProjectByInvesId.pending, (state, action) => {
+      return { ...state, projects: action.payload, isLoading: true };
+    });
+    builder.addCase(getAllProjectByInvesId.fulfilled, (state, action) => {
+      return { ...state, projects: action.payload, isLoading: false };
+    });
     // builder.addCase(getApartmentById.pending, (state, action) => {
     //   return { ...state, apartmentDetail: action.payload, isLoading: true };
     // });
