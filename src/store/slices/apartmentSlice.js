@@ -14,10 +14,10 @@ export const getAllApartment = createAsyncThunk(
 );
 
 export const getApartmentById = createAsyncThunk(
-  "apartment/get_Apartment_By_Id",
+  "apartment/get_by_id",
   async (id) => {
     try {
-      const res = await apartmentApi.getApartmentById(id);
+      const res = await apartmentApi.getById(id);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -27,7 +27,8 @@ export const getApartmentById = createAsyncThunk(
 
 const initialState = {
   apartments: null,
-  apartment: null,
+  apartmentDetail: null,
+  isLoading: false,
 };
 
 const apartmentSlice = createSlice({
@@ -35,8 +36,17 @@ const apartmentSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getAllApartment.pending, (state, action) => {
+      return { ...state, apartments: action.payload, isLoading: true };
+    });
     builder.addCase(getAllApartment.fulfilled, (state, action) => {
-      return { ...state, apartments: action.payload };
+      return { ...state, apartments: action.payload, isLoading: false };
+    });
+    builder.addCase(getApartmentById.pending, (state, action) => {
+      return { ...state, apartmentDetail: action.payload, isLoading: true };
+    });
+    builder.addCase(getApartmentById.fulfilled, (state, action) => {
+      return { ...state, apartmentDetail: action.payload, isLoading: false };
     });
     builder.addCase(getApartmentById.fulfilled, (state, action) => {
       return { ...state, apartment: action.payload };

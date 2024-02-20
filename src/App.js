@@ -12,9 +12,12 @@ import MainLayout from "./layouts/MainLayout";
 import accountApi from "./api/accountApi";
 import { jwtDecode } from "jwt-decode";
 import ApartmentDetail from "./pages/ApartmentDetail";
+<<<<<<< HEAD
 import ProjectOfInvestor from "./components/InvestorPage/ProjectOfInvestor";
 import ApartmentOfInvestor from "./components/InvestorPage/ApartmentOfInvestor";
 import BuildingOfInvestor from "./components/InvestorPage/BuildingOfInvestor";
+=======
+>>>>>>> origin/sontt
 
 function App() {
   const { isLogin } = useSelector((state) => state.accountReducer);

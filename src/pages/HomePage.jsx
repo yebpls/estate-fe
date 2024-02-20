@@ -12,13 +12,12 @@ import ProjectOfInvestor from "../components/InvestorPage/ProjectOfInvestor";
 function HomePage() {
   return (
     <div className="mt-30">
-      {/* <News />
+      <News />
       <Project />
       <RemarkableProject />
-      <ProjectByLocation /> */}
-      {/* <SearchPage />
-      <ApartmentDetail /> */}
-      <ProjectOfInvestor />
+      <ProjectByLocation />
+      {/* <SearchPage /> */}
+      {/* <ApartmentDetail /> */}
     </div>
   );
 }
