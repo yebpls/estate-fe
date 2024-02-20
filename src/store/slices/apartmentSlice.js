@@ -48,9 +48,6 @@ const apartmentSlice = createSlice({
     builder.addCase(getApartmentById.fulfilled, (state, action) => {
       return { ...state, apartmentDetail: action.payload, isLoading: false };
     });
-    builder.addCase(getApartmentById.fulfilled, (state, action) => {
-      return { ...state, apartment: action.payload };
-    });
   },
 });
 

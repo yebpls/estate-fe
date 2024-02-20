@@ -14,9 +14,9 @@ export default function InvestorProject() {
     setIsModalOpen(false);
   };
   return (
-    <div className="mx-10 mt-10">
+    <div className="mx-auto mt-10 w-full px-8">
       <p className="m-2 text-center text-2xl  font-semibold text-blue-700">
-        Project
+        Dự án
       </p>
       <Button
         style={{ backgroundColor: "#4974a5", color: "white" }}
@@ -35,52 +35,50 @@ export default function InvestorProject() {
       >
         {/* Apartment Number */}
         <div className="m-2">
-          <p className="m-2">Number</p>
-          <Input
-            placeholder="Apartment Number"
-            id="number"
-            name="number"
-          ></Input>
+          <p className="m-2">Số phòng</p>
+          <Input placeholder="Số phòng" id="number" name="number"></Input>
         </div>
         {/* Apartment Image */}
         <div className="m-2">
-          <p className="m-2">Apartment Image</p>
-          <Input placeholder="Apartment Image" id="image" name="image"></Input>
+          <p className="m-2">Ảnh</p>
+          <Input placeholder="Ảnh" id="image" name="image"></Input>
         </div>
         {/* Apartment Price */}
         <div className="m-2">
-          <p className="m-2">Price</p>
-          <Input placeholder="Apartment Price" id="price" name="price"></Input>
+          <p className="m-2">Giá</p>
+          <Input placeholder="giá" id="price" name="price"></Input>
         </div>
       </Modal>
-      <thead className="border-b font-medium dark:border-neutral-500">
-        <tr>
-          <th scope="col" className="px-11 py-4">
-            Image
-          </th>
-          <th scope="col" className="pl-32 py-4">
-            Name
-          </th>
-          <th scope="col" className="pl-20 py-4">
-            Start Date
-          </th>
-          <th scope="col" className="pl-24 py-4">
-            End Date
-          </th>
-          <th scope="col" className="pl-20 py-4">
-            Status
-          </th>
-          <th scope="col" className="pl-14 py-4">
-            Action
-          </th>
-        </tr>
-      </thead>
-      <ProjectRow />
-      <ProjectRow />
-      <ProjectRow />
-      <ProjectRow />
-      <ProjectRow />
-      <ProjectRow />
+      <div className="w-full">
+        <thead className="border-b w-full font-medium dark:border-neutral-500">
+          <tr>
+            <th scope="col" className="px-11 py-4">
+              Hình ảnh
+            </th>
+            <th scope="col" className="pl-32 py-4">
+              Tên
+            </th>
+            <th scope="col" className="pl-20 py-4">
+              Ngày bắt đầu
+            </th>
+            <th scope="col" className="pl-24 py-4">
+              Ngày kết thúc
+            </th>
+            <th scope="col" className="pl-20 py-4">
+              Trạng thái
+            </th>
+            <th scope="col" className="pl-14 py-4">
+              Hành động
+            </th>
+          </tr>
+        </thead>
+        <ProjectRow />
+        <ProjectRow />
+        <ProjectRow />
+        <ProjectRow />
+        <ProjectRow />
+        <ProjectRow />
+      </div>
     </div>
   );
 }

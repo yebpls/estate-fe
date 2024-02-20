@@ -7,12 +7,12 @@ import { DevTool } from "@hookform/devtools";
 import { jwtDecode } from "jwt-decode";
 import storageService from "../config/storageService";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setIsLogin } from "../store/slices/accountSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsLogin, setRole } from "../store/slices/accountSlice";
 
 function LoginPage() {
   const dispatch = useDispatch();
-
+  const { role } = useSelector((state) => state.accountReducer);
   const form = useForm();
   const {
     register,
@@ -35,11 +35,12 @@ function LoginPage() {
         console.log(token);
         // loginSuccessNotify();
         dispatch(setIsLogin(true));
-        // dispatch(setRole(token[roleToken]));
+        dispatch(setRole(token.role));
         storageService.setRole(token.role);
-        // if (role === "Instructor") {
-        //   navigate("/instructor");
-        // } else if (role === "Admin") {
+        if (role === "INVESTOR") {
+          navigate("/investor");
+        }
+        //else if (role === "Admin") {
         //   navigate("/admin");
         // } else {
         navigate("/");
