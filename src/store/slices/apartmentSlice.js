@@ -25,8 +25,21 @@ export const getApartmentById = createAsyncThunk(
   }
 );
 
+export const getAllApartmentByProjectId = createAsyncThunk(
+  "apartment/get_all_by_projectid",
+  async (id) => {
+    try {
+      const res = await apartmentApi.getAllByProjectId(id);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   apartments: null,
+  apartmentByProject: null,
   apartmentDetail: null,
   isLoading: false,
 };
@@ -47,6 +60,12 @@ const apartmentSlice = createSlice({
     });
     builder.addCase(getApartmentById.fulfilled, (state, action) => {
       return { ...state, apartmentDetail: action.payload, isLoading: false };
+    });
+    builder.addCase(getAllApartmentByProjectId.pending, (state, action) => {
+      return { ...state, apartmentByProject: action.payload, isLoading: true };
+    });
+    builder.addCase(getAllApartmentByProjectId.fulfilled, (state, action) => {
+      return { ...state, apartmentByProject: action.payload, isLoading: false };
     });
   },
 });
