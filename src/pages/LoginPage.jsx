@@ -40,6 +40,9 @@ function LoginPage() {
         if (role === "INVESTOR") {
           navigate("/investor");
         }
+        if (role === "AGENCY") {
+          navigate("/agency");
+        }
         //else if (role === "Admin") {
         //   navigate("/admin");
         // } else {

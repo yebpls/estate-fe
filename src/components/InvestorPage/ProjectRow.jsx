@@ -117,7 +117,7 @@ export default function ProjectRow({ project }) {
             />
           </div>
           <div className="m-2">
-            <p className="m-2">Start Date</p>
+            <p className="m-2">End Date</p>
             <DatePicker
               value={dayjs("2024-02-29")}
               onChange={onChangeEndDate}

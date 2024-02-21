@@ -10,6 +10,15 @@ export const getInvestorId = createAsyncThunk("investor/get_id", async (id) => {
   }
 });
 
+export const getAgencyId = createAsyncThunk("agency/get_id", async (id) => {
+  try {
+    const res = await accountApi.getAgencyId(id);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 const initialState = {
   currentUser: null,
   isLogin: false,

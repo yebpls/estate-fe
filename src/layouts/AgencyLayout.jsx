@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
+import InvestorSidebar from "../components/InvestorPage/InvestorSidebar";
 import { Outlet } from "react-router-dom";
+import InvestorInfo from "../components/InvestorPage/InvestorInfo";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { getInvestorId } from "../store/slices/accountSlice";
 import SideBar from "../components/SharedComponent/SideBar";
 
-function InvestorLayout() {
-  const { investor, id } = useSelector((state) => state.accountReducer);
+function AgencyLayout() {
+  const { agency, id } = useSelector((state) => state.accountReducer);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getInvestorId(id));
@@ -22,4 +24,4 @@ function InvestorLayout() {
   );
 }
 
-export default InvestorLayout;
+export default AgencyLayout;
