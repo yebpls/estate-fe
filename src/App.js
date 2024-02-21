@@ -78,7 +78,7 @@ function App() {
         <Route path="/investor" element={<InvestorLayout />}>
           <Route index element={<Navigate to="/investor/project" />} />
           <Route path="/investor/project" element={<InvestorProject />} />
-          <Route path="/investor/info" element={<InvestorInfo />} />
+          <Route path="/investor/info" element={<AccountInfo />} />
           <Route
             path="/investor/project/:projectId"
             element={<InvestorApartment />}
