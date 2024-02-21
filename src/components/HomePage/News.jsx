@@ -6,18 +6,18 @@ function News() {
     <div className="ml-24">
       <div className="px-16 pt-5 flex justify-between w-full">
         <div className="flex items-center">
-          <div className="font-bold mx-2 text-red-500 hover:text-red-400">
+          <div className="font-bold mx-2 text-red-500 text-xl hover:text-red-400">
             <Link to="">Tin nổi bật</Link>
           </div>
-          <div className="font-bold mx-2 text-red-500 hover:text-red-400">
+          <div className="font-bold mx-2 text-red-500 text-xl hover:text-red-400">
             <Link to="">Tin tức</Link>
           </div>
-          <div className="font-bold mx-2 text-red-500 hover:text-red-400">
+          {/* <div className="font-bold mx-2 text-red-500 hover:text-red-400">
             <Link to="">BĐS TP.HCM</Link>
           </div>
           <div className="font-bold mx-2 text-red-500 hover:text-red-400">
             <Link to="">BĐS Hà Nội</Link>
-          </div>
+          </div> */}
         </div>
         <div className="flex items-start font-bold pr-16 mx-2 text-red-500 hover:text-red-400 pl-96 underline">
           <Link to="">Xem thêm</Link>
@@ -79,16 +79,14 @@ function News() {
         </div>
         <div className="bg-white -ml-10 pt-4 flex-initial w-60  hover:bg-slate-100 rounded-lg">
           <div>
-            <Link to="">
-              <img
-                className="w-max h-max"
-                src={
-                  "https://tse1.mm.bing.net/th?id=OIP.T5tn3xoL7SDMTLPHblDemAHaLH&pid=Api&P=0"
-                }
-                alt="Description of your image"
-              />
-              <p>Ads</p>
-            </Link>
+            <img
+              className="w-max h-max"
+              src={
+                "https://tse1.mm.bing.net/th?id=OIP.T5tn3xoL7SDMTLPHblDemAHaLH&pid=Api&P=0"
+              }
+              alt="Description of your image"
+            />
+            <p className="text-center text-gray-400 text-sm">Quảng cáo</p>
           </div>
         </div>
       </div>

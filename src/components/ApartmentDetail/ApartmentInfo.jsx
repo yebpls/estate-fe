@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ApartmentInfo({ apartment }) {
-  const formattedNumber = apartment?.price / 1000000000;
+  const formattedNumber = apartment.price.toLocaleString("de-DE");
 
   return (
     <div className="flex flex-col">
@@ -13,7 +13,7 @@ export default function ApartmentInfo({ apartment }) {
           <div className="w-32 h-32 bg-gray-100  mt-2 mx-auto ml-3 flex flex-col">
             <p className="font-semibold mx-auto py-2 text-lg">Mức giá</p>
             <p className="font-semibold text-2xl mx-auto py-1 text-red-500">
-              {formattedNumber} Tỷ
+              {formattedNumber} đ
             </p>
             <p className="text-sm mx-auto py-1 text-red-500">(10 triệu/m2)</p>
           </div>

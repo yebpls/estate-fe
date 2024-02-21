@@ -9,6 +9,7 @@ import storageService from "../config/storageService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsLogin, setRole } from "../store/slices/accountSlice";
+import { toast } from "react-toastify";
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function LoginPage() {
     } catch (error) {
       // setMessage(error.response.data._message);
       // loginFailNotify();
+      toast.error("Sai email hoặc mật khẩu");
     }
     reset();
   };

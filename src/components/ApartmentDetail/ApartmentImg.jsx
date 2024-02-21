@@ -17,7 +17,6 @@ export default function ApartmentImg({ apartment }) {
   return (
     <div>
       <div>
-        <p>{apartment?.mainImage}</p>
         <div className="p-2">
           <Image
             width="100%"

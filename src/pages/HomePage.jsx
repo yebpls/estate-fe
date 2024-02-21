@@ -14,7 +14,6 @@ function HomePage() {
     <div className="mt-30">
       <News />
       <Project />
-      <RemarkableProject />
       <ProjectByLocation />
     </div>
   );

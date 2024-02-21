@@ -28,6 +28,7 @@ import {
   setIsLogin,
   setRole,
 } from "./store/slices/accountSlice";
+import { getAllCity } from "./store/slices/buildingSlice";
 import AgencyLayout from "./layouts/AgencyLayout";
 import AgencyInfo from "./components/AgencyPage/AgencyInfo";
 import AvailableApartment from "./components/AgencyPage/AvailableApartment";
@@ -43,10 +44,10 @@ function App() {
 
   useEffect(() => {
     let token = storageService.getAccessToken();
-    console.log(isLogin);
+    // console.log(isLogin);
     if (token) {
       token = jwtDecode(token);
-      console.log(token);
+      // console.log(token);
       const currentTime = Math.floor(Date.now() / 1000);
       if (currentTime > token.expire) {
         // storageService.removeAccessToken();
@@ -64,7 +65,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // fetch();
+    dispatch(getAllCity());
   }, []);
   return (
     <BrowserRouter>
@@ -77,8 +78,11 @@ function App() {
         <Route path="/investor" element={<InvestorLayout />}>
           <Route index element={<Navigate to="/investor/project" />} />
           <Route path="/investor/project" element={<InvestorProject />} />
-          <Route path="/investor/info" element={<AccountInfo />} />
-          <Route path="/investor/project/1" element={<InvestorApartment />} />
+          <Route path="/investor/info" element={<InvestorInfo />} />
+          <Route
+            path="/investor/project/:projectId"
+            element={<InvestorApartment />}
+          />
         </Route>
         {/* Route for AGENCY */}
         <Route path="/agency" element={<AgencyLayout />}>
