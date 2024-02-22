@@ -17,6 +17,15 @@ export const getAllCity = createAsyncThunk("city/get_all", async () => {
   }
 });
 
+export const getAllBuilding = createAsyncThunk("building/get_all", async () => {
+  try {
+    const res = await buildingApi.getAll();
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export const createBuilding = createAsyncThunk(
   "building/create",
   async (params) => {
@@ -47,6 +56,9 @@ const buildingSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllByProjectId.fulfilled, (state, action) => {
+      return { ...state, buildings: action.payload };
+    });
+    builder.addCase(getAllBuilding.fulfilled, (state, action) => {
       return { ...state, buildings: action.payload };
     });
     builder.addCase(getAllCity.fulfilled, (state, action) => {

@@ -10,7 +10,7 @@ const accountApi = {
     return axiosClient.get(url);
   },
   getAccountDetail(id) {
-    const url = `/api/investor/${id}`;
+    const url = `/api/account/${id}`;
     return axiosClient.get(url);
   },
   getInvestorId(id) {

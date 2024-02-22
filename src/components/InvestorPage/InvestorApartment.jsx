@@ -1,38 +1,73 @@
 import React, { useEffect, useState } from "react";
 import ApartmentRow from "./ApartmentRow";
-import { Button, Input, Modal, Select } from "antd";
+import { Button, Modal, Select } from "antd";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllByProjectId } from "../../store/slices/buildingSlice";
-import { getAllApartmentByProjectId } from "../../store/slices/apartmentSlice";
+import {
+  createApartment,
+  getAllApartmentByProjectId,
+  setIsChange,
+} from "../../store/slices/apartmentSlice";
+import { Controller, useForm } from "react-hook-form";
 
 export default function InvestorApartment() {
   const { buildings } = useSelector((state) => state.buildingReducer);
-  const { apartmentByProject } = useSelector((state) => state.apartmentReducer);
+  const { apartmentByProject, isChange } = useSelector(
+    (state) => state.apartmentReducer
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { projectId } = useParams();
 
   const dispatch = useDispatch();
+
+  const form = useForm();
+  const {
+    reset,
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = form;
+
+  const options = buildings?.map((building) => ({
+    value: building.id,
+    label: building.buildingName,
+  }));
+
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+
   const handleCancel = () => {
+    reset();
     setIsModalOpen(false);
   };
-  function handleBuildingChange(value) {
-    console.log(`selected ${value}`);
-  }
+
+  const onSubmit = (data) => {
+    let status = 1;
+    console.log(data);
+    const params = { ...data, status };
+    dispatch(createApartment(params));
+    dispatch(setIsChange());
+    handleCancel();
+  };
+
+  const isNumber = (value) => {
+    return (!isNaN(value) && !isNaN(parseFloat(value))) || "Phải là số";
+  };
 
   useEffect(() => {
     dispatch(getAllByProjectId(projectId));
     dispatch(getAllApartmentByProjectId(projectId));
   }, [projectId]);
 
+  useEffect(() => {
+    dispatch(getAllApartmentByProjectId(projectId));
+  }, [projectId, isChange]);
+
   return (
-    <div className="mx-3 px-3 mt-10">
+    <div className="mx-3 px-3 mt-4">
       <p className="m-2 text-center text-2xl  font-semibold text-blue-700">
         Các căn hộ của bạn
       </p>
@@ -56,58 +91,173 @@ export default function InvestorApartment() {
         Add new apartment
       </Button>
       <Modal
-        okText="Add"
-        okButtonProps={{ style: { backgroundColor: "#4974a5" } }}
-        title="New apart Info"
+        title="Tạo căn hộ mới"
         open={isModalOpen}
-        onOk={handleOk}
+        footer={null}
         onCancel={handleCancel}
         className="text-cyan-700"
       >
-        {/* Apartment Number */}
-        <div className="m-2">
-          <p className="m-2">Number</p>
-          <Input
-            placeholder="Apartment Number"
-            id="number"
-            name="number"
-          ></Input>
-        </div>
-        {/* Apartment Image */}
-        <div className="m-2">
-          <p className="m-2">Apartment Image</p>
-          <Input placeholder="Apartment Image" id="image" name="image"></Input>
-        </div>
-        {/* Apartment Price */}
-        <div className="m-2">
-          <p className="m-2">Price</p>
-          <Input placeholder="Apartment Price" id="price" name="price"></Input>
-        </div>
-        {/* Apartment Building Name */}
-        <div className="m-2">
-          <p className="m-2">Building Name</p>
-          <Select
-            placeholder="Select the building"
-            style={{
-              width: 300,
-            }}
-            onChange={handleBuildingChange}
-            options={[
-              {
-                value: "building1",
-                label: "Building 1",
-              },
-              {
-                value: "building2",
-                label: "Building 2",
-              },
-              {
-                value: "building3",
-                label: "Building 3",
-              },
-            ]}
-          />
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-2">
+            <p className="mb-2 inline-block">Số phòng:</p>
+            <input
+              className={`ml-1 px-2 py-1 w-full ${
+                errors.apartmentNumber && "border-red-500"
+              }`}
+              placeholder="Số phòng"
+              {...register("apartmentNumber", { required: true })}
+              id="apartmentNumber"
+              name="apartmentNumber"
+            ></input>
+          </div>
+          <div className="mb-2">
+            <p className="mb-2 inline-block">Ảnh chính:</p>
+            <input
+              className={`ml-1 px-2 py-1 w-full ${
+                errors.mainImage && "border-red-500"
+              }`}
+              placeholder="Ảnh chính"
+              {...register("mainImage", { required: true })}
+              id="mainImage"
+              name="mainImage"
+            ></input>
+          </div>
+          <div className="mb-2">
+            <p className="mb-2 inline-block">Giá:</p>{" "}
+            {errors.price && (
+              <span className="text-red-500">{errors.price.message}</span>
+            )}
+            <input
+              className={`ml-1 px-2 py-1 w-full ${
+                errors.price && "border-red-500"
+              }`}
+              placeholder="Giá"
+              {...register("price", { required: true, validate: isNumber })}
+              id="price"
+              name="price"
+            />
+          </div>
+          <div className="flex justify-between w-full">
+            <div className="flex flex-col w-1/2">
+              <div className="mb-2 mr-2">
+                <p className="mb-2 mr-2 inline-block">Phòng khách:</p>{" "}
+                {errors.livingRoom && (
+                  <span className="text-red-500">
+                    {errors.livingRoom.message}
+                  </span>
+                )}
+                <input
+                  className={`ml-1 mr-2 px-2 py-1 w-full ${
+                    errors.livingRoom && "border-red-500"
+                  }`}
+                  placeholder="Phòng khách"
+                  {...register("livingRoom", {
+                    required: true,
+                    validate: isNumber,
+                  })}
+                  id="livingRoom"
+                  name="livingRoom"
+                />
+              </div>
+              <div className="mb-2 mr-2">
+                <p className="mb-2 mr-2 inline-block">Phòng ngủ:</p>{" "}
+                {errors.bedRoom && (
+                  <span className="text-red-500">{errors.bedRoom.message}</span>
+                )}
+                <input
+                  className={`ml-1 mr-2 px-2 py-1 w-full ${
+                    errors.bedRoom && "border-red-500"
+                  }`}
+                  placeholder="Phòng ngủ"
+                  {...register("bedRoom", {
+                    required: true,
+                    validate: isNumber,
+                  })}
+                  id="bedRoom"
+                  name="bedRoom"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col w-1/2">
+              <div className="mb-2 mr-2">
+                <p className="mb-2 mr-2 inline-block">Phòng tắm:</p>{" "}
+                {errors.bathRoom && (
+                  <span className="text-red-500">
+                    {errors.bathRoom.message}
+                  </span>
+                )}
+                <input
+                  className={`ml-1 mr-2 px-2 py-1 w-full ${
+                    errors.bathRoom && "border-red-500"
+                  }`}
+                  placeholder="Phòng tắm"
+                  {...register("bathRoom", {
+                    required: true,
+                    validate: isNumber,
+                  })}
+                  id="bathRoom"
+                  name="bathRoom"
+                />
+              </div>
+              <div className="mb-2">
+                <p className="mb-2 inline-block">Nhà bếp:</p>{" "}
+                {errors.kitchen && (
+                  <span className="text-red-500">{errors.kitchen.message}</span>
+                )}
+                <input
+                  className={`ml-1 px-2 py-1 w-full ${
+                    errors.kitchen && "border-red-500"
+                  }`}
+                  placeholder="Nhà bếp"
+                  {...register("kitchen", {
+                    required: true,
+                    validate: isNumber,
+                  })}
+                  id="kitchen"
+                  name="kitchen"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="mb-2">
+            <p className="mb-2 inline-block">Diện tích:</p>{" "}
+            {errors.area && (
+              <span className="text-red-500">{errors.area.message}</span>
+            )}
+            <input
+              className={`ml-1 px-2 py-1 w-full ${
+                errors.area && "border-red-500"
+              }`}
+              placeholder="Diện tích"
+              {...register("area", { required: true, validate: isNumber })}
+              id="area"
+              name="area"
+            />
+          </div>
+          <div className="mb-2">
+            <p className="mb-2">Toà nhà</p>
+            <Controller
+              name="buildingId"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  style={{ width: 300 }}
+                  placeholder={"Chọn toà nhà"}
+                  // defaultValue={options[0].value}
+                  onChange={(value) => field.onChange(value)}
+                  options={options}
+                />
+              )}
+            />
+          </div>
+          <button
+            type="submit"
+            className="px-3 py-1 ml-2 bg-white text-sky-400 hover:bg-sky-400 hover:text-white"
+          >
+            Tạo
+          </button>
+        </form>
       </Modal>
       <thead className="border-b font-medium dark:border-neutral-500 text-sm">
         <tr>

@@ -54,7 +54,7 @@ export default function InvestorProject() {
   };
 
   useEffect(() => {
-    dispatch(getAllProjectByInvesId(investor.id));
+    dispatch(getAllProjectByInvesId(investor?.id));
   }, [investor, isChange]);
   return (
     <div className="mx-auto mt-10 w-full px-8">

@@ -1,7 +1,13 @@
 import { Input, Modal, Select } from "antd";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { Controller, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  deleteApartment,
+  setIsChange,
+  updateApartment,
+} from "../../store/slices/apartmentSlice";
 
 export default function ApartmentRow({ apartment, stt }) {
   const { buildings } = useSelector((state) => state.buildingReducer);
@@ -9,23 +15,63 @@ export default function ApartmentRow({ apartment, stt }) {
   const [building, setBuilding] = useState(null);
   const formattedNumber = apartment.price.toLocaleString("de-DE");
 
+  const dispatch = useDispatch();
+
+  const formChange = useForm({
+    defaultValues: {
+      apartmentNumber: apartment ? apartment.apartmentNumber : "",
+      livingRoom: apartment ? apartment.livingRoom : 0,
+      bedRoom: apartment ? apartment.bedRoom : 0,
+      bathRoom: apartment ? apartment.bathRoom : 0,
+      kitchen: apartment ? apartment.kitchen : 0,
+      price: apartment ? apartment.price : 0,
+      buildingId: apartment ? apartment.buildingId : 0,
+      status: apartment ? apartment.status : 0,
+      area: apartment ? apartment.area : 0,
+      mainImage: apartment ? apartment.mainImage : "",
+    },
+  });
+  const {
+    reset,
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = formChange;
+
+  const options = buildings.map((building) => ({
+    value: building.id,
+    label: building.buildingName,
+  }));
+
+  const onSubmit = (data) => {
+    dispatch(updateApartment({ params: data, id: apartment.id }));
+    dispatch(setIsChange());
+    handleCancel();
+  };
+
+  const isNumber = (value) => {
+    return (!isNaN(value) && !isNaN(parseFloat(value))) || "Phải là số";
+  };
+
   const openEdiApartment = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
+
   const handleCancel = () => {
+    reset();
     setIsModalOpen(false);
   };
+
+  const handleDeleteApartment = (id) => {
+    dispatch(deleteApartment(id));
+  };
+
   useEffect(() => {
-    console.log(buildings);
     const buildingitem = buildings?.filter(
       (item) => item.id === apartment.buildingId
     );
     setBuilding(buildingitem[0]);
-
-    console.log(buildingitem);
   }, [apartment]);
   return (
     <div>
@@ -49,8 +95,10 @@ export default function ApartmentRow({ apartment, stt }) {
           {building?.buildingName}
         </td>
 
-        <td className="whitespace-nowrap text-sm ml-20">
-          {apartment.status === 1 ? "Còn mở đăng ký bán" : "Chưa bán"}
+        <td className="whitespace-nowrap text-sm ml-20 w-32">
+          {apartment.status === 0 ? "Đã bán" : ""}
+          {apartment.status === 1 ? "Còn mở đăng ký bán" : ""}
+          {apartment.status === 2 ? "Đã có agency đăng ký" : ""}
         </td>
         <td className="whitespace-nowrap ml-20 py-4 flex justify-between">
           <button
@@ -60,65 +108,210 @@ export default function ApartmentRow({ apartment, stt }) {
             Sửa
           </button>
           <Modal
-            okText="Edit"
-            okButtonProps={{ style: { backgroundColor: "#4974a5" } }}
-            title="Edit Project Info"
+            title="Chỉnh sửa căn hộ"
             open={isModalOpen}
-            onOk={handleOk}
             onCancel={handleCancel}
+            footer={null}
             className="text-cyan-700"
           >
-            {/* Apartment Image */}
-            <div className="m-2">
-              <p className="m-2">Apartment Image</p>
-              <Input
-                placeholder="Project Image"
-                id="image"
-                name="image"
-              ></Input>
-            </div>
-            {/* Apartment Price */}
-            <div className="m-2">
-              <p className="m-2">Apartment Number</p>
-              <Input
-                placeholder="Apartment Number"
-                id="number"
-                name="number"
-              ></Input>
-            </div>
-            <div className="m-2">
-              <p className="m-2">Apartment Number</p>
-              <Input
-                placeholder="Apartment Number"
-                id="number"
-                name="number"
-              ></Input>
-            </div>
-            <div className="m-2">
-              <p className="m-2">Building Name</p>
-              <Select
-                defaultValue="building1"
-                style={{
-                  width: 300,
-                }}
-                options={[
-                  {
-                    value: "building1",
-                    label: "Building 1",
-                  },
-                  {
-                    value: "building2",
-                    label: "Building 2",
-                  },
-                  {
-                    value: "building3",
-                    label: "Building 3",
-                  },
-                ]}
-              />
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="mb-2">
+                <p className="mb-2 inline-block">Số phòng:</p>
+                <input
+                  className={`ml-1 px-2 py-1 w-full ${
+                    errors.apartmentNumber && "border-red-500"
+                  }`}
+                  placeholder="Số phòng"
+                  {...register("apartmentNumber", { required: true })}
+                  id="apartmentNumber"
+                  name="apartmentNumber"
+                ></input>
+              </div>
+              <div className="mb-2">
+                <p className="mb-2 inline-block">Ảnh chính:</p>
+                <input
+                  className={`ml-1 px-2 py-1 w-full ${
+                    errors.mainImage && "border-red-500"
+                  }`}
+                  placeholder="Ảnh chính"
+                  {...register("mainImage", { required: true })}
+                  id="mainImage"
+                  name="mainImage"
+                ></input>
+              </div>
+              <div className="mb-2">
+                <p className="mb-2 inline-block">Giá:</p>{" "}
+                {errors.price && (
+                  <span className="text-red-500">{errors.price.message}</span>
+                )}
+                <input
+                  className={`ml-1 px-2 py-1 w-full ${
+                    errors.price && "border-red-500"
+                  }`}
+                  placeholder="Giá"
+                  {...register("price", { required: true, validate: isNumber })}
+                  id="price"
+                  name="price"
+                />
+              </div>
+              <div className="flex justify-between w-full">
+                <div className="flex flex-col w-1/2">
+                  <div className="mb-2 mr-2">
+                    <p className="mb-2 mr-2 inline-block">Phòng khách:</p>{" "}
+                    {errors.livingRoom && (
+                      <span className="text-red-500">
+                        {errors.livingRoom.message}
+                      </span>
+                    )}
+                    <input
+                      className={`ml-1 mr-2 px-2 py-1 w-full ${
+                        errors.livingRoom && "border-red-500"
+                      }`}
+                      placeholder="Phòng khách"
+                      {...register("livingRoom", {
+                        required: true,
+                        validate: isNumber,
+                      })}
+                      id="livingRoom"
+                      name="livingRoom"
+                    />
+                  </div>
+                  <div className="mb-2 mr-2">
+                    <p className="mb-2 mr-2 inline-block">Phòng ngủ:</p>{" "}
+                    {errors.bedRoom && (
+                      <span className="text-red-500">
+                        {errors.bedRoom.message}
+                      </span>
+                    )}
+                    <input
+                      className={`ml-1 mr-2 px-2 py-1 w-full ${
+                        errors.bedRoom && "border-red-500"
+                      }`}
+                      placeholder="Phòng ngủ"
+                      {...register("bedRoom", {
+                        required: true,
+                        validate: isNumber,
+                      })}
+                      id="bedRoom"
+                      name="bedRoom"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col w-1/2">
+                  <div className="mb-2 mr-2">
+                    <p className="mb-2 mr-2 inline-block">Phòng tắm:</p>{" "}
+                    {errors.bathRoom && (
+                      <span className="text-red-500">
+                        {errors.bathRoom.message}
+                      </span>
+                    )}
+                    <input
+                      className={`ml-1 mr-2 px-2 py-1 w-full ${
+                        errors.bathRoom && "border-red-500"
+                      }`}
+                      placeholder="Phòng tắm"
+                      {...register("bathRoom", {
+                        required: true,
+                        validate: isNumber,
+                      })}
+                      id="bathRoom"
+                      name="bathRoom"
+                    />
+                  </div>
+                  <div className="mb-2">
+                    <p className="mb-2 inline-block">Nhà bếp:</p>{" "}
+                    {errors.kitchen && (
+                      <span className="text-red-500">
+                        {errors.kitchen.message}
+                      </span>
+                    )}
+                    <input
+                      className={`ml-1 px-2 py-1 w-full ${
+                        errors.kitchen && "border-red-500"
+                      }`}
+                      placeholder="Nhà bếp"
+                      {...register("kitchen", {
+                        required: true,
+                        validate: isNumber,
+                      })}
+                      id="kitchen"
+                      name="kitchen"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="mb-2">
+                <p className="mb-2 inline-block">Diện tích:</p>{" "}
+                {errors.area && (
+                  <span className="text-red-500">{errors.area.message}</span>
+                )}
+                <input
+                  className={`ml-1 px-2 py-1 w-full ${
+                    errors.area && "border-red-500"
+                  }`}
+                  placeholder="Diện tích"
+                  {...register("area", { required: true, validate: isNumber })}
+                  id="area"
+                  name="area"
+                />
+              </div>
+              <div className="mb-2">
+                <p className="mb-2">Toà nhà</p>
+                <Controller
+                  name="buildingId"
+                  control={formChange.control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      style={{ width: 300 }}
+                      placeholder={"Chọn toà nhà"}
+                      // defaultValue={options[0].value}
+                      onChange={(value) => field.onChange(value)}
+                      options={options}
+                    />
+                  )}
+                />
+              </div>
+              <div className="mb-2">
+                <p className="mb-2">Trạng thái</p>
+                <Controller
+                  name="status"
+                  control={formChange.control}
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      style={{ width: 300 }}
+                      onChange={(value) => field.onChange(value)}
+                      options={[
+                        {
+                          value: 0,
+                          label: "Đã bán",
+                        },
+                        {
+                          value: 1,
+                          label: "Còn mở đăng ký bán",
+                        },
+                        {
+                          value: 2,
+                          label: "Đã có agency đăng ký",
+                        },
+                      ]}
+                    />
+                  )}
+                />
+              </div>
+              <button
+                type="submit"
+                className="px-3 py-1 ml-2 bg-white text-sky-400 hover:bg-sky-400 hover:text-white"
+              >
+                Sửa
+              </button>
+            </form>
           </Modal>
-          <button className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm">
+          <button
+            onClick={() => handleDeleteApartment(apartment.id)}
+            className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 border-transparent hover:border-red-500 hover:bg-white hover:text-red-500 text-sm"
+          >
             Xoá
           </button>
         </td>

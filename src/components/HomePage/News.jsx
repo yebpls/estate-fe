@@ -23,13 +23,13 @@ function News() {
           <Link to="">Xem thêm</Link>
         </div>
       </div>
-      <div className="flex-grow p-4 flex gap-2 ml-10">
+      <div className="flex-grow p-4 flex gap-2 ml-10 mb-10">
         {/* Column 1 */}
-        <div className="bg-white p-4 flex-initial w-1/2 hover:bg-slate-100 rounded-lg">
+        <div className="bg-white p-4 flex-initial w-1/2 h-96 hover:bg-slate-100 rounded-lg">
           <Link to="">
             <div className="h-96 text-lg font-bold">
               <img
-                className="w-max h-max"
+                className="w-full h-full"
                 src={
                   "http://vietcetera.com/wp-content/uploads/2016/09/BDS-.jpg"
                 }
@@ -48,7 +48,7 @@ function News() {
           <Link to="">
             <div className="bg-white pt-4 p-2 h-1/2 w-72 text-xs font-bold hover:bg-slate-100 rounded-lg">
               <img
-                className="w-max h-max"
+                className="w-full h-full"
                 src={
                   "http://vietcetera.com/wp-content/uploads/2016/09/BDS-.jpg"
                 }
@@ -64,7 +64,7 @@ function News() {
           <Link to="">
             <div className="bg-white p-2 pt-4 h-1/2 w-72 text-xs font-bold  hover:bg-slate-100 rounded-lg">
               <img
-                className="w-max h-max"
+                className="w-full h-full"
                 src={
                   "http://vietcetera.com/wp-content/uploads/2016/09/BDS-.jpg"
                 }
@@ -80,7 +80,7 @@ function News() {
         <div className="bg-white -ml-10 pt-4 flex-initial w-60  hover:bg-slate-100 rounded-lg">
           <div>
             <img
-              className="w-max h-max"
+              className="w-full h-full"
               src={
                 "https://tse1.mm.bing.net/th?id=OIP.T5tn3xoL7SDMTLPHblDemAHaLH&pid=Api&P=0"
               }
