@@ -26,6 +26,7 @@ import {
   getAccountDetail,
   getInvestorId,
   setAccId,
+  setCurrentUser,
   setIsLogin,
   setRole,
 } from "./store/slices/accountSlice";
@@ -50,12 +51,14 @@ function App() {
       token = jwtDecode(token);
       // console.log(token);
       const currentTime = Math.floor(Date.now() / 1000);
-      if (currentTime > token.expire) {
+      if (currentTime > token.exp) {
         // storageService.removeAccessToken();
         storageService.setAccessToken("");
         // dispatch(setIsLogin(false));
         storageService.removeRole();
         // dispatch(setRole(""));
+        dispatch(setAccId(null));
+        dispatch(setCurrentUser(null));
       } else {
         dispatch(setIsLogin(true));
         dispatch(setRole(token.role));

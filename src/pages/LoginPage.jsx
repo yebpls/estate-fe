@@ -8,12 +8,18 @@ import { jwtDecode } from "jwt-decode";
 import storageService from "../config/storageService";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLogin, setRole } from "../store/slices/accountSlice";
+import {
+  getAgencyId,
+  getInvestorId,
+  setAccId,
+  setIsLogin,
+  setRole,
+} from "../store/slices/accountSlice";
 import { toast } from "react-toastify";
 
 function LoginPage() {
   const dispatch = useDispatch();
-  const { role } = useSelector((state) => state.accountReducer);
+  const { role, id } = useSelector((state) => state.accountReducer);
   const form = useForm();
   const {
     register,
@@ -37,12 +43,16 @@ function LoginPage() {
         // loginSuccessNotify();
         dispatch(setIsLogin(true));
         dispatch(setRole(token.role));
+        dispatch(setAccId(token.sub));
+
         storageService.setRole(token.role);
         if (role === "INVESTOR") {
-          navigate("/investor");
+          dispatch(getInvestorId(id));
+          // navigate("/investor");
         }
         if (role === "AGENCY") {
-          navigate("/agency");
+          dispatch(getAgencyId(id));
+          // navigate("/agency");
         }
         //else if (role === "Admin") {
         //   navigate("/admin");

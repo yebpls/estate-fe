@@ -16,8 +16,8 @@ function AgencyLayout() {
     dispatch(getAgencyId(id));
   }, [dispatch]);
   useEffect(() => {
-    dispatch(getAllBookingDistributionByAgencyId(agency.id));
-  }, [agency, isChange]);
+    dispatch(getAllBookingDistributionByAgencyId(agency?.id));
+  }, [agency, isChange, id]);
   useEffect(() => {
     dispatch(getAllApartment());
   }, [isChange, dispatch]);

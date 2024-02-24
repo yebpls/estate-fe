@@ -80,6 +80,9 @@ const projectSlice = createSlice({
     builder.addCase(getAllProjectByInvesId.fulfilled, (state, action) => {
       return { ...state, projects: action.payload, isLoading: false };
     });
+    builder.addCase(getProjectById.pending, (state, action) => {
+      return { ...state, projectDetail: action.payload, isLoading: true };
+    });
     builder.addCase(getProjectById.fulfilled, (state, action) => {
       return { ...state, projectDetail: action.payload, isLoading: false };
     });
