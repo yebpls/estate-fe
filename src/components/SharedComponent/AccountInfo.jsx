@@ -32,7 +32,6 @@ export default function AccountInfo() {
 
   const [loading, setLoading] = useState(false);
 
-  const dispatch = useDispatch();
   const { Paragraph, Text, Title } = Typography;
 
   const onChangeDate = (date, dateString) => {
