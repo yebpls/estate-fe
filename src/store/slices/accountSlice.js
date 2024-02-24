@@ -57,8 +57,17 @@ const accountSlice = createSlice({
     setAccId: (state, action) => {
       return { ...state, id: action.payload };
     },
+    setAgency: (state, action) => {
+      return { ...state, agency: action.payload };
+    },
+    setInvestor: (state, action) => {
+      return { ...state, investor: action.payload };
+    },
     setUsername: (state, action) => {
       state.username = action.payload;
+    },
+    setCurrentUser: (state, action) => {
+      state.currentUser = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -74,7 +83,14 @@ const accountSlice = createSlice({
   },
 });
 
-export const { setRole, setIsLogin, setUsername, setAccId } =
-  accountSlice.actions;
+export const {
+  setRole,
+  setIsLogin,
+  setUsername,
+  setAccId,
+  setCurrentUser,
+  setAgency,
+  setInvestor,
+} = accountSlice.actions;
 
 export default accountSlice.reducer;

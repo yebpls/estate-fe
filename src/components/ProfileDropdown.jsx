@@ -2,7 +2,14 @@ import React, { useState, useEffect } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLogin, setRole } from "../store/slices/accountSlice";
+import {
+  setAccId,
+  setAgency,
+  setCurrentUser,
+  setInvestor,
+  setIsLogin,
+  setRole,
+} from "../store/slices/accountSlice";
 import storageService from "../config/storageService";
 
 function ProfileDropdown() {
@@ -15,12 +22,22 @@ function ProfileDropdown() {
     setIsDropdown(!isDropdown);
   };
 
-  const onLogout = () => {
+  const logout = () => {
     storageService.removeAccessToken();
     storageService.removeRole();
     dispatch(setRole(""));
     dispatch(setIsLogin(false));
+    dispatch(setCurrentUser(null));
+    dispatch(setAccId(null));
+    dispatch(setAgency(null));
+    dispatch(setInvestor(null));
     navigate("/");
+
+    return new Promise((resolve) => setTimeout(resolve, 100)); // Wait for 100ms (adjust as needed)
+  };
+
+  const onLogout = async () => {
+    await logout();
     window.location.reload();
   };
 

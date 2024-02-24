@@ -3,9 +3,12 @@ import AvailableApartmentRow from "./AvailableApartmentRow";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBuilding } from "../../store/slices/buildingSlice";
 import { getAllAvailableApartment } from "../../store/slices/apartmentSlice";
+import { Spin } from "antd";
 
 export default function AvailableApartment() {
-  const { availableApartment } = useSelector((state) => state.apartmentReducer);
+  const { availableApartment, isLoading } = useSelector(
+    (state) => state.apartmentReducer
+  );
   const { isChange } = useSelector((state) => state.bookingDistributionReducer);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -48,6 +51,13 @@ export default function AvailableApartment() {
           </th>
         </tr>
       </thead>
+      {isLoading ? (
+        <div className="flex justify-center">
+          <Spin />
+        </div>
+      ) : (
+        ""
+      )}
       {availableApartment &&
         availableApartment.map((item, index) => (
           <AvailableApartmentRow

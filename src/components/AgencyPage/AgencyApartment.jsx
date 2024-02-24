@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Modal, Select } from "antd";
+import { Button, Input, Modal, Select, Spin } from "antd";
 import AgencyApartmentRow from "./AgencyApartmentRow";
 import { useSelector } from "react-redux";
 
 export default function AgencyApartment() {
   const [agencyApart, setAgencyApart] = useState(null);
-  const { apartments } = useSelector((state) => state.apartmentReducer);
+  const { apartments, isLoading } = useSelector(
+    (state) => state.apartmentReducer
+  );
   const { bookingDistribution } = useSelector(
     (state) => state.bookingDistributionReducer
   );
@@ -13,7 +15,7 @@ export default function AgencyApartment() {
     const matchedApartments = apartments
       ?.map((apartment) => {
         // Find the matching booking for the current apartment
-        const matchingBooking = bookingDistribution.find(
+        const matchingBooking = bookingDistribution?.find(
           (booking) => booking.apartmentId === apartment.id
         );
 
@@ -76,6 +78,13 @@ export default function AgencyApartment() {
         </tr>
       </thead>
 
+      {isLoading ? (
+        <div className="flex justify-center">
+          <Spin />
+        </div>
+      ) : (
+        ""
+      )}
       {agencyApart &&
         agencyApart.map((item, index) => (
           <AgencyApartmentRow

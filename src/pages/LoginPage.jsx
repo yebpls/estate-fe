@@ -6,14 +6,20 @@ import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { DevTool } from "@hookform/devtools";
 import { jwtDecode } from "jwt-decode";
 import storageService from "../config/storageService";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setIsLogin, setRole } from "../store/slices/accountSlice";
+import {
+  getAgencyId,
+  getInvestorId,
+  setAccId,
+  setIsLogin,
+  setRole,
+} from "../store/slices/accountSlice";
 import { toast } from "react-toastify";
 
 function LoginPage() {
   const dispatch = useDispatch();
-  const { role } = useSelector((state) => state.accountReducer);
+  const { role, id } = useSelector((state) => state.accountReducer);
   const form = useForm();
   const {
     register,
@@ -37,12 +43,16 @@ function LoginPage() {
         // loginSuccessNotify();
         dispatch(setIsLogin(true));
         dispatch(setRole(token.role));
+        dispatch(setAccId(token.sub));
+
         storageService.setRole(token.role);
         if (role === "INVESTOR") {
-          navigate("/investor");
+          dispatch(getInvestorId(id));
+          // navigate("/investor");
         }
         if (role === "AGENCY") {
-          navigate("/agency");
+          dispatch(getAgencyId(id));
+          // navigate("/agency");
         }
         if (role === "CUSTOMER") {
           navigate("/customer");
@@ -63,16 +73,16 @@ function LoginPage() {
   return (
     <div className="h-screen px-16 pt-20 pb-14 flex gap-8 font-inter">
       <div className="w-5/12 flex flex-col justify-between items-center">
-        <div className="h-24 w-24">
+        <Link to="/" className="block h-24 w-24">
           <img className="w-full h-full" src="/images/logo.png" alt="" />
-        </div>
+        </Link>
         <div className="w-10/12 mt-10">
           <img className="w-full h-full" src="/images/city-img.png" alt="" />
         </div>
       </div>
       <div className="w-7/12 flex flex-col items-center">
         <h1 className="font-bold text-4xl uppercase mb-10">Đăng nhập</h1>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full my-5">
           <div className="mb-4 w-full relative">
             <FontAwesomeIcon
               icon={faUser}
@@ -108,11 +118,18 @@ function LoginPage() {
               Quên mật khẩu?
             </button>
           </div>
-          <hr className="my-10" />
+          <div className="relative flex py-5 my-8 items-center">
+            <div className="flex-grow border-t border-gray-400"></div>
+            <span className="flex-shrink mx-4 text-gray-600">
+              <span>Bạn chưa có tài khoản ? </span>
+              <Link to="/register" className="hover:text-gray-600 text-sky-500">
+                {" "}
+                Đăng ký
+              </Link>
+            </span>
+            <div className="flex-grow border-t border-gray-400"></div>
+          </div>
           <div className="w-full">
-            <button className="w-full py-3 !bg-blue_1 hover:!bg-white text-white hover:text-blue_1 hover:border-blue_1 font-bold mb-6">
-              Đăng nhập bằng facebook
-            </button>
             <button className="w-full py-3  text-text_color_base hover:text-text_color_2 font-bold">
               Đăng nhập bằng Google
             </button>

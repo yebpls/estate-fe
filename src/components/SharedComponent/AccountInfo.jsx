@@ -49,7 +49,7 @@ export default function AccountInfo() {
   }, [currentUser]);
 
   return (
-    <div>
+    <div className="w-full">
       <Title level={3} className="text-center mt-5">
         Thông Tin Của Bạn
       </Title>
