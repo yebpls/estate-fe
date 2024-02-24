@@ -5,6 +5,10 @@ const accountApi = {
     const url = "/login";
     return axiosClient.post(url, params);
   },
+  register(params) {
+    const url = "/api/account/register";
+    return axiosClient.post(url, params);
+  },
   test() {
     const url = "/test";
     return axiosClient.get(url);
