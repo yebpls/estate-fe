@@ -15,10 +15,11 @@ import ChangePassword from "../SharedComponent/ChangePassword";
 import ChangeAvatar from "../SharedComponent/ChangeAvatar";
 import AccountBalance from "./AccountBalance";
 import SaveProfile from "./SaveProfile";
-import { useDispatch, useSelector } from "react-redux";
-import { getAccountInfo } from "../../store/slices/accountSlice";
+import { useSelector } from "react-redux";
 
 export default function AccountInfo() {
+  const { currentUser } = useSelector((state) => state.accountReducer);
+
   const [avatarUrl, setAvatarUrl] = useState(
     "https://tse2.mm.bing.net/th?id=OIP.0HPHOhiMHVdQGlxYc4z86AHaFj&pid=Api&P=0&h=180"
   );
@@ -43,6 +44,11 @@ export default function AccountInfo() {
     console.log("gender: ", gender);
   };
 
+  useEffect(() => {
+    setAvatarUrl(currentUser?.avatarUrl);
+    setEmail(currentUser?.email);
+  }, [currentUser]);
+
   return (
     <div>
       <Title level={3} className="text-center mt-5">
@@ -61,16 +67,16 @@ export default function AccountInfo() {
               }}
               style={{ marginTop: "3px", fontSize: "16px" }}
             >
-              {email}
+              {currentUser.email}
             </Paragraph>
-            <Text type="secondary">Địa chỉ</Text>
+            <Text type="secondary">Tên</Text>
             <Paragraph
               editable={{
                 onChange: setAddress,
               }}
               style={{ marginTop: "3px", fontSize: "16px" }}
             >
-              {address}
+              {currentUser.name}
             </Paragraph>
             <Text type="secondary">Giới tính</Text>
             <br />
@@ -111,7 +117,7 @@ export default function AccountInfo() {
           </div>
         </Col>
         <Col span={4} className="">
-          <AccountBalance />
+          <AccountBalance balance={currentUser.balance} />
         </Col>
       </Row>
     </div>

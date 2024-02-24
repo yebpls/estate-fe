@@ -7,7 +7,7 @@ import storageService from "../config/storageService";
 
 function ProfileDropdown() {
   const [isDropdown, setIsDropdown] = useState(false);
-  const { role } = useSelector((state) => state.accountReducer);
+  const { role, currentUser } = useSelector((state) => state.accountReducer);
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -32,9 +32,13 @@ function ProfileDropdown() {
     <>
       <div
         onClick={handleDropdown}
-        className="w-12 h-12 bg-black rounded-full relative cursor-pointer z-40 md:block hidden"
+        className="w-12 h-12 bg-transparent rounded-full relative cursor-pointer z-40 md:block hidden"
       >
-        <img className="rounded-full w-full h-full" src="" alt="Avatar" />
+        <img
+          className="rounded-full w-full h-full"
+          src={currentUser && currentUser.avatarUrl}
+          alt="Avatar"
+        />
         {isDropdown && (
           <div className="z-10 absolute -bottom-24 right-0  bg-white divide-y divide-gray-100 rounded-lg shadow w-28 ">
             <ul

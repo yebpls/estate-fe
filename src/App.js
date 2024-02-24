@@ -23,6 +23,7 @@ import InvestorProject from "./components/InvestorPage/InvestorProject";
 import InvestorInfo from "./components/InvestorPage/InvestorInfo";
 import InvestorApartment from "./components/InvestorPage/InvestorApartment";
 import {
+  getAccountDetail,
   getInvestorId,
   setAccId,
   setIsLogin,
@@ -69,6 +70,10 @@ function App() {
   useEffect(() => {
     dispatch(getAllCity());
   }, []);
+
+  useEffect(() => {
+    dispatch(getAccountDetail(id));
+  }, [id]);
   return (
     <BrowserRouter>
       <Routes>

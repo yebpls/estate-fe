@@ -1,18 +1,26 @@
 import React, { useEffect } from "react";
-import InvestorSidebar from "../components/InvestorPage/InvestorSidebar";
 import { Outlet } from "react-router-dom";
-import InvestorInfo from "../components/InvestorPage/InvestorInfo";
 import Header from "../components/Header";
 import { useDispatch, useSelector } from "react-redux";
-import { getInvestorId } from "../store/slices/accountSlice";
+import { getAgencyId } from "../store/slices/accountSlice";
 import SideBar from "../components/SharedComponent/SideBar";
+import { getAllBookingDistributionByAgencyId } from "../store/slices/bookingDistributionSlice";
+import { getAllApartment } from "../store/slices/apartmentSlice";
 
 function AgencyLayout() {
-  // const { agency, id } = useSelector((state) => state.accountReducer);
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch(getInvestorId(id));
-  // }, [id, dispatch]);
+  const { agency, id } = useSelector((state) => state.accountReducer);
+  const { isChange } = useSelector((state) => state.bookingDistributionReducer);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAgencyId(id));
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllBookingDistributionByAgencyId(agency.id));
+  }, [agency, isChange]);
+  useEffect(() => {
+    dispatch(getAllApartment());
+  }, [isChange, dispatch]);
   return (
     <div>
       <Header />

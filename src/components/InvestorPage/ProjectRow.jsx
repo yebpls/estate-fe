@@ -175,51 +175,6 @@ export default function ProjectRow({ project, stt }) {
           onCancel={handleCancel}
           className="text-cyan-700"
         >
-          {/* <<<<<<< HEAD */}
-          {/* Apartment Image */}
-          {/* <div className="m-2">
-            <p className="m-2">Project Image</p>
-            <Input placeholder="Project Image" id="image" name="image"></Input>
-          </div> */}
-          {/* Apartment Price */}
-          {/* <div className="m-2">
-            <p className="m-2">Project Name</p>
-            <Input placeholder="Project Name" id="name" name="name"></Input>
-          </div>
-          <div className="m-2">
-            <p className="m-2">Status</p>
-            <Select
-              defaultValue="Available"
-              style={{
-                width: 300,
-              }}
-              options={[
-                {
-                  value: "true",
-                  label: "Available",
-                },
-                {
-                  value: "true",
-                  label: "Not Available",
-                },
-              ]}
-            />
-          </div>
-          <div className="m-2">
-            <p className="m-2">Start Date</p>
-            <DatePicker
-              value={dayjs("2024-02-19")}
-              onChange={onChangeStartDate}
-            />
-          </div>
-          <div className="m-2">
-            <p className="m-2">End Date</p>
-            <DatePicker
-              value={dayjs("2024-02-29")}
-              onChange={onChangeEndDate}
-            />
-          </div> */}
-          {/* ======= */}
           <form onSubmit={handleSubmitChangeProject(onSubmitChangeProject)}>
             <div className="m-2">
               <p className="m-2">Tên dự án</p>
@@ -272,14 +227,13 @@ export default function ProjectRow({ project, stt }) {
             <div className="m-2">
               <p className="m-2">Trạng thái</p>
               <Controller
-                name="status" // The name of the field
-                control={formChangeProject.control} // The control object from useForm()
+                name="status"
+                control={formChangeProject.control}
                 render={({ field }) => (
                   <Select
                     {...field}
-                    // You can set a default value like this, but it's better to set it in useForm's defaultValues if using react-hook-form
                     style={{ width: 300 }}
-                    onChange={(value) => field.onChange(value)} // Ensuring the selected value is updated in react-hook-form
+                    onChange={(value) => field.onChange(value)}
                     options={[
                       {
                         value: 0,
@@ -302,7 +256,6 @@ export default function ProjectRow({ project, stt }) {
               Sửa
             </button>
           </form>
-          {/* >>>>>>> origin/dev */}
         </Modal>
         <button
           onClick={() => handleDeleteProject(project.id)}

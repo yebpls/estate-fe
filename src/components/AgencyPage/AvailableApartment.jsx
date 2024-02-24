@@ -1,7 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AvailableApartmentRow from "./AvailableApartmentRow";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBuilding } from "../../store/slices/buildingSlice";
+import { getAllAvailableApartment } from "../../store/slices/apartmentSlice";
 
 export default function AvailableApartment() {
+  const { availableApartment } = useSelector((state) => state.apartmentReducer);
+  const { isChange } = useSelector((state) => state.bookingDistributionReducer);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllBuilding());
+  }, []);
+  useEffect(() => {
+    dispatch(getAllAvailableApartment());
+  }, []);
+
   return (
     <div className="mx-10 mt-10">
       <p className="m-2 text-center text-2xl  font-semibold text-blue-700">
@@ -9,36 +22,47 @@ export default function AvailableApartment() {
       </p>
       <thead className="border-b font-medium dark:border-neutral-500 text-sm">
         <tr>
-          <th scope="col" className="px-6 py-4">
+          <th scope="col" className="inline-block mx-6 py-4">
             STT
           </th>
-          <th scope="col" className="px-4 py-4 pl-14">
+          <th scope="col" className="inline-block mx-4 py-4 pl-4">
             Ảnh
           </th>
-          <th scope="col" className="pl-28  py-4">
-            Số của căn hộ
+          <th scope="col" className="inline-block ml-36  py-4">
+            Số căn hộ
           </th>
-          <th scope="col" className="pl-10 py-4">
+          <th scope="col" className="inline-block ml-16 py-4">
             Giá
           </th>
-          <th scope="col" className="px-28 py-4">
-            Địa chỉ
+          <th scope="col" className="inline-block ml-28 py-4">
+            Tên dự án
           </th>
-          <th scope="col" className="pl-40 py-4">
-            Tên tòa nhà
+          <th scope="col" className="inline-block ml-16 py-4">
+            Tên toà nhà
           </th>
-          <th scope="col" className="pl-14 py-4">
-            Hủy dự án
+          <th scope="col" className="inline-block ml-20 py-4">
+            Trạng thái
+          </th>
+          <th scope="col" className="inline-block ml-20 py-4">
+            Nhận dự án
           </th>
         </tr>
       </thead>
+      {availableApartment &&
+        availableApartment.map((item, index) => (
+          <AvailableApartmentRow
+            key={item.id}
+            apartment={item}
+            stt={index + 1}
+          />
+        ))}
+      {/* <AvailableApartmentRow />
       <AvailableApartmentRow />
       <AvailableApartmentRow />
       <AvailableApartmentRow />
       <AvailableApartmentRow />
       <AvailableApartmentRow />
-      <AvailableApartmentRow />
-      <AvailableApartmentRow />
+      <AvailableApartmentRow /> */}
     </div>
   );
 }
