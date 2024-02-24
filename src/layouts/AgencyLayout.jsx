@@ -8,11 +8,11 @@ import { getInvestorId } from "../store/slices/accountSlice";
 import SideBar from "../components/SharedComponent/SideBar";
 
 function AgencyLayout() {
-  const { agency, id } = useSelector((state) => state.accountReducer);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getInvestorId(id));
-  }, [id, dispatch]);
+  // const { agency, id } = useSelector((state) => state.accountReducer);
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(getInvestorId(id));
+  // }, [id, dispatch]);
   return (
     <div>
       <Header />

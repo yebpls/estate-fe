@@ -10,11 +10,13 @@ import {
   message,
 } from "antd";
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChangePassword from "../SharedComponent/ChangePassword";
 import ChangeAvatar from "../SharedComponent/ChangeAvatar";
 import AccountBalance from "./AccountBalance";
 import SaveProfile from "./SaveProfile";
+import { useDispatch, useSelector } from "react-redux";
+import { getAccountInfo } from "../../store/slices/accountSlice";
 
 export default function AccountInfo() {
   const [avatarUrl, setAvatarUrl] = useState(
@@ -28,6 +30,8 @@ export default function AccountInfo() {
   );
 
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
   const { Paragraph, Text, Title } = Typography;
 
   const onChangeDate = (date, dateString) => {

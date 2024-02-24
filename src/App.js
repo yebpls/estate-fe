@@ -36,6 +36,8 @@ import AgencyApartment from "./components/AgencyPage/AgencyApartment";
 import Article from "./components/AgencyPage/Article";
 import Booking from "./components/AgencyPage/Booking";
 import AccountInfo from "./components/SharedComponent/AccountInfo";
+import CustomerLayout from "./layouts/CustomerLayout";
+import BookingApartment from "./components/CustomerPage/BookingApartment";
 
 function App() {
   const { isLogin, role, id } = useSelector((state) => state.accountReducer);
@@ -78,7 +80,7 @@ function App() {
         <Route path="/investor" element={<InvestorLayout />}>
           <Route index element={<Navigate to="/investor/project" />} />
           <Route path="/investor/project" element={<InvestorProject />} />
-          <Route path="/investor/info" element={<AccountInfo />} />
+          <Route path="/investor/info/" element={<AccountInfo />} />
           <Route
             path="/investor/project/:projectId"
             element={<InvestorApartment />}
@@ -89,12 +91,24 @@ function App() {
           <Route index element={<Navigate to="/agency/own" />} />
           <Route path="/agency/own" element={<AgencyApartment />} />
           <Route path="/agency/own/booking" element={<Booking />} />
-          <Route path="/agency/info" element={<AccountInfo />} />
+          <Route path="/agency/info/" element={<AccountInfo />} />
           <Route path="/agency/article" element={<Article />} />
           <Route
             path="/agency/available_apartment"
             element={<AvailableApartment />}
           />
+        </Route>
+        {/* Route for CUSTOMER */}
+        <Route path="/customer" element={<CustomerLayout />}>
+          <Route
+            index
+            element={<Navigate to="/customer/booking_apartment" />}
+          />
+          <Route
+            path="/customer/booking_apartment"
+            element={<BookingApartment />}
+          />
+          <Route path="/customer/info/" element={<AccountInfo />} />
         </Route>
         <Route path="/login" element={<LoginPage />} />
         <Route

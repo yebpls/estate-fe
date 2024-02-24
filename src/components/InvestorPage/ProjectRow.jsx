@@ -175,14 +175,14 @@ export default function ProjectRow({ project, stt }) {
           onCancel={handleCancel}
           className="text-cyan-700"
         >
-<<<<<<< HEAD
+          {/* <<<<<<< HEAD */}
           {/* Apartment Image */}
-          <div className="m-2">
+          {/* <div className="m-2">
             <p className="m-2">Project Image</p>
             <Input placeholder="Project Image" id="image" name="image"></Input>
-          </div>
+          </div> */}
           {/* Apartment Price */}
-          <div className="m-2">
+          {/* <div className="m-2">
             <p className="m-2">Project Name</p>
             <Input placeholder="Project Name" id="name" name="name"></Input>
           </div>
@@ -218,8 +218,8 @@ export default function ProjectRow({ project, stt }) {
               value={dayjs("2024-02-29")}
               onChange={onChangeEndDate}
             />
-          </div>
-=======
+          </div> */}
+          {/* ======= */}
           <form onSubmit={handleSubmitChangeProject(onSubmitChangeProject)}>
             <div className="m-2">
               <p className="m-2">Tên dự án</p>
@@ -302,7 +302,7 @@ export default function ProjectRow({ project, stt }) {
               Sửa
             </button>
           </form>
->>>>>>> origin/dev
+          {/* >>>>>>> origin/dev */}
         </Modal>
         <button
           onClick={() => handleDeleteProject(project.id)}

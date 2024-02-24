@@ -44,6 +44,9 @@ function LoginPage() {
         if (role === "AGENCY") {
           navigate("/agency");
         }
+        if (role === "CUSTOMER") {
+          navigate("/customer");
+        }
         //else if (role === "Admin") {
         //   navigate("/admin");
         // } else {

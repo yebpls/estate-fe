@@ -42,10 +42,7 @@ function ProfileDropdown() {
               aria-labelledby="dropdownDefaultButton"
             >
               <li className="block text-center h-1/3 hover:text-blue-500">
-                <Link
-                  className="block px-1 py-2"
-                  to={role === "CUSTOMER" ? "/" : `${role.toLowerCase()}`}
-                >
+                <Link className="block px-1 py-2" to={`${role.toLowerCase()}`}>
                   Trang cá nhân
                 </Link>
               </li>
