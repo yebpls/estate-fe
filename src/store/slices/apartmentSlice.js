@@ -26,6 +26,18 @@ export const getAllAvailableApartment = createAsyncThunk(
   }
 );
 
+export const getAllCanBuy = createAsyncThunk(
+  "apartment/get_all_can_buy",
+  async () => {
+    try {
+      const res = await apartmentApi.getAllCanBuy();
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const getApartmentById = createAsyncThunk(
   "apartment/get_by_id",
   async (id) => {
@@ -89,6 +101,7 @@ export const updateApartment = createAsyncThunk(
 
 const initialState = {
   apartments: null,
+  apartmentsCanBuy: null,
   availableApartment: null,
   apartmentByProject: null,
   apartmentDetail: null,
@@ -110,6 +123,12 @@ const apartmentSlice = createSlice({
     });
     builder.addCase(getAllApartment.fulfilled, (state, action) => {
       return { ...state, apartments: action.payload, isLoading: false };
+    });
+    builder.addCase(getAllCanBuy.pending, (state, action) => {
+      return { ...state, apartmentsCanBuy: action.payload, isLoading: true };
+    });
+    builder.addCase(getAllCanBuy.fulfilled, (state, action) => {
+      return { ...state, apartmentsCanBuy: action.payload, isLoading: false };
     });
     builder.addCase(getAllAvailableApartment.pending, (state, action) => {
       return { ...state, availableApartment: action.payload, isLoading: true };
