@@ -40,6 +40,8 @@ import Booking from "./components/AgencyPage/Booking";
 import AccountInfo from "./components/SharedComponent/AccountInfo";
 import CustomerLayout from "./layouts/CustomerLayout";
 import BookingApartment from "./components/CustomerPage/BookingApartment";
+import AdminLayout from "./layouts/AdminLayout";
+import Account from "./components/AdminPage/Account";
 
 function App() {
   const { isLogin, role, id } = useSelector((state) => state.accountReducer);
@@ -83,6 +85,11 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/apartment/:id" element={<ApartmentDetail />} />
+        </Route>
+        {/* Route for ADMIN */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="/admin/manage_account" />} />
+          <Route path="/admin/manage_account" element={<Account />} />
         </Route>
         {/* Route for INVESTOR */}
         <Route path="/investor" element={<InvestorLayout />}>

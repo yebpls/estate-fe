@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Agency from "./SideBar/Agency";
 import Investor from "./SideBar/Investor";
 import Customer from "./SideBar/Customer";
+import Admin from "./SideBar/Admin";
 
 export default function SideBar() {
   const { role, id } = useSelector((state) => state.accountReducer);
@@ -11,7 +12,9 @@ export default function SideBar() {
     <div>
       <aside className="flex flex-col top-0 left-0 col-span-3 bg-white h-full border-r">
         <div className="overflow-y-auto overflow-x-hidden flex-grow">
-          {role === "AGENCY" ? (
+          {role === "ADMIN" ? (
+            <Admin />
+          ) : role === "AGENCY" ? (
             <Agency />
           ) : role === "INVESTOR" ? (
             <Investor />

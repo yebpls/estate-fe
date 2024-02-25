@@ -80,7 +80,7 @@ export default function ApartmentRow() {
           <Modal
             okText="Hủy"
             okButtonProps={{ style: { backgroundColor: "red" } }}
-            title="Bạn có muốn hủy dự án này không?"
+            title="Bạn có muốn hủy cuộc hẹn này không?"
             open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
