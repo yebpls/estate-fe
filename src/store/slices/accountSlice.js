@@ -1,5 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import accountApi from "../../api/accountApi";
+import { apartmentApi } from "../../api/apartmentApi";
+import { toast } from "react-toastify";
 
 export const getAccountDetail = createAsyncThunk(
   "account/get_detail",
@@ -31,6 +33,26 @@ export const getAgencyId = createAsyncThunk("agency/get_id", async (id) => {
   }
 });
 
+export const getAllAccount = createAsyncThunk("account/get_all", async () => {
+  try {
+    const res = await accountApi.getAllAccount();
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const changeAccountStatus = createAsyncThunk(
+  "account/change_status",
+  async (id) => {
+    try {
+      const res = await accountApi.changeAccoutStatus(id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   currentUser: null,
   isLogin: false,
@@ -38,6 +60,7 @@ const initialState = {
   role: "",
   id: null,
   loading: false,
+  loadingButton: false,
   error: null,
   success: false,
   investor: null,
@@ -79,6 +102,33 @@ const accountSlice = createSlice({
     });
     builder.addCase(getAccountDetail.fulfilled, (state, action) => {
       return { ...state, currentUser: action.payload };
+    });
+    builder.addCase(getAllAccount.pending, (state, action) => {
+      return { ...state, loading: true };
+    });
+    builder.addCase(getAllAccount.fulfilled, (state, action) => {
+      return { ...state, accountForAdmin: action.payload, loading: false };
+    });
+    builder.addCase(changeAccountStatus.pending, (state, action) => {
+      return { ...state, loadingButton: true };
+    });
+    builder.addCase(changeAccountStatus.fulfilled, (state, action) => {
+      const { accountForAdmin } = state;
+      const accountChangedId = action.meta.arg; // Accessing id passed as argument
+      console.log(accountChangedId);
+      const newAccountForAdmin = accountForAdmin.map((account) => {
+        if (account.id === accountChangedId) {
+          return { ...account, status: !account.status };
+        }
+        return account;
+      });
+      console.log("new account:", newAccountForAdmin);
+      toast.success("Đổi trạng thái thành công!!!");
+      return {
+        ...state,
+        accountForAdmin: newAccountForAdmin,
+        loadingButton: false,
+      };
     });
   },
 });
