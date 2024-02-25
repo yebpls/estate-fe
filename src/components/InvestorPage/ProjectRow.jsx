@@ -20,19 +20,26 @@ export default function ProjectRow({ project, stt }) {
   const [selectedCity, setSelectedCity] = useState(null);
   const { investor } = useSelector((state) => state.accountReducer);
   const { city } = useSelector((state) => state.buildingReducer);
-  const { projectDetail } = useSelector((state) => state.projectReducer);
+  const { projectDetail, isLoading } = useSelector(
+    (state) => state.projectReducer
+  );
 
   const dispatch = useDispatch();
 
-  // const form = useForm({
-  //   defaultValues: {
-  //     projectName: "",
-  //     image: "",
-  //     status: 0,
-  //     startDate: null,
-  //     endDate: null,
-  //     // Other fields as needed
-  //   },
+  const disableStartDate = (current) => {
+    return current && current < dayjs().startOf("day");
+  };
+
+  const disableEndDate = (current) => {
+    const startPlusThreeMonths = startDate
+      ? dayjs(startDate).add(3, "month")
+      : null;
+    return (
+      current &&
+      (current < dayjs().startOf("day") ||
+        (startPlusThreeMonths && current < startPlusThreeMonths))
+    );
+  };
   // });
   const { reset } = useForm();
   // const {
@@ -205,6 +212,7 @@ export default function ProjectRow({ project, stt }) {
                 control={formChangeProject.control}
                 render={({ field }) => (
                   <DatePicker
+                    disabledDate={disableStartDate}
                     onChange={(date, dateString) => field.onChange(dateString)}
                     value={field.value ? dayjs(field.value) : null}
                   />
@@ -218,6 +226,7 @@ export default function ProjectRow({ project, stt }) {
                 control={formChangeProject.control}
                 render={({ field }) => (
                   <DatePicker
+                    disabledDate={disableEndDate}
                     onChange={(date, dateString) => field.onChange(dateString)}
                     value={field.value ? dayjs(field.value) : null}
                   />
@@ -288,7 +297,7 @@ export default function ProjectRow({ project, stt }) {
               ></input>
             </div>
             <div className="m-2">
-              <p className="m-2">Ảnh</p>
+              <p className="m-2">Địa chỉ</p>
               <input
                 className="w-full p-1"
                 {...registerBuilding("address", { require: true })}
@@ -298,7 +307,7 @@ export default function ProjectRow({ project, stt }) {
               ></input>
             </div>
             <div>
-              <p className="ml-2">Thành Phố</p>
+              <p className="ml-2">Tỉnh</p>
               <select
                 className="border-2 rounded-md m-2 p-1"
                 {...registerBuilding("city", { required: true })}

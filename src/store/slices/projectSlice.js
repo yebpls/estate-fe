@@ -105,6 +105,9 @@ const projectSlice = createSlice({
 
       return { ...state, isLoading: false };
     });
+    builder.addCase(createProject.pending, (state, action) => {
+      return { ...state, isLoading: true };
+    });
     builder.addCase(createProject.fulfilled, (state, action) => {
       toast.success("Tạo dự án thành công");
 

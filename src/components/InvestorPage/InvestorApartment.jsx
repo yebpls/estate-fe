@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ApartmentRow from "./ApartmentRow";
-import { Button, Modal, Select } from "antd";
+import { Button, Modal, Select, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllByProjectId } from "../../store/slices/buildingSlice";
@@ -73,7 +73,6 @@ export default function InvestorApartment() {
       </p>
       <div className="my-4">
         <p className="font-bold text-lg">Danh sách toà nhà:</p>
-
         {buildings &&
           buildings.map((building) => (
             <button
