@@ -57,6 +57,7 @@ function App() {
         // dispatch(setIsLogin(false));
         storageService.removeRole();
         // dispatch(setRole(""));
+        dispatch(setIsLogin(false));
         dispatch(setAccId(null));
         dispatch(setCurrentUser(null));
       } else {
