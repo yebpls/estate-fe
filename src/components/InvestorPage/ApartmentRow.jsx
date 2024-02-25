@@ -91,9 +91,7 @@ export default function ApartmentRow({ apartment, stt }) {
           {formattedNumber}đ
         </td>
         <td className=" mx-2  py-auto text-sm w-44">{building?.address}</td>
-        <td className="whitespace-nowrap  ml-10 mr-6   py-4 text-sm">
-          {building?.buildingName}
-        </td>
+        <td className=" ml-10 mr-6 w-28 text-sm">{building?.buildingName}</td>
 
         <td className="whitespace-nowrap text-sm ml-20 w-32">
           {apartment.status === 0 ? "Đã bán" : ""}
