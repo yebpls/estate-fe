@@ -13,7 +13,7 @@ import { Controller, useForm } from "react-hook-form";
 
 export default function InvestorApartment() {
   const { buildings } = useSelector((state) => state.buildingReducer);
-  const { apartmentByProject, isChange } = useSelector(
+  const { apartmentByProject, isChange, isLoading } = useSelector(
     (state) => state.apartmentReducer
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,7 +59,7 @@ export default function InvestorApartment() {
 
   useEffect(() => {
     dispatch(getAllByProjectId(projectId));
-    dispatch(getAllApartmentByProjectId(projectId));
+    // dispatch(getAllApartmentByProjectId(projectId));
   }, [projectId]);
 
   useEffect(() => {
@@ -286,6 +286,13 @@ export default function InvestorApartment() {
           </th>
         </tr>
       </thead>
+      {isLoading ? (
+        <div className="flex justify-center mt-4">
+          <Spin />
+        </div>
+      ) : (
+        ""
+      )}
       {apartmentByProject &&
         apartmentByProject.map((item, index) => (
           <ApartmentRow apartment={item} key={item.id} stt={index + 1} />

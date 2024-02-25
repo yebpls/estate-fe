@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { cityApi } from "../../api/cityApi";
 import { buildingApi } from "../../api/buildingApi";
+import { toast } from "react-toastify";
 
 const initialState = {
   buildings: null,
@@ -64,8 +65,16 @@ const buildingSlice = createSlice({
     builder.addCase(getAllCity.fulfilled, (state, action) => {
       return { ...state, city: action.payload, isLoading: false };
     });
+
     builder.addCase(createBuilding.fulfilled, (state, action) => {
       console.log(action.payload);
+      toast.success("Tạo toà nhà thành công!!!");
+      return { ...state, isLoading: false };
+    });
+
+    builder.addCase(createBuilding.rejected, (state, action) => {
+      console.log(action.payload);
+      toast.error("Tạo toà nhà thất bại!!!");
       return { ...state, isLoading: false };
     });
   },

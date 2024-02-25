@@ -76,7 +76,7 @@ export default function ProjectRow({ project, stt }) {
       cityId: data.city,
     };
     dispatch(createBuilding(formBuilding));
-    handleCancel();
+    handleAddCancel();
   };
 
   const onSubmitChangeProject = (data) => {
@@ -111,6 +111,7 @@ export default function ProjectRow({ project, stt }) {
   };
 
   const handleAddCancel = () => {
+    reset();
     setIsModalAddOpen(false);
   };
 
