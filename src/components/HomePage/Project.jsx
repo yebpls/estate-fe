@@ -1,18 +1,22 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllApartment } from "../../store/slices/apartmentSlice";
+import {
+  getAllApartment,
+  getAllCanBuy,
+} from "../../store/slices/apartmentSlice";
 import ProjectCard from "./ProjectCard";
 import { Spin } from "antd";
 
 export default function Project() {
-  const { apartments, isLoading } = useSelector(
+  const { apartmentsCanBuy, isLoading } = useSelector(
     (state) => state.apartmentReducer
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllApartment());
+    dispatch(getAllCanBuy());
   }, [dispatch]);
   return (
     <div className="">
@@ -36,8 +40,8 @@ export default function Project() {
               <Spin size="large" />
             </div>
           )}
-          {apartments &&
-            apartments.map((apartment) => (
+          {apartmentsCanBuy &&
+            apartmentsCanBuy.map((apartment) => (
               <ProjectCard key={apartment.id} apartment={apartment} />
             ))}
         </div>

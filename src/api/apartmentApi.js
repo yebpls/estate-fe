@@ -11,6 +11,11 @@ export const apartmentApi = {
     return axiosClient.get(url);
   },
 
+  getAllCanBuy() {
+    const url = "/api/apartment/can-buy";
+    return axiosClient.get(url);
+  },
+
   getAllByProjectId(id) {
     const url = `/api/apartment/project/${id}`;
     return axiosClient.get(url);
