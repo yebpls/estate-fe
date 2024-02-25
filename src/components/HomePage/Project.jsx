@@ -45,7 +45,7 @@ export default function Project() {
               <ProjectCard key={apartment.id} apartment={apartment} />
             ))}
         </div>
-        <button className=" rounded-md border-2 border-black text-lg p-2 px-9 font-semibold ml-auto mr-auto hover:bg-slate-100 ">
+        <button className=" rounded-md border-2 border-black text-l mt-4 p-2 px-9 font-semibold ml-auto mr-auto hover:bg-slate-100 ">
           Xem thêm...
         </button>
       </div>
