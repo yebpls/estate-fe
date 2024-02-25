@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Input, Modal, Row } from "antd";
+import { Button, Col, DatePicker, Input, Modal, Row, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
@@ -13,7 +13,9 @@ import { ToastContainer, toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
 
 export default function InvestorProject() {
-  const { projects, isChange } = useSelector((state) => state.projectReducer);
+  const { projects, isChange, isLoading } = useSelector(
+    (state) => state.projectReducer
+  );
   const { investor } = useSelector((state) => state.accountReducer);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const form = useForm();
@@ -93,6 +95,13 @@ export default function InvestorProject() {
           </th>
         </tr>
       </div>
+      {isLoading ? (
+        <div className="flex justify-center mt-32">
+          <Spin />
+        </div>
+      ) : (
+        ""
+      )}
       {projects &&
         projects.map((project, index) => (
           <ProjectRow key={project.id} stt={index + 1} project={project} />
