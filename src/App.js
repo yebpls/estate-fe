@@ -38,6 +38,7 @@ import AgencyApartment from "./components/AgencyPage/AgencyApartment";
 import Article from "./components/AgencyPage/Article";
 import Booking from "./components/AgencyPage/Booking";
 import AccountInfo from "./components/SharedComponent/AccountInfo";
+import PaymentPage from "./pages/PaymentPage";
 
 function App() {
   const { isLogin, role, id } = useSelector((state) => state.accountReducer);
@@ -81,6 +82,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="/payment" element={<PaymentPage />} />
           <Route path="/apartment/:id" element={<ApartmentDetail />} />
         </Route>
         {/* Route for INVESTOR */}

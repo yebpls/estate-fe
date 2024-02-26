@@ -39,7 +39,7 @@ export default function ApartmentRow({ apartment, stt }) {
     formState: { errors },
   } = formChange;
 
-  const options = buildings.map((building) => ({
+  const options = buildings?.map((building) => ({
     value: building.id,
     label: building.buildingName,
   }));

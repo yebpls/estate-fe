@@ -59,7 +59,8 @@ export default function InvestorApartment() {
 
   useEffect(() => {
     dispatch(getAllByProjectId(projectId));
-    // dispatch(getAllApartmentByProjectId(projectId));
+    console.log(projectId);
+    dispatch(getAllApartmentByProjectId(projectId));
   }, [projectId]);
 
   useEffect(() => {
