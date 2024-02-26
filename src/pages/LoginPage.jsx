@@ -54,6 +54,9 @@ function LoginPage() {
           dispatch(getAgencyId(id));
           // navigate("/agency");
         }
+        if (role === "CUSTOMER") {
+          navigate("/customer");
+        }
         //else if (role === "Admin") {
         //   navigate("/admin");
         // } else {

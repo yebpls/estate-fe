@@ -25,6 +25,14 @@ const accountApi = {
     const url = `/api/agency/${id}`;
     return axiosClient.get(url);
   },
+  getAllAccount() {
+    const url = `/api/account`;
+    return axiosClient.get(url);
+  },
+  changeAccoutStatus(id) {
+    const url = `/api/account/${id}/status`;
+    return axiosClient.put(url);
+  },
   // loginWithGoogle(params) {
   //   const url = "/Authorization/google-login";
   //   return axiosClient.post(url, params);

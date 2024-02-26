@@ -31,6 +31,7 @@ export default function AccountInfo() {
   );
 
   const [loading, setLoading] = useState(false);
+
   const { Paragraph, Text, Title } = Typography;
 
   const onChangeDate = (date, dateString) => {
