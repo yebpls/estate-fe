@@ -62,6 +62,19 @@ export const getAllApartmentByProjectId = createAsyncThunk(
   }
 );
 
+export const getApartmentByBulding = createAsyncThunk(
+  "apartment/getByBuidling",
+  async (projects, id) => {
+    try {
+      const apartmentByBuilding = projects?.filter(
+        (project) => project.buildingId === id
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const createApartment = createAsyncThunk(
   "apartment/create",
   async (params, { rejectWithValue }) => {
@@ -107,6 +120,7 @@ const initialState = {
   apartmentDetail: null,
   isLoading: false,
   isChange: false,
+  loadingChange: false,
 };
 
 const apartmentSlice = createSlice({
@@ -148,15 +162,27 @@ const apartmentSlice = createSlice({
     builder.addCase(getAllApartmentByProjectId.fulfilled, (state, action) => {
       return { ...state, apartmentByProject: action.payload, isLoading: false };
     });
+    builder.addCase(createApartment.pending, (state, action) => {
+      return { ...state, loadingChange: true };
+    });
     builder.addCase(createApartment.fulfilled, (state, action) => {
       toast.success("Tạo căn hộ thành công");
+      const { apartmentByProject } = state;
+      const newApartmentByProject = [...apartmentByProject, action.meta.arg];
 
-      return { ...state, isLoading: false, isChange: true };
+      return {
+        ...state,
+        loadingChange: false,
+        apartmentByProject: newApartmentByProject,
+      };
     });
     builder.addCase(createApartment.rejected, (state, action) => {
       toast.error("Tạo căn hộ thất bại");
 
-      return { ...state, isLoading: false };
+      return { ...state, loadingChange: false };
+    });
+    builder.addCase(deleteApartment.pending, (state, action) => {
+      return { ...state, loadingChange: true };
     });
     builder.addCase(deleteApartment.fulfilled, (state, action) => {
       const { apartmentByProject } = state;
@@ -167,22 +193,29 @@ const apartmentSlice = createSlice({
       );
 
       toast.success("Xoá căn hộ thành công");
-      return { ...state, apartmentByProject: newApartments, isLoading: false };
+      return {
+        ...state,
+        apartmentByProject: newApartments,
+        loadingChange: false,
+      };
     });
     builder.addCase(deleteApartment.rejected, (state, action) => {
       toast.error("Không thể xoá căn hộ");
 
-      return { ...state, isLoading: false };
+      return { ...state, loadingChange: false };
+    });
+    builder.addCase(updateApartment.pending, (state, action) => {
+      return { ...state, loadingChange: true };
     });
     builder.addCase(updateApartment.fulfilled, (state, action) => {
       toast.success("Cập nhật căn hộ thành công");
 
-      return { ...state, isLoading: false, isChange: true };
+      return { ...state, isLoading: false, loadingChange: false };
     });
     builder.addCase(updateApartment.rejected, (state, action) => {
       toast.error("Cập nhật căn hộ thất bại");
       console.log(action.payload);
-      return { ...state, isLoading: false };
+      return { ...state, loadingChange: false };
     });
   },
 });

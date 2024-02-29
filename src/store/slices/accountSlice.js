@@ -107,7 +107,10 @@ const accountSlice = createSlice({
       return { ...state, loading: true };
     });
     builder.addCase(getAllAccount.fulfilled, (state, action) => {
-      return { ...state, accountForAdmin: action.payload, loading: false };
+      const accountForAdmin = action.payload.filter(
+        (account) => account.role != "ADMIN"
+      );
+      return { ...state, accountForAdmin, loading: false };
     });
     builder.addCase(changeAccountStatus.pending, (state, action) => {
       return { ...state, loadingButton: true };
@@ -122,7 +125,7 @@ const accountSlice = createSlice({
         }
         return account;
       });
-      console.log("new account:", newAccountForAdmin);
+      // console.log("new account:", newAccountForAdmin);
       toast.success("Đổi trạng thái thành công!!!");
       return {
         ...state,
