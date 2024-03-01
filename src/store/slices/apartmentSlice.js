@@ -143,6 +143,17 @@ const apartmentSlice = createSlice({
       });
       return { ...state, viewApartment: apartmentsByCity };
     },
+    getApartmentBySquare: (state, action) => {
+      const { apartments } = state;
+      const apartmentBySquare = apartments?.filter((apartment) => {
+        return (
+          apartment.area >= action.payload.min &&
+          apartment.area <= action.payload.max
+        );
+      });
+      console.log(action.payload.min, action.payload.max, apartmentBySquare);
+      return { ...state, viewApartment: apartmentBySquare };
+    },
     setIsChange: (state, action) => {
       return { ...state, isChange: !state.isChange };
     },
@@ -280,6 +291,7 @@ export const {
   getApartmentByBuilding,
   getViewApartment,
   getApartmentByCity,
+  getApartmentBySquare,
 } = apartmentSlice.actions;
 
 export default apartmentSlice.reducer;
