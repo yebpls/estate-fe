@@ -132,13 +132,24 @@ const apartmentSlice = createSlice({
         displayApartment: newApartmentByBuilding,
       };
     },
+    getViewApartment: (state, action) => {
+      const { apartments } = state;
+      return { ...state, viewApartment: apartments };
+    },
+    getApartmentByCity: (state, action) => {
+      const { apartments } = state;
+      const apartmentsByCity = apartments?.filter((apartment) => {
+        return apartment.cityName === action.payload;
+      });
+      return { ...state, viewApartment: apartmentsByCity };
+    },
     setIsChange: (state, action) => {
       return { ...state, isChange: !state.isChange };
     },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllApartment.pending, (state, action) => {
-      return { ...state, apartments: action.payload, isLoading: true };
+      return { ...state, isLoading: true };
     });
     builder.addCase(getAllApartment.fulfilled, (state, action) => {
       return { ...state, apartments: action.payload, isLoading: false };
@@ -263,7 +274,12 @@ const apartmentSlice = createSlice({
   },
 });
 
-export const { setIsChange, getAll, getApartmentByBuilding } =
-  apartmentSlice.actions;
+export const {
+  setIsChange,
+  getAll,
+  getApartmentByBuilding,
+  getViewApartment,
+  getApartmentByCity,
+} = apartmentSlice.actions;
 
 export default apartmentSlice.reducer;

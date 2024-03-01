@@ -76,10 +76,8 @@ export default function InvestorProject() {
   // Calculate the start and end index for the current page
   const startIndex = (currentPage - 1) * 5;
   const endIndex = startIndex + 5;
-
   // Slice the data array to show only the items for the current page
   const currentData = projects?.slice(startIndex, endIndex);
-  // console.log("current: ", currentData);
 
   // Handle page change
   const handlePageChange = (page) => {
