@@ -68,7 +68,7 @@ export default function ProjectRow({ project, stt }) {
   };
 
   const handleDeleteProject = (id) => {
-    dispatch(deleteProject(id, investor.id));
+    dispatch(deleteProject(id, investor?.id));
   };
 
   const startDate = new Date(project.startDate);

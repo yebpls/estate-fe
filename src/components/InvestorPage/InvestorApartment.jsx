@@ -7,8 +7,9 @@ import { getAllByProjectId } from "../../store/slices/buildingSlice";
 import {
   createApartment,
   getAllApartmentByProjectId,
-  getApartmentByBulding,
+  getApartmentByBuilding,
   setIsChange,
+  getAll,
 } from "../../store/slices/apartmentSlice";
 import { Controller, useForm } from "react-hook-form";
 import AddApartment from "./Form/AddApartment";
@@ -18,9 +19,10 @@ export default function InvestorApartment() {
   const { buildings, isLoading } = useSelector(
     (state) => state.buildingReducer
   );
-  const { apartmentByProject, isChange, loadingChange } = useSelector(
+  const { loadingApartment, loadingChange, displayApartment } = useSelector(
     (state) => state.apartmentReducer
   );
+  // const [displayApartment, setdisplayApartment] = useState(apartmentByProject);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { projectId } = useParams();
 
@@ -62,17 +64,20 @@ export default function InvestorApartment() {
     return (!isNaN(value) && !isNaN(parseFloat(value))) || "Phải là số";
   };
 
-  const filterBuilding = (apartmentByProject, id) => {
-    dispatch(getApartmentByBulding(apartmentByProject, id));
+  const getAllApartment = () => {
+    dispatch(getAll());
   };
+  const filterBuilding = (id) => {
+    console.log(id);
+    dispatch(getApartmentByBuilding(id));
+  };
+
   useEffect(() => {
     dispatch(getAllByProjectId(projectId));
     console.log(projectId);
     dispatch(getAllApartmentByProjectId(projectId));
-  }, [projectId]);
-
-  useEffect(() => {
-    dispatch(getAllApartmentByProjectId(projectId));
+    dispatch(getAll());
+    console.log("displayed:", displayApartment);
   }, [projectId]);
 
   return (
@@ -91,21 +96,18 @@ export default function InvestorApartment() {
           />
         ) : (
           <div>
-            {/* <button
+            <button
               className="my-1 px-4 py-1 mr-2 bg-transparent hover:bg-sky-400 text-black hover:text-white"
-
-              // onClick={}
+              onClick={() => getAllApartment(projectId)}
             >
               All
-            </button> */}
+            </button>
             {buildings &&
-              buildings.map((building) => (
+              buildings?.map((building) => (
                 <button
                   className="my-1 px-4 py-1 mr-2 bg-transparent hover:bg-sky-400 text-black hover:text-white"
                   key={building.id}
-                  onClick={() =>
-                    filterBuilding(apartmentByProject, building.id)
-                  }
+                  onClick={() => filterBuilding(building.id)}
                 >
                   {building.buildingName}
                 </button>
@@ -119,33 +121,42 @@ export default function InvestorApartment() {
           <th scope="col" className="inline-block mx-4 py-4">
             STT
           </th>
-          <th scope="col" className="inline-block mx-6 py-4">
+          <th scope="col" className="inline-block mx-8 py-4">
             Ảnh
           </th>
-          <th scope="col" className="inline-block ml-32  py-4">
+          <th scope="col" className="inline-block ml-28  py-4">
             Số phòng
           </th>
-          <th scope="col" className="inline-block ml-14 py-4">
+          <th scope="col" className="inline-block ml-10 py-4">
             Giá
           </th>
-          <th scope="col" className="inline-block ml-12 py-4">
+          <th scope="col" className="inline-block ml-28 py-4">
             Địa chỉ
           </th>
           <th scope="col" className="inline-block ml-44 py-4">
             Toà nhà
           </th>
-          <th scope="col" className="inline-block ml-32 py-4">
+          <th scope="col" className="inline-block ml-12 py-4">
             Trạng thái
           </th>
-          <th scope="col" className="inline-block ml-32 py-4">
+          <th scope="col" className="inline-block ml-36 py-4">
             Hành động
           </th>
         </tr>
       </thead>
-      {apartmentByProject &&
-        apartmentByProject.map((item, index) => (
+      {loadingApartment ? (
+        <div className="flex justify-center mt-32">
+          <Spin />
+          <p className="ml-2 mt-2 text-blue-400 text-md font-thin">
+            Đang lấy dự
+          </p>
+        </div>
+      ) : (
+        displayApartment &&
+        displayApartment.map((item, index) => (
           <ApartmentRow apartment={item} key={item.id} stt={index + 1} />
-        ))}
+        ))
+      )}
     </div>
   );
 }
