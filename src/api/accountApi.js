@@ -33,6 +33,17 @@ const accountApi = {
     const url = `/api/account/${id}/status`;
     return axiosClient.put(url);
   },
+
+  createPayment(amount) {
+    const url = `/api/payment/create_payment/${amount}`;
+    return axiosClient.post(url);
+  },
+
+  payment(accId, amount) {
+    const url = `/api/payment/set-payment/${accId}/${amount}`;
+    return axiosClient.post(url);
+  },
+
   // loginWithGoogle(params) {
   //   const url = "/Authorization/google-login";
   //   return axiosClient.post(url, params);

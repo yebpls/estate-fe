@@ -53,11 +53,24 @@ export const changeAccountStatus = createAsyncThunk(
   }
 );
 
+export const payment = createAsyncThunk(
+  "payment/payment",
+  async ({ id, amount }) => {
+    try {
+      const res = await accountApi.payment(id, amount);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   currentUser: null,
   isLogin: false,
   notification: null,
   role: "",
+  balance: 0,
   id: null,
   loading: false,
   loadingButton: false,
@@ -101,7 +114,11 @@ const accountSlice = createSlice({
       return { ...state, agency: action.payload };
     });
     builder.addCase(getAccountDetail.fulfilled, (state, action) => {
-      return { ...state, currentUser: action.payload };
+      return {
+        ...state,
+        currentUser: action.payload,
+        balance: action.payload.balance,
+      };
     });
     builder.addCase(getAllAccount.pending, (state, action) => {
       return { ...state, loading: true };
@@ -132,6 +149,12 @@ const accountSlice = createSlice({
         accountForAdmin: newAccountForAdmin,
         loadingButton: false,
       };
+    });
+    builder.addCase(payment.pending, (state, action) => {
+      return { ...state, loading: true };
+    });
+    builder.addCase(payment.fulfilled, (state, action) => {
+      return { ...state, balance: action.meta.arg.amount, loading: false };
     });
   },
 });

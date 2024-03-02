@@ -15,10 +15,14 @@ import ChangePassword from "../SharedComponent/ChangePassword";
 import ChangeAvatar from "../SharedComponent/ChangeAvatar";
 import AccountBalance from "./AccountBalance";
 import SaveProfile from "./SaveProfile";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { createPayment } from "../../store/slices/paymentSlice";
 
 export default function AccountInfo() {
-  const { currentUser } = useSelector((state) => state.accountReducer);
+  const { currentUser, balance, role } = useSelector(
+    (state) => state.accountReducer
+  );
 
   const [avatarUrl, setAvatarUrl] = useState(
     "https://tse2.mm.bing.net/th?id=OIP.0HPHOhiMHVdQGlxYc4z86AHaFj&pid=Api&P=0&h=180"
@@ -31,8 +35,38 @@ export default function AccountInfo() {
   );
 
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { Paragraph, Text, Title } = Typography;
+  const dispatch = useDispatch();
+
+  const form = useForm();
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    reset,
+  } = form;
+
+  const isNumber = (value) => {
+    return (!isNaN(value) && !isNaN(parseFloat(value))) || "Phải là số";
+  };
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    // reset();
+    setIsModalOpen(false);
+  };
+
+  const onSubmit = (data) => {
+    console.log(data.amount);
+    const amount = parseFloat(data.amount);
+    dispatch(createPayment(amount));
+  };
 
   const onChangeDate = (date, dateString) => {
     setDob(dateString);
@@ -115,9 +149,43 @@ export default function AccountInfo() {
             <SaveProfile />
           </div>
         </Col>
-        <Col span={4} className="">
-          <AccountBalance balance={currentUser.balance} />
-        </Col>
+        {role === "CUSTOMER" ? (
+          ""
+        ) : (
+          <Col span={4} className="">
+            <AccountBalance balance={balance} />
+            <button className="mx-auto" onClick={showModal}>
+              Nạp tiền
+            </button>
+            <Modal
+              okButtonProps={{ style: { backgroundColor: "red" } }}
+              title="Nạp tiền"
+              open={isModalOpen}
+              footer={null}
+              className="text-cyan-700 mt-40"
+            >
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <label htmlFor="">Số tiền muốn nạp: </label>
+                <input
+                  className={` px-2 py-1 w-full ${
+                    errors.amount && "border-red-500"
+                  }`}
+                  placeholder="1.000.000VNĐ"
+                  {...register("amount", {
+                    required: true,
+                    validate: isNumber,
+                  })}
+                  id="amount"
+                  name="amount"
+                />
+
+                <button className="mt-3 px-2 py-1" type="submit">
+                  Nạp
+                </button>
+              </form>
+            </Modal>
+          </Col>
+        )}
       </Row>
     </div>
   );
