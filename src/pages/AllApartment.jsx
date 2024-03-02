@@ -20,6 +20,7 @@ export default function AllApartment() {
   const dispatch = useDispatch();
   // MAKE A PAGING
   // Calculate the start and end index for the current page
+  debugger;
   const startIndex = (currentPage - 1) * 12;
   const endIndex = startIndex + 12;
   // Slice the data array to show only the items for the current page

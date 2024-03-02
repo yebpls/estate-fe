@@ -8,10 +8,10 @@ import { Select, Slider } from "antd";
 import { getAllCity } from "../../../../store/slices/buildingSlice";
 
 export default function BySquare() {
-  const { city } = useSelector((state) => state.buildingReducer);
   const dispatch = useDispatch();
   const [minSquare, setMinSquare] = useState(0);
   const [maxSquare, setMaxSquare] = useState(100);
+
   const filterMinSquare = (newValue) => {
     setMinSquare(newValue);
     console.log(newValue);
@@ -31,9 +31,6 @@ export default function BySquare() {
         max: newValue ? newValue : maxSquare,
       })
     );
-  };
-  const filterBySquare = () => {
-    dispatch(getApartmentBySquare());
   };
   useEffect(() => {
     dispatch(getAllCity());
