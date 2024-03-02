@@ -8,7 +8,9 @@ export const getAllProjectByInvesId = createAsyncThunk(
     try {
       const res = await projectApi.getAll(id);
       return res.data;
-    } catch (error) {}
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );
 export const getProjectById = createAsyncThunk(
@@ -60,6 +62,8 @@ const initialState = {
   projectDetail: null,
   isLoading: false,
   isChange: false,
+  loadingModal: false,
+  loadingChange: false,
 };
 
 const projectSlice = createSlice({
@@ -75,16 +79,30 @@ const projectSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getAllProjectByInvesId.pending, (state, action) => {
-      return { ...state, projects: action.payload, isLoading: true };
+      return {
+        ...state,
+        isLoading: true,
+      };
     });
     builder.addCase(getAllProjectByInvesId.fulfilled, (state, action) => {
-      return { ...state, projects: action.payload, isLoading: false };
+      return {
+        ...state,
+        projects: action.payload,
+        isChange: false,
+        isLoading: false,
+      };
+    });
+    builder.addCase(getAllProjectByInvesId.rejected, (state, action) => {
+      return {
+        ...state,
+        isLoading: false,
+      };
     });
     builder.addCase(getProjectById.pending, (state, action) => {
-      return { ...state, projectDetail: action.payload, isLoading: true };
+      return { ...state, loadingModal: true };
     });
     builder.addCase(getProjectById.fulfilled, (state, action) => {
-      return { ...state, projectDetail: action.payload, isLoading: false };
+      return { ...state, projectDetail: action.payload, loadingModal: false };
     });
     builder.addCase(deleteProject.pending, (state, action) => {
       return { ...state, isLoading: true };
@@ -109,19 +127,53 @@ const projectSlice = createSlice({
       return { ...state, isLoading: true };
     });
     builder.addCase(createProject.fulfilled, (state, action) => {
+      const { projects } = state;
+      // const newProjects = projects;
+      const newProject = {
+        investorId: action.meta.arg.investorId,
+        name: action.meta.arg.name,
+        startDate: action.meta.arg.startDate,
+        endDate: action.meta.arg.endDate,
+        image: action.meta.arg.image,
+      };
+      const newProjects = [...projects, newProject];
+
       toast.success("Tạo dự án thành công");
 
-      return { ...state, isLoading: false, isChange: true };
+      return {
+        ...state,
+        isLoading: false,
+        projects: newProjects,
+        isChange: true,
+      };
     });
     builder.addCase(createProject.rejected, (state, action) => {
       toast.error("Tạo dự án thất bại");
 
       return { ...state, isLoading: false };
     });
+    builder.addCase(updateProject.pending, (state, action) => {
+      return { ...state, loadingChange: true };
+    });
     builder.addCase(updateProject.fulfilled, (state, action) => {
+      const { projects } = state;
+      const editId = action.meta.arg.id;
+      const newProjects = projects.map((project) => {
+        if (project.id === editId) {
+          return {
+            ...project,
+            name: action.meta.arg.params.name,
+            startDate: action.meta.arg.params.startDate,
+            endDate: action.meta.arg.params.endDate,
+            status: action.meta.arg.params.status,
+            image: action.meta.arg.params.image,
+          };
+        }
+        return project;
+      });
+      console.log("new project:", newProjects);
       toast.success("Cập nhật dự án thành công");
-
-      return { ...state, isLoading: false, isChange: true };
+      return { ...state, loadingChange: false, projects: newProjects };
     });
     builder.addCase(updateProject.rejected, (state, action) => {
       toast.error("Cập nhật dự án thất bại");
