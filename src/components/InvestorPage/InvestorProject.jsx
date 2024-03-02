@@ -1,4 +1,13 @@
-import { Button, Col, DatePicker, Input, Modal, Row, Spin } from "antd";
+import {
+  Button,
+  Col,
+  DatePicker,
+  Input,
+  Modal,
+  Pagination,
+  Row,
+  Spin,
+} from "antd";
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
@@ -11,11 +20,15 @@ import {
 } from "../../store/slices/projectSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
+import { LoadingOutlined } from "@ant-design/icons";
+import LoadingComponent from "../SharedComponent/LoadingComponent";
 
 export default function InvestorProject() {
-  const { projects, isChange, isLoading } = useSelector(
+  const { projects, isChange, isLoading, loadingChange } = useSelector(
     (state) => state.projectReducer
   );
+  const [currentPage, setCurrentPage] = useState(1);
+
   const { investor } = useSelector((state) => state.accountReducer);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const form = useForm();
@@ -58,11 +71,24 @@ export default function InvestorProject() {
   useEffect(() => {
     dispatch(getAllProjectByInvesId(investor?.id));
   }, [investor, isChange]);
+
+  // MAKE A PAGING
+  // Calculate the start and end index for the current page
+  const startIndex = (currentPage - 1) * 5;
+  const endIndex = startIndex + 5;
+  // Slice the data array to show only the items for the current page
+  const currentData = projects?.slice(startIndex, endIndex);
+
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   return (
-    <div className="mx-auto mt-10 w-full px-8">
+    <div className="mx-auto mt-10 w-full px-4">
       <p className="m-2 text-center text-2xl  font-semibold text-blue-700">
         Dự án
       </p>
+      <LoadingComponent loadingDependency={loadingChange} />
       <button
         onClick={openForm}
         className="px-2 py-1 bg-sky-400 text-white border-transparent hover:text-sky-500 hover:bg-white hover:border-sky-400"
@@ -95,19 +121,30 @@ export default function InvestorProject() {
           </th>
         </tr>
       </div>
+      {/* DISPLAY PAGING */}
       {isLoading ? (
         <div className="flex justify-center mt-32">
           <Spin />
         </div>
       ) : (
-        ""
+        <div>
+          {currentData &&
+            currentData.map((project, index) => (
+              <ProjectRow
+                key={project.id}
+                stt={index + startIndex + 1}
+                project={project}
+              />
+            ))}
+          <Pagination
+            current={currentPage}
+            total={projects?.length}
+            pageSize={5}
+            onChange={handlePageChange}
+          />
+        </div>
       )}
-      {projects &&
-        projects.map((project, index) => (
-          <ProjectRow key={project.id} stt={index + 1} project={project} />
-        ))}
-
-      {/* Add project form */}
+      {/* CREATE NEW PROJECT */}
       <Modal
         okButtonProps={{ style: { backgroundColor: "#4974a5" } }}
         title="Tạo 1 dự án mới"

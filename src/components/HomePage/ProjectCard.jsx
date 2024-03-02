@@ -5,7 +5,7 @@ function ProjectCard({ apartment }) {
   const formattedNumber = apartment.price.toLocaleString("de-DE");
 
   return (
-    <div className="bg-white w-1/4 px-5 pt-5 mb-5 h-80 hover:bg-slate-100 rounded-md">
+    <div className="bg-white px-5 pt-5 h-96 hover:bg-slate-100 rounded-md">
       <Link to={`/apartment/${apartment.id}`} className="w-full">
         <div className="w-full h-48">
           <img

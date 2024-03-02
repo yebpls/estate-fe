@@ -84,16 +84,20 @@ export default function ApartmentRow({ apartment, stt }) {
             <img src={apartment.mainImage} alt="" className="w-full h-full" />
           </div>
         </td>
-        <td className="whitespace-nowrap px-6  py-4 font-medium text-sm">
+        <td className="whitespace-nowrap px-6  py-4 font-medium text-sm w-20">
           {apartment.apartmentNumber}
         </td>
-        <td className="whitespace-nowrap mx-3  py-4 text-sm">
+        <td className="whitespace-nowrap mx-3 ml-10 py-4 text-sm w-20">
           {formattedNumber}đ
         </td>
-        <td className=" mx-2  py-auto text-sm w-44">{building?.address}</td>
-        <td className=" ml-10 mr-6 w-28 text-sm">{building?.buildingName}</td>
+        <td className=" mx-2 ml-10  py-auto text-sm w-52">
+          {building?.address}
+        </td>
+        <td className="whitespace-nowrap  ml-5 mr-6   py-4 text-sm">
+          {building?.buildingName}
+        </td>
 
-        <td className="whitespace-nowrap text-sm ml-20 w-32">
+        <td className="whitespace-nowrap text-sm ml-10 w-32">
           {apartment.status === 0 ? "Đã bán" : ""}
           {apartment.status === 1 ? "Còn mở đăng ký bán" : ""}
           {apartment.status === 2 ? "Đã có agency đăng ký" : ""}

@@ -6,16 +6,15 @@ import {
   getAllCanBuy,
 } from "../../store/slices/apartmentSlice";
 import ProjectCard from "./ProjectCard";
-import { Spin } from "antd";
+import { Col, Row, Spin } from "antd";
 
 export default function Project() {
-  const { apartmentsCanBuy, isLoading } = useSelector(
+  const { apartmentsCanBuy, apartments, isLoading } = useSelector(
     (state) => state.apartmentReducer
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllApartment());
     dispatch(getAllCanBuy());
   }, [dispatch]);
   return (
@@ -40,14 +39,24 @@ export default function Project() {
               <Spin size="large" />
             </div>
           )}
-          {apartmentsCanBuy &&
+          <Row gutter={16}>
+            {apartmentsCanBuy &&
+              apartmentsCanBuy.map((apartment) => (
+                <Col className="gutter-row w-full" span={6}>
+                  <ProjectCard key={apartment.id} apartment={apartment} />
+                </Col>
+              ))}
+          </Row>
+          {/* {apartmentsCanBuy &&
             apartmentsCanBuy.map((apartment) => (
               <ProjectCard key={apartment.id} apartment={apartment} />
-            ))}
+            ))} */}
         </div>
-        <button className=" rounded-md border-2 border-black text-lg p-2 px-9 font-semibold ml-auto mr-auto hover:bg-slate-100 ">
-          Xem thêm...
-        </button>
+        <Link to="/apartments" className="ml-auto mr-auto">
+          <button className=" rounded-md border-2 border-black text-l mt-4 p-2 px-9 font-semibold hover:bg-slate-100 ">
+            Xem thêm...
+          </button>
+        </Link>
       </div>
     </div>
   );

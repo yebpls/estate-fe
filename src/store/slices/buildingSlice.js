@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { cityApi } from "../../api/cityApi";
 import { buildingApi } from "../../api/buildingApi";
 import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const initialState = {
   buildings: null,
@@ -56,8 +57,11 @@ const buildingSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getAllByProjectId.pending, (state, action) => {
+      return { ...state, isLoading: true };
+    });
     builder.addCase(getAllByProjectId.fulfilled, (state, action) => {
-      return { ...state, buildings: action.payload };
+      return { ...state, buildings: action.payload, isLoading: false };
     });
     builder.addCase(getAllBuilding.fulfilled, (state, action) => {
       return { ...state, buildings: action.payload };
@@ -65,17 +69,14 @@ const buildingSlice = createSlice({
     builder.addCase(getAllCity.fulfilled, (state, action) => {
       return { ...state, city: action.payload, isLoading: false };
     });
-
+    builder.addCase(createBuilding.pending, (state, action) => {
+      return { ...state, loadingChange: true };
+    });
     builder.addCase(createBuilding.fulfilled, (state, action) => {
       console.log(action.payload);
-      toast.success("Tạo toà nhà thành công!!!");
-      return { ...state, isLoading: false };
-    });
 
-    builder.addCase(createBuilding.rejected, (state, action) => {
-      console.log(action.payload);
-      toast.error("Tạo toà nhà thất bại!!!");
-      return { ...state, isLoading: false };
+      toast.success("Thêm tòa nhà thành công");
+      return { ...state, loadingChange: false };
     });
   },
 });

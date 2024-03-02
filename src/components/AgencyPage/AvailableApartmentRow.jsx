@@ -10,7 +10,7 @@ import {
 
 export default function AvailableApartmentRow({ apartment, stt }) {
   const { buildings } = useSelector((state) => state.buildingReducer);
-  const { agency } = useSelector((state) => state.accountReducer);
+  const { agency, currentUser } = useSelector((state) => state.accountReducer);
   const { bookingDistribution } = useSelector(
     (state) => state.bookingDistributionReducer
   );
@@ -98,13 +98,13 @@ export default function AvailableApartmentRow({ apartment, stt }) {
 
   useEffect(() => {
     if (buildings) {
-      const buildingItem = buildings.find(
+      const buildingItem = buildings?.find(
         (item) => item.id === apartment.buildingId
       );
       setBuilding(buildingItem);
     }
 
-    const bookingItem = bookingDistribution.find(
+    const bookingItem = bookingDistribution?.find(
       (item) => item.apartmentId === apartment.id
     );
     setBooking(bookingItem); // This will be `undefined` if no booking matches, which is falsy
@@ -140,8 +140,8 @@ export default function AvailableApartmentRow({ apartment, stt }) {
         </td>
 
         <td className="whitespace-nowrap px-2 py-4 ml-4 flex justify-between">
-          {booking ? (
-            <p>Đã đăng ký</p>
+          {apartment.status !== 1 ? (
+            ""
           ) : (
             <button
               className="text-white h-8 px-4  mx-1  rounded-md bg-green-700 text-sm"
@@ -162,6 +162,7 @@ export default function AvailableApartmentRow({ apartment, stt }) {
               <h2 className="text-lg font-bold mb-2">
                 Giá trị căn hộ: {formattedNumber}đ{" "}
               </h2>
+              <p>Số dư của bạn: {currentUser && currentUser.balance}đ</p>
               <div className="mb-8">
                 <p className="mb-2">Mức phí nhận bán hộ*</p>
                 <Controller
