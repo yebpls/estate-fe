@@ -1,9 +1,13 @@
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 function PaymentPage() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const amount = queryParams.get("vnp_Amount");
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="bg-white rounded-[10px]  w-[32%] h-[32%]  items-center flex flex-col space-y-1 ">
@@ -24,10 +28,7 @@ function PaymentPage() {
           Thanh toán thành công
           {/* {status === "success" ? "thành công" : "không thành công"}{" "} */}
         </div>
-        <div className="flex ">
-          <div className="">Mã số đơn hàng của bạn là</div>
-          <div className="text-green-500 font-bold pl-1">{/* {id} */}</div>
-        </div>
+
         <div className="py-4">
           <Link
             to={"/"}
