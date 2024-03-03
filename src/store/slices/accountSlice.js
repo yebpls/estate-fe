@@ -33,6 +33,18 @@ export const getAgencyId = createAsyncThunk("agency/get_id", async (id) => {
   }
 });
 
+export const getAgencyByApartmentId = createAsyncThunk(
+  "apartment/getAgency",
+  async (id) => {
+    try {
+      const res = await accountApi.getAgencyByApartment(id);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const getAllAccount = createAsyncThunk("account/get_all", async () => {
   try {
     const res = await accountApi.getAllAccount();
@@ -78,6 +90,7 @@ const initialState = {
   success: false,
   investor: null,
   agency: null,
+  agencyByApartment: null,
 };
 
 const accountSlice = createSlice({
@@ -113,11 +126,14 @@ const accountSlice = createSlice({
     builder.addCase(getAgencyId.fulfilled, (state, action) => {
       return { ...state, agency: action.payload };
     });
+    builder.addCase(getAgencyByApartmentId.fulfilled, (state, action) => {
+      return { ...state, agencyByApartment: action.payload };
+    });
     builder.addCase(getAccountDetail.fulfilled, (state, action) => {
       return {
         ...state,
         currentUser: action.payload,
-        balance: action.payload.balance,
+        balance: action.payload?.balance,
       };
     });
     builder.addCase(getAllAccount.pending, (state, action) => {
