@@ -7,10 +7,13 @@ import {
   createBookingDistribution,
   setIsChange,
 } from "../../store/slices/bookingDistributionSlice";
+import { toast } from "react-toastify";
 
 export default function AvailableApartmentRow({ apartment, stt }) {
   const { buildings } = useSelector((state) => state.buildingReducer);
-  const { agency, currentUser } = useSelector((state) => state.accountReducer);
+  const { agency, currentUser, balance } = useSelector(
+    (state) => state.accountReducer
+  );
   const { bookingDistribution } = useSelector(
     (state) => state.bookingDistributionReducer
   );
@@ -68,32 +71,41 @@ export default function AvailableApartmentRow({ apartment, stt }) {
     let expireDistributionDate = new Date();
 
     const { bookingFee } = data;
+    console.log(typeof bookingFee);
+    console.log(typeof apartment.price);
+    console.log(typeof balance);
+    console.log(bookingFee * apartment.price > balance);
 
-    if (bookingFee === 4 / 1000)
-      expireDistributionDate.setMonth(distributionDate.getMonth() + 3);
-    if (bookingFee === 6 / 1000)
-      expireDistributionDate.setMonth(distributionDate.getMonth() + 5);
-    if (bookingFee === 8 / 1000)
-      expireDistributionDate.setMonth(distributionDate.getMonth() + 8);
+    if (bookingFee * apartment.price > balance) {
+      console.log(bookingFee * apartment.price > balance);
+      toast.error("Số dư không đủ");
+    } else {
+      if (bookingFee === 4 / 1000)
+        expireDistributionDate.setMonth(distributionDate.getMonth() + 3);
+      if (bookingFee === 6 / 1000)
+        expireDistributionDate.setMonth(distributionDate.getMonth() + 5);
+      if (bookingFee === 8 / 1000)
+        expireDistributionDate.setMonth(distributionDate.getMonth() + 8);
 
-    const createDate = formatDateToYYYYMMDD(new Date());
-    const updateDate = createDate; // Assuming updateDate is the same as createDate
-    distributionDate = formatDateToYYYYMMDD(distributionDate);
-    expireDistributionDate = formatDateToYYYYMMDD(expireDistributionDate);
+      const createDate = formatDateToYYYYMMDD(new Date());
+      const updateDate = createDate; // Assuming updateDate is the same as createDate
+      distributionDate = formatDateToYYYYMMDD(distributionDate);
+      expireDistributionDate = formatDateToYYYYMMDD(expireDistributionDate);
 
-    const params = {
-      ...data,
-      createDate,
-      updateDate,
-      distributionDate,
-      expireDistributionDate,
-      agencyId: agency?.id,
-      bookingStatus: 2,
-      apartmentId: apartment.id,
-    };
-    dispatch(createBookingDistribution(params));
-    dispatch(setIsChange());
-    handleCancel();
+      const params = {
+        ...data,
+        createDate,
+        updateDate,
+        distributionDate,
+        expireDistributionDate,
+        agencyId: agency?.id,
+        bookingStatus: 2,
+        apartmentId: apartment.id,
+      };
+      dispatch(createBookingDistribution(params));
+      dispatch(setIsChange());
+      handleCancel();
+    }
   };
 
   useEffect(() => {
@@ -162,7 +174,7 @@ export default function AvailableApartmentRow({ apartment, stt }) {
               <h2 className="text-lg font-bold mb-2">
                 Giá trị căn hộ: {formattedNumber}đ{" "}
               </h2>
-              <p>Số dư của bạn: {currentUser && currentUser.balance}đ</p>
+              <p>Số dư của bạn: {balance}đ</p>
               <div className="mb-8">
                 <p className="mb-2">Mức phí nhận bán hộ*</p>
                 <Controller

@@ -5,12 +5,13 @@ import { toast } from "react-toastify";
 
 export const getAccountDetail = createAsyncThunk(
   "account/get_detail",
-  async (id) => {
+  async (id, { rejectWithValue }) => {
     try {
       const res = await accountApi.getAccountDetail(id);
       return res.data;
     } catch (error) {
       console.log(error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -118,6 +119,12 @@ const accountSlice = createSlice({
         ...state,
         currentUser: action.payload,
         balance: action.payload.balance,
+      };
+    });
+    builder.addCase(getAccountDetail.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
       };
     });
     builder.addCase(getAllAccount.pending, (state, action) => {

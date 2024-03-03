@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 export default function AccountBalance() {
   const { currentUser, balance } = useSelector((state) => state.accountReducer);
-  // const [balance, setBalance] = useState(9325722);
+
   const [appear, setAppear] = useState(false);
   const { Paragraph, Text } = Typography;
   const hideAndOut = () => {
@@ -30,7 +30,7 @@ export default function AccountBalance() {
             />
           </div>
           <Paragraph className="text-xl text-red-500 pl-2 font-semibold">
-            {balance && balance}
+            {balance && balance.toLocaleString("de-DE")}đ
           </Paragraph>
         </div>
       ) : (

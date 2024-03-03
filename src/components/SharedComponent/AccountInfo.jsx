@@ -58,7 +58,7 @@ export default function AccountInfo() {
   };
 
   const handleCancel = () => {
-    // reset();
+    reset();
     setIsModalOpen(false);
   };
 
@@ -66,6 +66,7 @@ export default function AccountInfo() {
     console.log(data.amount);
     const amount = parseFloat(data.amount);
     dispatch(createPayment(amount));
+    handleCancel();
   };
 
   const onChangeDate = (date, dateString) => {
@@ -161,6 +162,7 @@ export default function AccountInfo() {
               okButtonProps={{ style: { backgroundColor: "red" } }}
               title="Nạp tiền"
               open={isModalOpen}
+              onCancel={handleCancel}
               footer={null}
               className="text-cyan-700 mt-40"
             >

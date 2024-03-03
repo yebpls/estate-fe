@@ -51,6 +51,7 @@ export default function UpdateProject({ project }) {
     handleSubmit: handleSubmitChangeProject,
   } = formChangeProject;
   const onSubmitChangeProject = (data) => {
+    console.log(data);
     let params = {
       name: data.projectName,
       startDate: data.startDate,

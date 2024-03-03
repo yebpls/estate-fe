@@ -59,7 +59,7 @@ export default function AddApartment() {
         style={{ backgroundColor: "#4974a5", color: "white" }}
         onClick={showModal}
       >
-        Add new apartment
+        Tạo căn hộ mới
       </Button>
       <Modal
         title="Tạo căn hộ mới"

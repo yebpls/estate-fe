@@ -64,9 +64,23 @@ function LoginPage() {
         // }
       }
     } catch (error) {
-      // setMessage(error.response.data._message);
-      // loginFailNotify();
-      toast.error("Sai email hoặc mật khẩu");
+      if (error.response) {
+        const status = error.response.status;
+        if (status === 400) {
+          // Account not registered or not activated
+          toast.error("Tài khoản chưa được kích hoạt");
+        } else if (status === 403) {
+          // Forbidden - unauthorized access
+          toast.error("Sai email hoặc mật khẩu");
+        } else if (status === 404) {
+          // Not found
+          toast.error("Không tìm thấy tài nguyên");
+        } else {
+          // Other errors
+          console.log(error);
+          toast.error("Lỗi không xác định");
+        }
+      }
     }
     reset();
   };
