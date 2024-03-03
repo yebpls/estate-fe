@@ -68,11 +68,13 @@ export default function ApartmentRow({ apartment, stt }) {
   };
 
   useEffect(() => {
-    const buildingitem = buildings?.filter(
-      (item) => item.id === apartment.buildingId
-    );
-    setBuilding(buildingitem[0]);
-  }, [apartment]);
+    if (buildings) {
+      const buildingItem = buildings.find(
+        (item) => item.id === apartment.buildingId
+      );
+      setBuilding(buildingItem);
+    }
+  }, [apartment, buildings]);
   return (
     <div>
       <tr className="flex items-center hover:bg-slate-100">
