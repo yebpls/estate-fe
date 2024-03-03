@@ -4,7 +4,7 @@ import { Typography } from "antd";
 import { useSelector } from "react-redux";
 
 export default function AccountBalance() {
-  const { currentUser } = useSelector((state) => state.accountReducer);
+  const { currentUser, balance } = useSelector((state) => state.accountReducer);
   // const [balance, setBalance] = useState(9325722);
   const [appear, setAppear] = useState(false);
   const { Paragraph, Text } = Typography;
@@ -30,7 +30,7 @@ export default function AccountBalance() {
             />
           </div>
           <Paragraph className="text-xl text-red-500 pl-2 font-semibold">
-            {currentUser.balance} đ
+            {balance && balance}
           </Paragraph>
         </div>
       ) : (

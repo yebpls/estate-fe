@@ -153,7 +153,7 @@ export default function AccountInfo() {
           ""
         ) : (
           <Col span={4} className="">
-            <AccountBalance balance={balance} />
+            <AccountBalance />
             <button className="mx-auto" onClick={showModal}>
               Nạp tiền
             </button>
