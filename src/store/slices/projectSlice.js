@@ -39,6 +39,7 @@ export const createProject = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const res = await projectApi.create(params);
+      return res.data;
     } catch (error) {
       console.log(error);
       return rejectWithValue(error.response.data);
@@ -50,6 +51,7 @@ export const updateProject = createAsyncThunk(
   async ({ params, id }, { rejectWithValue }) => {
     try {
       const res = await projectApi.update(params, id);
+      return res.data;
     } catch (error) {
       console.log(error);
       return rejectWithValue(error);
@@ -88,7 +90,7 @@ const projectSlice = createSlice({
       return {
         ...state,
         projects: action.payload,
-        isChange: false,
+        loadingChange: false,
         isLoading: false,
       };
     });
@@ -105,7 +107,7 @@ const projectSlice = createSlice({
       return { ...state, projectDetail: action.payload, loadingModal: false };
     });
     builder.addCase(deleteProject.pending, (state, action) => {
-      return { ...state, isLoading: true };
+      return { ...state, loadingChange: true };
     });
     builder.addCase(deleteProject.fulfilled, (state, action) => {
       const { projects } = state;
@@ -116,26 +118,20 @@ const projectSlice = createSlice({
       );
 
       toast.success("Xoá dự án thành công");
-      return { ...state, projects: newProjects, isLoading: false };
+      return { ...state, projects: newProjects, loadingChange: false };
     });
     builder.addCase(deleteProject.rejected, (state, action) => {
-      toast.error("Không thể xoá dự án còn nhiều căn hộ");
+      toast.error("Không thể xoá dự án còn hoạt động");
 
-      return { ...state, isLoading: false };
+      return { ...state, loadingChange: false };
     });
     builder.addCase(createProject.pending, (state, action) => {
       return { ...state, isLoading: true };
     });
     builder.addCase(createProject.fulfilled, (state, action) => {
       const { projects } = state;
-      // const newProjects = projects;
-      const newProject = {
-        investorId: action.meta.arg.investorId,
-        name: action.meta.arg.name,
-        startDate: action.meta.arg.startDate,
-        endDate: action.meta.arg.endDate,
-        image: action.meta.arg.image,
-      };
+
+      const newProject = action.payload;
       const newProjects = [...projects, newProject];
 
       toast.success("Tạo dự án thành công");
@@ -144,7 +140,7 @@ const projectSlice = createSlice({
         ...state,
         isLoading: false,
         projects: newProjects,
-        isChange: true,
+        // isChange: true,
       };
     });
     builder.addCase(createProject.rejected, (state, action) => {
@@ -157,7 +153,7 @@ const projectSlice = createSlice({
     });
     builder.addCase(updateProject.fulfilled, (state, action) => {
       const { projects } = state;
-      const editId = action.meta.arg.id;
+      const editId = action.payload.id;
       const newProjects = projects.map((project) => {
         if (project.id === editId) {
           return {
@@ -178,7 +174,7 @@ const projectSlice = createSlice({
     builder.addCase(updateProject.rejected, (state, action) => {
       toast.error("Cập nhật dự án thất bại");
       console.log(action.payload);
-      return { ...state, isLoading: false };
+      return { ...state, isLoading: false, loadingChange: false };
     });
   },
 });

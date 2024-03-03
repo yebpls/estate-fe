@@ -1,4 +1,5 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { appointmentApi } from "../../api/appointmentApi";
 
 const initialState = {
   appointment: null,
@@ -16,3 +17,12 @@ export const getAppointmentByDistributionId = createAsyncThunk(
     }
   }
 );
+
+const appointmentSlice = createSlice({
+  name: "appointment",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {},
+});
+
+export default appointmentSlice.reducer;

@@ -5,12 +5,13 @@ import { toast } from "react-toastify";
 
 export const getAccountDetail = createAsyncThunk(
   "account/get_detail",
-  async (id) => {
+  async (id, { rejectWithValue }) => {
     try {
       const res = await accountApi.getAccountDetail(id);
       return res.data;
     } catch (error) {
       console.log(error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -32,6 +33,18 @@ export const getAgencyId = createAsyncThunk("agency/get_id", async (id) => {
     console.log(error);
   }
 });
+
+export const getAgencyByApartmentId = createAsyncThunk(
+  "apartment/getAgency",
+  async (id) => {
+    try {
+      const res = await accountApi.getAgencyByApartment(id);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 export const getAllAccount = createAsyncThunk("account/get_all", async () => {
   try {
@@ -78,6 +91,7 @@ const initialState = {
   success: false,
   investor: null,
   agency: null,
+  agencyByApartment: null,
 };
 
 const accountSlice = createSlice({
@@ -113,11 +127,20 @@ const accountSlice = createSlice({
     builder.addCase(getAgencyId.fulfilled, (state, action) => {
       return { ...state, agency: action.payload };
     });
+    builder.addCase(getAgencyByApartmentId.fulfilled, (state, action) => {
+      return { ...state, agencyByApartment: action.payload };
+    });
     builder.addCase(getAccountDetail.fulfilled, (state, action) => {
       return {
         ...state,
         currentUser: action.payload,
         balance: action.payload?.balance,
+      };
+    });
+    builder.addCase(getAccountDetail.rejected, (state, action) => {
+      return {
+        ...state,
+        loading: false,
       };
     });
     builder.addCase(getAllAccount.pending, (state, action) => {

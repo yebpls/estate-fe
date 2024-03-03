@@ -6,9 +6,9 @@ import { Button, Modal } from "antd";
 import LoadingComponent from "../../SharedComponent/LoadingComponent";
 import { useNavigate } from "react-router-dom";
 
-export default function AddBuilding({ project }) {
+export default function AddBuilding({ projectId }) {
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
-  const { city, loadingChange } = useSelector((state) => state.buildingReducer);
+  const { city } = useSelector((state) => state.buildingReducer);
 
   const dispatch = useDispatch();
 
@@ -20,14 +20,14 @@ export default function AddBuilding({ project }) {
   const onSubmitBuilding = (data) => {
     console.log(data);
     let formBuilding = {
-      projectId: project.id,
+      projectId: projectId,
       buildingName: data.buildingName,
       address: data.address,
       cityId: data.city,
     };
     dispatch(createBuilding(formBuilding));
     setIsModalAddOpen(false);
-    navigate(`/investor/project/${project.id}`);
+    // navigate(`/investor/project/${project.id}`);
   };
 
   const showModal = () => {
@@ -39,7 +39,6 @@ export default function AddBuilding({ project }) {
   };
   return (
     <div>
-      <LoadingComponent loadingDependency={loadingChange} />
       <Button
         style={{ backgroundColor: "#4974a5", color: "white" }}
         onClick={showModal}
@@ -89,7 +88,6 @@ export default function AddBuilding({ project }) {
             </select>
           </div>
           <div>
-            <button></button>
             <button
               className="py-1 px-4 bg-white hover:bg-sky-400 ml-2"
               onClick={handleSubmitBuilding(onSubmitBuilding)}

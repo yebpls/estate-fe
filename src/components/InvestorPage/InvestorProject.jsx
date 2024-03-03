@@ -62,7 +62,7 @@ export default function InvestorProject() {
         image: data.image,
       };
       dispatch(createProject(params));
-      dispatch(setIsChange());
+      // dispatch(setIsChange());
       setIsModalOpen(false);
       reset();
     }
@@ -70,7 +70,7 @@ export default function InvestorProject() {
 
   useEffect(() => {
     dispatch(getAllProjectByInvesId(investor?.id));
-  }, [investor, isChange]);
+  }, [investor]);
 
   // MAKE A PAGING
   // Calculate the start and end index for the current page

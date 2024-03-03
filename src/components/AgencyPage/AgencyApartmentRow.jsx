@@ -21,10 +21,6 @@ export default function AgencyApartmentRow({ apartment, stt }) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const [count, setCount] = useState(0);
-  const increment = () => {
-    setCount(count + 1);
-  };
   const deleteProject = () => {};
   const cancelDelete = () => {};
   // useEffect(() => {
@@ -53,7 +49,6 @@ export default function AgencyApartmentRow({ apartment, stt }) {
           handleCancel={handleCancel}
           openModal={openModal}
           isModalOpen={isModalOpen}
-          count={count}
         >
           <div
             // to="/agency/own/booking"
