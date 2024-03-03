@@ -117,7 +117,7 @@ const accountSlice = createSlice({
       return {
         ...state,
         currentUser: action.payload,
-        balance: action.payload.balance,
+        balance: action.payload?.balance,
       };
     });
     builder.addCase(getAllAccount.pending, (state, action) => {

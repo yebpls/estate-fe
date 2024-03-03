@@ -147,9 +147,7 @@ export default function InvestorApartment() {
       {loadingApartment ? (
         <div className="flex justify-center mt-32">
           <Spin />
-          <p className="ml-2 mt-2 text-blue-400 text-md font-thin">
-            Đang lấy dự
-          </p>
+          <p className="ml-2 text-blue-400 text-lg font-thin">Đang lấy dự án</p>
         </div>
       ) : (
         displayApartment &&

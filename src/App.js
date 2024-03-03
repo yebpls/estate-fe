@@ -21,7 +21,6 @@ import { jwtDecode } from "jwt-decode";
 import ApartmentDetail from "./pages/ApartmentDetail";
 import InvestorLayout from "./layouts/InvestorLayout";
 import InvestorProject from "./components/InvestorPage/InvestorProject";
-import InvestorInfo from "./components/InvestorPage/InvestorInfo";
 import InvestorApartment from "./components/InvestorPage/InvestorApartment";
 import {
   getAccountDetail,
@@ -33,7 +32,6 @@ import {
 } from "./store/slices/accountSlice";
 import { getAllCity } from "./store/slices/buildingSlice";
 import AgencyLayout from "./layouts/AgencyLayout";
-import AgencyInfo from "./components/AgencyPage/AgencyInfo";
 import AvailableApartment from "./components/AgencyPage/AvailableApartment";
 import AgencyApartment from "./components/AgencyPage/AgencyApartment";
 import Article from "./components/AgencyPage/Article";

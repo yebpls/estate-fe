@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Button, Input, Modal, Select, Spin } from "antd";
+import { Button, Input, Modal, Pagination, Select, Spin } from "antd";
 import AgencyApartmentRow from "./AgencyApartmentRow";
 import { useSelector } from "react-redux";
 
 export default function AgencyApartment() {
   const [agencyApart, setAgencyApart] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const { apartments, isLoading } = useSelector(
     (state) => state.apartmentReducer
   );
   const { bookingDistribution } = useSelector(
     (state) => state.bookingDistributionReducer
   );
+  // MAKE A PAGING
+  // Calculate the start and end index for the current page
+  const startIndex = (currentPage - 1) * 5;
+  const endIndex = startIndex + 5;
+  // Slice the data array to show only the items for the current page
+  const currentData = agencyApart?.slice(startIndex, endIndex);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   useEffect(() => {
     const matchedApartments = apartments
       ?.map((apartment) => {
@@ -79,21 +89,29 @@ export default function AgencyApartment() {
       </thead>
 
       {isLoading ? (
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-32">
           <Spin />
+          <p className="ml-2 text-blue-400 text-lg font-thin">Đang lấy dự án</p>
         </div>
       ) : (
-        ""
-      )}
-      {agencyApart &&
-        agencyApart.map((item, index) => (
-          <AgencyApartmentRow
-            key={item.id}
-            apartment={item}
-            stt={index + 1}
-            // apartmentId={item.apartmentId}
+        <div>
+          {currentData &&
+            currentData.map((item, index) => (
+              <AgencyApartmentRow
+                key={item.id}
+                apartment={item}
+                stt={index + startIndex + 1}
+                // apartmentId={item.apartmentId}
+              />
+            ))}
+          <Pagination
+            current={currentPage}
+            total={agencyApart?.length}
+            pageSize={5}
+            onChange={handlePageChange}
           />
-        ))}
+        </div>
+      )}
     </div>
   );
 }
