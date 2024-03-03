@@ -63,9 +63,13 @@ export default function Account() {
         </div>
       ) : (
         accountForAdmin &&
-        accountForAdmin.map((account) => (
+        accountForAdmin.map((account, index) => (
           <div>
-            <AccountRow key={account.id} account={account}></AccountRow>
+            <AccountRow
+              key={account.id}
+              stt={index + 1}
+              account={account}
+            ></AccountRow>
           </div>
         ))
       )}

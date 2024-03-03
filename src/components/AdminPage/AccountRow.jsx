@@ -6,7 +6,7 @@ import {
   getAllAccount,
 } from "../../store/slices/accountSlice";
 
-export default function AccountRow({ account }) {
+export default function AccountRow({ account, stt }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const changeConfirm = () => {
@@ -26,7 +26,7 @@ export default function AccountRow({ account }) {
     <div>
       <tr className="flex items-center hover:bg-slate-100">
         <td className="mx-6 py-4">
-          <p>{account.id}</p>
+          <p>{stt}</p>
         </td>
         <td className=" px-6 py-4">
           <div className="w-20 h-20">

@@ -67,6 +67,7 @@ export const createApartment = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const res = await apartmentApi.create(params);
+      return res.data;
     } catch (error) {
       console.log(error);
       return rejectWithValue(error.response.data);
@@ -92,6 +93,7 @@ export const updateApartment = createAsyncThunk(
   async ({ params, id }, { rejectWithValue }) => {
     try {
       const res = await apartmentApi.update(id, params);
+      return res.data;
     } catch (error) {
       console.log(error);
       return rejectWithValue(error);
@@ -110,6 +112,7 @@ const initialState = {
   isChange: false,
   loadingChange: false,
   currentBuidlingId: null,
+  displayApartment: null,
 };
 
 const apartmentSlice = createSlice({
@@ -201,12 +204,13 @@ const apartmentSlice = createSlice({
     builder.addCase(createApartment.fulfilled, (state, action) => {
       toast.success("Tạo căn hộ thành công");
       const { apartmentByProject } = state;
-      const newApartmentByProject = [...apartmentByProject, action.meta.arg];
+      const newApartmentByProject = action.payload;
+      const newApartList = [...apartmentByProject, newApartmentByProject];
       return {
         ...state,
         loadingChange: false,
-        apartmentByProject: newApartmentByProject,
-        displayApartment: newApartmentByProject,
+        apartmentByProject: newApartList,
+        displayApartment: newApartList,
       };
     });
     builder.addCase(createApartment.rejected, (state, action) => {
@@ -247,7 +251,7 @@ const apartmentSlice = createSlice({
     builder.addCase(updateApartment.fulfilled, (state, action) => {
       toast.success("Cập nhật căn hộ thành công");
       const { apartmentByProject, currentBuidlingId } = state;
-      const apartmentChangedId = action.meta.arg.id; // Accessing id passed as argument
+      const apartmentChangedId = action.payload.id; // Accessing id passed as argument
       console.log(apartmentChangedId, apartmentByProject);
       const newApartmentByProject = apartmentByProject.map((apartment) => {
         if (apartment.id === apartmentChangedId) {
@@ -279,7 +283,7 @@ const apartmentSlice = createSlice({
     });
     builder.addCase(updateApartment.rejected, (state, action) => {
       toast.error("Cập nhật căn hộ thất bại");
-      console.log(action.payload);
+      // console.log(action.payload);
       return { ...state, loadingChange: false };
     });
   },

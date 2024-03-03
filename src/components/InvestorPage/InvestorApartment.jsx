@@ -56,7 +56,7 @@ export default function InvestorApartment() {
     console.log(data);
     const params = { ...data, status };
     dispatch(createApartment(params));
-    dispatch(setIsChange());
+    // dispatch(setIsChange());
     handleCancel();
   };
 
@@ -76,8 +76,8 @@ export default function InvestorApartment() {
     dispatch(getAllByProjectId(projectId));
     console.log(projectId);
     dispatch(getAllApartmentByProjectId(projectId));
-    dispatch(getAll());
-    console.log("displayed:", displayApartment);
+    // dispatch(getAll());
+    // console.log("displayed:", displayApartment);
   }, [projectId]);
 
   return (
