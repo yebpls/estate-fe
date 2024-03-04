@@ -26,6 +26,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import ChangeForm from "./Form/UpdateProject";
 import UpdateProject from "./Form/UpdateProject";
 import AddBuilding from "./Form/AddBuilding";
+import { toast } from "react-toastify";
 
 export default function ProjectRow({ project, stt }) {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -71,6 +72,9 @@ export default function ProjectRow({ project, stt }) {
   const handleDeleteProject = (id) => {
     dispatch(deleteProject(id, investor?.id));
   };
+  const cancelDelete = () => {
+    toast.error("Xóa dự án thất bại");
+  };
 
   const startDate = new Date(project.startDate);
   let startDateFormat = startDate.toISOString().split("T")[0];
@@ -107,72 +111,33 @@ export default function ProjectRow({ project, stt }) {
       <td className="whitespace-nowrap  ml-8 py-4 flex justify-between items-center">
         {/* Update Button */}
         <UpdateProject project={project} />
-        <button
+        {/* <button
           onClick={() => handleDeleteProject(project.id)}
           className="text-white h-8 px-4 mx-1  rounded-md bg-red-500"
         >
           Xoá
-        </button>
-        {/* <Button 
-          style={{ backgroundColor: "#4974a5", color: "white" }}
-          onClick={showModal}
+        </button> */}
+        <Popconfirm
+          placement="bottomRight"
+          title="Nhắc nhở"
+          description="Bạn có muốn hủy dự án này không?"
+          onConfirm={() => handleDeleteProject(project.id)}
+          okButtonProps={{
+            style: { backgroundColor: "red " },
+          }}
+          onCancel={cancelDelete}
+          cancelButtonProps={{
+            style: {
+              color: "red ",
+            },
+          }}
+          okText="Hủy"
+          cancelText="Không"
         >
-          Thêm Toà nhà
-        </Button>
-        <Modal
-          title="Toà nhà mới"
-          open={isModalAddOpen}
-          footer={null}
-          onCancel={handleAddCancel}
-          className="text-cyan-700"
-        >
-          <form>
-            <div className="m-2">
-              <p className="m-2">Tên toà nhà</p>
-              <input
-                className="w-full p-1"
-                placeholder="Tên toà nhà"
-                id="buildingName"
-                name="buildingName"
-                {...registerBuilding("buildingName", { require: true })}
-              ></input>
-            </div>
-            <div className="m-2">
-              <p className="m-2">Địa chỉ</p>
-              <input
-                className="w-full p-1"
-                {...registerBuilding("address", { require: true })}
-                placeholder="Địa chỉ"
-                id="address"
-                name="address"
-              ></input>
-            </div>
-            <div>
-              <p className="ml-2">Tỉnh</p>
-              <select
-                className="border-2 rounded-md m-2 p-1"
-                {...registerBuilding("city", { required: true })}
-              >
-                {city &&
-                  city.map((city) => (
-                    <option key={city.id} value={city.id}>
-                      {city.cityName}
-                    </option>
-                  ))}
-              </select>
-            </div>
-            <div>
-              <button></button>
-              <button
-                className="py-1 px-4 bg-white hover:bg-sky-400 ml-2"
-                onClick={handleSubmitBuilding(onSubmitBuilding)}
-              >
-                Tạo
-              </button>
-            </div>
-          </form>
-        </Modal> */}
-        <AddBuilding project={project} />
+          <button className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm">
+            Hủy
+          </button>
+        </Popconfirm>
       </td>
     </tr>
   );

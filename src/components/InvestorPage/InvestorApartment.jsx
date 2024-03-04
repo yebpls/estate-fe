@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ApartmentRow from "./ApartmentRow";
-import { Button, Modal, Select, Spin } from "antd";
+import { Button, Modal, Pagination, Select, Spin } from "antd";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllByProjectId } from "../../store/slices/buildingSlice";
@@ -14,8 +14,11 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import AddApartment from "./Form/AddApartment";
 import LoadingComponent from "../SharedComponent/LoadingComponent";
+import AddBuilding from "./Form/AddBuilding";
+import ManageBuilding from "./ManageBuilding";
 
 export default function InvestorApartment() {
+  const [currentPage, setCurrentPage] = useState(1);
   const { buildings, isLoading } = useSelector(
     (state) => state.buildingReducer
   );
@@ -23,7 +26,6 @@ export default function InvestorApartment() {
     (state) => state.apartmentReducer
   );
   // const [displayApartment, setdisplayApartment] = useState(apartmentByProject);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { projectId } = useParams();
 
   const dispatch = useDispatch();
@@ -42,24 +44,6 @@ export default function InvestorApartment() {
     label: building.buildingName,
   }));
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCancel = () => {
-    reset();
-    setIsModalOpen(false);
-  };
-
-  const onSubmit = (data) => {
-    let status = 1;
-    console.log(data);
-    const params = { ...data, status };
-    dispatch(createApartment(params));
-    // dispatch(setIsChange());
-    handleCancel();
-  };
-
   const isNumber = (value) => {
     return (!isNaN(value) && !isNaN(parseFloat(value))) || "Phải là số";
   };
@@ -71,7 +55,17 @@ export default function InvestorApartment() {
     console.log(id);
     dispatch(getApartmentByBuilding(id));
   };
+  // MAKE A PAGING
+  // Calculate the start and end index for the current page
+  const startIndex = (currentPage - 1) * 5;
+  const endIndex = startIndex + 5;
+  // Slice the data array to show only the items for the current page
+  const currentData = displayApartment?.slice(startIndex, endIndex);
 
+  // Handle page change
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   useEffect(() => {
     dispatch(getAllByProjectId(projectId));
     console.log(projectId);
@@ -99,6 +93,7 @@ export default function InvestorApartment() {
 
       <div className="my-4">
         <p className="font-bold text-lg">Danh sách toà nhà:</p>
+        <ManageBuilding projectId={projectId} buildings={buildings} />
 
         {isLoading ? (
           <LoadingComponent
@@ -106,7 +101,7 @@ export default function InvestorApartment() {
             message={"Đang tải danh sách tòa nhà"}
           />
         ) : (
-          <div>
+          <div className="inline">
             <button
               className="my-1 px-4 py-1 mr-2 bg-transparent hover:bg-sky-400 text-black hover:text-white"
               onClick={() => getAllApartment(projectId)}
@@ -158,15 +153,25 @@ export default function InvestorApartment() {
       {loadingApartment ? (
         <div className="flex justify-center mt-32">
           <Spin />
-          <p className="ml-2 mt-2 text-blue-400 text-md font-thin">
-            Đang lấy dự
-          </p>
+          <p className="ml-2 text-blue-400 text-lg font-thin">Đang lấy dự án</p>
         </div>
       ) : (
-        displayApartment &&
-        displayApartment.map((item, index) => (
-          <ApartmentRow apartment={item} key={item.id} stt={index + 1} />
-        ))
+        <div>
+          {currentData &&
+            currentData.map((item, index) => (
+              <ApartmentRow
+                apartment={item}
+                key={item.id}
+                stt={index + startIndex + 1}
+              />
+            ))}
+          <Pagination
+            current={currentPage}
+            total={displayApartment?.length}
+            pageSize={5}
+            onChange={handlePageChange}
+          />
+        </div>
       )}
     </div>
   );

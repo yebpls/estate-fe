@@ -4,6 +4,7 @@ import projectReducer from "./slices/projectSlice";
 import buildingReducer from "./slices/buildingSlice";
 import bookingDistributionReducer from "./slices/bookingDistributionSlice";
 import paymentReducer from "./slices/paymentSlice";
+import appointmentReducer from "./slices/appointmentSlice";
 
 import storage from "redux-persist/lib/storage";
 import {
@@ -31,6 +32,7 @@ const reducer = combineReducers({
   buildingReducer,
   bookingDistributionReducer,
   paymentReducer,
+  appointmentReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

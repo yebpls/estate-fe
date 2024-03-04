@@ -14,6 +14,7 @@ import { useEffect } from "react";
 import storageService from "./config/storageService";
 
 import Protected from "./components/Protected";
+import ProtectRole from "./components/ProtectRole";
 import { useDispatch, useSelector } from "react-redux";
 import MainLayout from "./layouts/MainLayout";
 import accountApi from "./api/accountApi";
@@ -21,7 +22,6 @@ import { jwtDecode } from "jwt-decode";
 import ApartmentDetail from "./pages/ApartmentDetail";
 import InvestorLayout from "./layouts/InvestorLayout";
 import InvestorProject from "./components/InvestorPage/InvestorProject";
-import InvestorInfo from "./components/InvestorPage/InvestorInfo";
 import InvestorApartment from "./components/InvestorPage/InvestorApartment";
 import {
   getAccountDetail,
@@ -33,7 +33,6 @@ import {
 } from "./store/slices/accountSlice";
 import { getAllCity } from "./store/slices/buildingSlice";
 import AgencyLayout from "./layouts/AgencyLayout";
-import AgencyInfo from "./components/AgencyPage/AgencyInfo";
 import AvailableApartment from "./components/AgencyPage/AvailableApartment";
 import AgencyApartment from "./components/AgencyPage/AgencyApartment";
 import Article from "./components/AgencyPage/Article";
@@ -94,12 +93,26 @@ function App() {
           <Route path="/apartment/:id" element={<ApartmentDetail />} />
         </Route>
         {/* Route for ADMIN */}
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route
+          path="/admin"
+          element={
+            <ProtectRole role={role}>
+              <AdminLayout />
+            </ProtectRole>
+          }
+        >
           <Route index element={<Navigate to="/admin/manage_account" />} />
           <Route path="/admin/manage_account" element={<Account />} />
         </Route>
         {/* Route for INVESTOR */}
-        <Route path="/investor" element={<InvestorLayout />}>
+        <Route
+          path="/investor"
+          element={
+            <ProtectRole role={role}>
+              <InvestorLayout />
+            </ProtectRole>
+          }
+        >
           <Route index element={<Navigate to="/investor/project" />} />
           <Route path="/investor/project" element={<InvestorProject />} />
           <Route path="/investor/info/" element={<AccountInfo />} />
@@ -109,7 +122,14 @@ function App() {
           />
         </Route>
         {/* Route for AGENCY */}
-        <Route path="/agency" element={<AgencyLayout />}>
+        <Route
+          path="/agency"
+          element={
+            <ProtectRole role={role}>
+              <AgencyLayout />
+            </ProtectRole>
+          }
+        >
           <Route index element={<Navigate to="/agency/own" />} />
           <Route path="/agency/own" element={<AgencyApartment />} />
           <Route path="/agency/own/booking" element={<Booking />} />
@@ -121,7 +141,14 @@ function App() {
           />
         </Route>
         {/* Route for CUSTOMER */}
-        <Route path="/customer" element={<CustomerLayout />}>
+        <Route
+          path="/customer"
+          element={
+            <ProtectRole role={role}>
+              <CustomerLayout />
+            </ProtectRole>
+          }
+        >
           <Route
             index
             element={<Navigate to="/customer/booking_apartment" />}

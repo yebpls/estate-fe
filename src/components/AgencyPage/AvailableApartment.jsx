@@ -3,14 +3,24 @@ import AvailableApartmentRow from "./AvailableApartmentRow";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBuilding } from "../../store/slices/buildingSlice";
 import { getAllAvailableApartment } from "../../store/slices/apartmentSlice";
-import { Spin } from "antd";
+import { Pagination, Spin } from "antd";
 
 export default function AvailableApartment() {
+  const [currentPage, setCurrentPage] = useState(1);
   const { availableApartment, isLoading } = useSelector(
     (state) => state.apartmentReducer
   );
   const { isChange } = useSelector((state) => state.bookingDistributionReducer);
   const dispatch = useDispatch();
+  // MAKE A PAGING
+  // Calculate the start and end index for the current page
+  const startIndex = (currentPage - 1) * 5;
+  const endIndex = startIndex + 5;
+  // Slice the data array to show only the items for the current page
+  const currentData = availableApartment?.slice(startIndex, endIndex);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   useEffect(() => {
     dispatch(getAllBuilding());
   }, []);
@@ -52,27 +62,28 @@ export default function AvailableApartment() {
         </tr>
       </thead>
       {isLoading ? (
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-32">
           <Spin />
+          <p className="ml-2 text-blue-400 text-lg font-thin">Đang lấy dự án</p>
         </div>
       ) : (
-        ""
-      )}
-      {availableApartment &&
-        availableApartment.map((item, index) => (
-          <AvailableApartmentRow
-            key={item.id}
-            apartment={item}
-            stt={index + 1}
+        <div>
+          {currentData &&
+            currentData.map((item, index) => (
+              <AvailableApartmentRow
+                key={item.id}
+                apartment={item}
+                stt={index + startIndex + 1}
+              />
+            ))}
+          <Pagination
+            current={currentPage}
+            total={availableApartment?.length}
+            pageSize={5}
+            onChange={handlePageChange}
           />
-        ))}
-      {/* <AvailableApartmentRow />
-      <AvailableApartmentRow />
-      <AvailableApartmentRow />
-      <AvailableApartmentRow />
-      <AvailableApartmentRow />
-      <AvailableApartmentRow />
-      <AvailableApartmentRow /> */}
+        </div>
+      )}
     </div>
   );
 }

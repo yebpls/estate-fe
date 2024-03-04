@@ -39,6 +39,17 @@ export const createBuilding = createAsyncThunk(
   }
 );
 
+export const deleteBuilding = createAsyncThunk(
+  "building/delete",
+  async (id) => {
+    try {
+      const res = await buildingApi.deleteBuilding(id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const getAllByProjectId = createAsyncThunk(
   "building/get_all_by_project",
   async (id) => {
@@ -73,9 +84,23 @@ const buildingSlice = createSlice({
     });
     builder.addCase(createBuilding.fulfilled, (state, action) => {
       console.log(action.payload);
+      const { buildings } = state;
+      const newBuildings = [...buildings, action.payload];
 
       toast.success("Thêm tòa nhà thành công");
-      return { ...state, loadingChange: false };
+      return { ...state, buildings: newBuildings, loadingChange: false };
+    });
+    builder.addCase(deleteBuilding.pending, (state, action) => {
+      return { ...state, loadingChange: true };
+    });
+    builder.addCase(deleteBuilding.fulfilled, (state, action) => {
+      const { buildings } = state;
+      const deleteBuilding = action.meta.arg;
+      const newBuildings = buildings?.filter((building) => {
+        return building.id !== deleteBuilding;
+      });
+      toast.success("Xóa tòa nhà thành công");
+      return { ...state, buildings: newBuildings, loadingChange: false };
     });
   },
 });

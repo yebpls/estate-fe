@@ -125,6 +125,7 @@ export default function InvestorProject() {
       {isLoading ? (
         <div className="flex justify-center mt-32">
           <Spin />
+          <p className="ml-2 text-blue-400 text-lg font-thin">Đang lấy dự án</p>
         </div>
       ) : (
         <div>
