@@ -6,6 +6,7 @@ import { deleteBuilding } from "../../store/slices/buildingSlice";
 import { toast } from "react-toastify";
 import LoadingComponent from "../SharedComponent/LoadingComponent";
 import { LoadingOutlined } from "@ant-design/icons";
+import UpdateBuilding from "./Form/UpdateBuidling";
 
 export default function ManageBuilding({ buildings, projectId }) {
   const [displayBuilding, setDisplayBuilding] = useState();
@@ -86,9 +87,10 @@ export default function ManageBuilding({ buildings, projectId }) {
             <p className="w-4/5">{building.address}</p>
             <p className="w-1/4">{building.cityName}</p>
             <div className="flex w-1/4">
-              <button className="bg-blue-400 mb-1 p-0.5 mx-1 w-12 text-white">
+              <UpdateBuilding projectId={projectId} building={building} />
+              {/* <button className="bg-blue-400 mb-1 p-0.5 mx-1 w-12 text-white">
                 Sửa
-              </button>
+              </button> */}
               <Popconfirm
                 placement="right"
                 title="Nhắc nhở"

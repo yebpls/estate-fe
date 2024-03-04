@@ -54,10 +54,10 @@ export default function AgencyApartmentRow({ apartment, stt }) {
             // to="/agency/own/booking"
             className=" hover:bg-slate-100 flex items-center p-2 rounded-md"
           >
-            <td className="mx-6 py-4">
+            <td className="mx-6 py-4 w-2">
               <p>{stt}</p>
             </td>
-            <td className=" px-6 py-4">
+            <td className=" px-6 py-4 w-52">
               <div className="w-40 h-20">
                 <img
                   src={apartment?.mainImage}
@@ -66,26 +66,26 @@ export default function AgencyApartmentRow({ apartment, stt }) {
                 />
               </div>
             </td>
-            <td className="whitespace-nowrap px-6 mx-2  py-4 text-sm">
+            <td className="whitespace-nowrap px-6 mx-2 w-12  py-4 text-sm">
               {apartment?.apartmentNumber}
               {/* {booking.id} */}
             </td>
-            <td className="whitespace-nowrap w-20 ml-6  py-4 text-sm">
+            <td className="whitespace-nowrap w-20 ml-12  py-4 text-sm">
               {formattedNumber}đ
             </td>
-            <td className=" mx-2 py-auto text-sm ml-14">
+            <td className=" mx-2 py-auto text-sm ml-16 w-12">
               {apartment?.projectName}
             </td>
-            <td className="whitespace-nowrap  ml-10 mr-6   py-4 text-sm">
+            <td className="whitespace-nowrap  ml-14 mr-6  w-7 py-4 text-sm">
               {building?.buildingName}
             </td>
-            <td className="whitespace-nowrap  ml-16 mr-6   py-4 text-sm">
+            <td className="whitespace-nowrap  ml-16 mr-6 w-4  py-4 text-sm">
               {apartment?.bookingFee * 100}%
             </td>
-            <td className="whitespace-nowrap  ml-10 mr-6   py-4 text-sm">
+            <td className="whitespace-nowrap  ml-16 mr-6  w-12 py-4 text-sm">
               {distributionDate}
             </td>
-            <td className="whitespace-nowrap  ml-14    py-4 text-sm">
+            <td className="whitespace-nowrap ml-20 w-12 py-4 text-sm">
               {expireDistributionDate}
             </td>
           </div>
@@ -93,7 +93,7 @@ export default function AgencyApartmentRow({ apartment, stt }) {
         {/* <td className="whitespace-nowrap px-6 py-4">
   {pet.isSold ? "Đã bán" : "Chưa bán"}
 </td> */}
-        <td className="whitespace-nowrap ml-10 py-4 flex justify-between">
+        <td className="whitespace-nowrap ml-16 py-4 flex justify-between">
           <Popconfirm
             placement="bottomRight"
             title="Nhắc nhở"

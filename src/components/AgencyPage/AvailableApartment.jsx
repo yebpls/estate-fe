@@ -7,6 +7,7 @@ import { Pagination, Spin } from "antd";
 
 export default function AvailableApartment() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [viewAvailableApartment, setViewAvailableApartment] = useState();
   const { availableApartment, isLoading } = useSelector(
     (state) => state.apartmentReducer
   );
@@ -17,7 +18,7 @@ export default function AvailableApartment() {
   const startIndex = (currentPage - 1) * 5;
   const endIndex = startIndex + 5;
   // Slice the data array to show only the items for the current page
-  const currentData = availableApartment?.slice(startIndex, endIndex);
+  const currentData = viewAvailableApartment?.slice(startIndex, endIndex);
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -25,6 +26,10 @@ export default function AvailableApartment() {
     dispatch(getAllBuilding());
   }, []);
   useEffect(() => {
+    const newAvailableApartment = availableApartment?.filter((apartment) => {
+      return apartment.status === 1;
+    });
+    setViewAvailableApartment(newAvailableApartment);
     dispatch(getAllAvailableApartment());
   }, [isChange]);
 
@@ -78,7 +83,7 @@ export default function AvailableApartment() {
             ))}
           <Pagination
             current={currentPage}
-            total={availableApartment?.length}
+            total={viewAvailableApartment?.length}
             pageSize={5}
             onChange={handlePageChange}
           />
