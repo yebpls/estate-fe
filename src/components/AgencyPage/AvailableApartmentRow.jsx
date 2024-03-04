@@ -174,7 +174,7 @@ export default function AvailableApartmentRow({ apartment, stt }) {
               <h2 className="text-lg font-bold mb-2">
                 Giá trị căn hộ: {formattedNumber}đ{" "}
               </h2>
-              <p>Số dư của bạn: {balance}đ</p>
+              <p>Số dư của bạn: {balance.toLocaleString("de-DE")}đ</p>
               <div className="mb-8">
                 <p className="mb-2">Mức phí nhận bán hộ*</p>
                 <Controller
@@ -191,6 +191,15 @@ export default function AvailableApartmentRow({ apartment, stt }) {
                     />
                   )}
                 />
+                <p>
+                  0.4%: {(apartment.price * 0.004).toLocaleString("de-DE")}đ
+                </p>
+                <p>
+                  0.6%: {(apartment.price * 0.006).toLocaleString("de-DE")}đ
+                </p>
+                <p>
+                  0.8%: {(apartment.price * 0.008).toLocaleString("de-DE")}đ
+                </p>
               </div>
               <div className="mt-4">
                 <button

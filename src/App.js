@@ -4,6 +4,7 @@ import {
   Route,
   Routes,
   useNavigate,
+  useNavigation,
 } from "react-router-dom";
 import "./App.css";
 import HomePage from "./pages/HomePage";
@@ -44,11 +45,12 @@ import AdminLayout from "./layouts/AdminLayout";
 import Account from "./components/AdminPage/Account";
 import PaymentPage from "./pages/PaymentPage";
 import AllApartment from "./pages/AllApartment";
+import NoPage from "./pages/NoPage";
 
 function App() {
   const { isLogin, role, id } = useSelector((state) => state.accountReducer);
   const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  // const navigate = useNavigation();
 
   useEffect(() => {
     let token = storageService.getAccessToken();
@@ -139,7 +141,10 @@ function App() {
             </Protected>
           }
         />
+        <Route path="*" element={<NoPage />} />
       </Routes>
+      {/* <Route path="*">
+      </Route> */}
     </BrowserRouter>
   );
 }

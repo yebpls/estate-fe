@@ -48,9 +48,16 @@ const bookingDistributionSlice = createSlice({
       }
     );
     builder.addCase(createBookingDistribution.fulfilled, (state, action) => {
+      const { bookingDistribution } = state;
       toast.success("Tạo đăng ký bán thành công");
+      const newBooking = action.payload;
+      const newBookingList = [...bookingDistribution, newBooking];
 
-      return { ...state, isLoading: false, isChange: true };
+      return {
+        ...state,
+        isLoading: false,
+        bookingDistribution: newBookingList,
+      };
     });
     builder.addCase(createBookingDistribution.rejected, (state, action) => {
       toast.error("Tạo đăng ký bán thất bại");

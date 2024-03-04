@@ -16,7 +16,7 @@ export default function AvailableApartment() {
   }, []);
   useEffect(() => {
     dispatch(getAllAvailableApartment());
-  }, [isChange]);
+  }, []);
 
   return (
     <div className="mx-10 mt-10">
