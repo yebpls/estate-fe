@@ -11,6 +11,7 @@ export default function Account() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllAccount());
+    console.log(accountForAdmin);
   }, [dispatch]);
   return (
     <div className="mx-10 mt-10">

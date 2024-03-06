@@ -48,6 +48,11 @@ const accountApi = {
     return axiosClient.post(url);
   },
 
+  getAllTransaction() {
+    const url = `/api/transaction`;
+    return axiosClient.get(url);
+  },
+
   // loginWithGoogle(params) {
   //   const url = "/Authorization/google-login";
   //   return axiosClient.post(url, params);
