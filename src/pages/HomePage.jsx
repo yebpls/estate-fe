@@ -8,9 +8,9 @@ import ProjectByLocation from "../components/HomePage/ProjectByLocation";
 function HomePage() {
   return (
     <div className="mt-30">
-      <News />
+      {/* <News /> */}
       <Project />
-      <ProjectByLocation />
+      {/* <ProjectByLocation /> */}
     </div>
   );
 }

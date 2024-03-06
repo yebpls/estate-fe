@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <div className="footer bg-sky-400 py-10">
+    <div className="footer bg-sky-400 py-10 mt-4">
       <div className="container mx-auto lg:flex md:flex justify-between lg:flex-row md:flex-row">
         <div className="links lg:w-1/3 sm:w-full mb-4 sm: pl-5">
           <h1 className="font-bold text-xl">Quick Links</h1>
