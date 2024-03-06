@@ -45,6 +45,7 @@ import Account from "./components/AdminPage/Account";
 import PaymentPage from "./pages/PaymentPage";
 import AllApartment from "./pages/AllApartment";
 import NoPage from "./pages/NoPage";
+import TransactionsPage from "./pages/TransactionsPage";
 
 function App() {
   const { isLogin, role, id } = useSelector((state) => state.accountReducer);
@@ -103,6 +104,7 @@ function App() {
         >
           <Route index element={<Navigate to="/admin/manage_account" />} />
           <Route path="/admin/manage_account" element={<Account />} />
+          <Route path="/admin/transactions" element={<TransactionsPage />} />
         </Route>
         {/* Route for INVESTOR */}
         <Route

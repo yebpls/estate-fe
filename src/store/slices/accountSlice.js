@@ -78,6 +78,19 @@ export const payment = createAsyncThunk(
   }
 );
 
+export const getAllTransactions = createAsyncThunk(
+  "transaction/get_all",
+  async () => {
+    try {
+      const res = await accountApi.getAllTransaction();
+      return res.data;
+    } catch (error) {
+      console.log(error);
+      // return rejectWithValue(error.response);
+    }
+  }
+);
+
 const initialState = {
   currentUser: null,
   isLogin: false,
@@ -92,6 +105,7 @@ const initialState = {
   investor: null,
   agency: null,
   agencyByApartment: null,
+  transaction: null,
 };
 
 const accountSlice = createSlice({
@@ -177,7 +191,21 @@ const accountSlice = createSlice({
       return { ...state, loading: true };
     });
     builder.addCase(payment.fulfilled, (state, action) => {
-      return { ...state, balance: action.meta.arg.amount, loading: false };
+      return {
+        ...state,
+        balance: state.balance + action.meta.arg.amount,
+        loading: false,
+      };
+    });
+
+    builder.addCase(getAllTransactions.pending, (state, action) => {
+      return { ...state, loading: true };
+    });
+    builder.addCase(getAllTransactions.fulfilled, (state, action) => {
+      return { ...state, transaction: action.payload, loading: false };
+    });
+    builder.addCase(getAllTransactions.rejected, (state, action) => {
+      return { ...state, loading: false };
     });
   },
 });

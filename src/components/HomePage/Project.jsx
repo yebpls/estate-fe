@@ -53,7 +53,7 @@ export default function Project() {
             ))} */}
         </div>
         <Link to="/apartments" className="ml-auto mr-auto">
-          <button className=" rounded-md border-2 border-black text-l mt-4 p-2 px-9 font-semibold hover:bg-slate-100 ">
+          <button className=" rounded-md border-2 border-black text-l my-3 p-2 px-9 font-semibold hover:bg-slate-100 ">
             Xem thêm...
           </button>
         </Link>

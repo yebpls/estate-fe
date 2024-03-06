@@ -7,7 +7,7 @@ import ApartmentInfo from "../components/ApartmentDetail/ApartmentInfo";
 import RelatedApartment from "../components/Suggest/RelatedApartment";
 import Tool from "../components/Suggest/Tool";
 import BrokerInfo from "../components/Suggest/BrokerInfo";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getApartmentById } from "../store/slices/apartmentSlice";
 import SearchBar from "../components/SharedComponent/SearchBar";
@@ -39,7 +39,14 @@ export default function ApartmentDetail() {
 
   return (
     <div className="px-5">
-      <SearchBar />
+      <div className="flex mt-4">
+        <button className="border-none inline-block text-left">
+          <Link to="/" className="text-sky-600 hover:text-sky-400">
+            ← Trở về trang trước
+          </Link>
+        </button>
+        <SearchBar />
+      </div>
       <div className="mt-10">
         {loadingSubcription ? (
           <div className="flex justify-center items-center h-[200px]">
