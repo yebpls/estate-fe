@@ -31,7 +31,7 @@ export default function AvailableApartment() {
     });
     setViewAvailableApartment(newAvailableApartment);
     dispatch(getAllAvailableApartment());
-  }, [isChange]);
+  }, []);
 
   return (
     <div className="mx-10 mt-10">

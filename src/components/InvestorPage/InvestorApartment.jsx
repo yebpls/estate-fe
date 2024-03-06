@@ -44,24 +44,6 @@ export default function InvestorApartment() {
   //   label: building.buildingName,
   // }));
 
-  // const showModal = () => {
-  //   setIsModalOpen(true);
-  // };
-
-  // const handleCancel = () => {
-  //   reset();
-  //   setIsModalOpen(false);
-  // };
-
-  // const onSubmit = (data) => {
-  //   let status = 1;
-  //   console.log(data);
-  //   const params = { ...data, status };
-  //   dispatch(createApartment(params));
-  //   // dispatch(setIsChange());
-  //   handleCancel();
-  // };
-
   const isNumber = (value) => {
     return (!isNaN(value) && !isNaN(parseFloat(value))) || "Phải là số";
   };

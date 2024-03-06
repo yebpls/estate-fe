@@ -3,7 +3,7 @@ import { appointmentApi } from "../../api/appointmentApi";
 
 const initialState = {
   appointment: null,
-  isLoading: false,
+  appointmentLoading: false,
 };
 
 export const getAppointmentByDistributionId = createAsyncThunk(
@@ -18,11 +18,34 @@ export const getAppointmentByDistributionId = createAsyncThunk(
   }
 );
 
+export const getAppointmentByApartmentId = createAsyncThunk(
+  "appointment/get_by_apartmentId",
+  async (id) => {
+    try {
+      const res = await appointmentApi.getAppointmentByApartmentId(id);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const appointmentSlice = createSlice({
   name: "appointment",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder.addCase(getAppointmentByApartmentId.pending, (state, action) => {
+      return { ...state, appointmentLoading: true };
+    });
+    builder.addCase(getAppointmentByApartmentId.fulfilled, (state, action) => {
+      return {
+        ...state,
+        appointmentByApartment: action.payload,
+        appointmentLoading: false,
+      };
+    });
+  },
 });
 
 export default appointmentSlice.reducer;

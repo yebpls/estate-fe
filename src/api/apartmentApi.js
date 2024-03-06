@@ -27,6 +27,7 @@ export const apartmentApi = {
 
   create(params) {
     const url = "/api/apartment/create";
+    console.log("create apartment:", params);
     return axiosClient.post(url, params);
   },
 

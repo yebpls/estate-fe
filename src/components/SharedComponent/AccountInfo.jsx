@@ -155,7 +155,10 @@ export default function AccountInfo() {
         ) : (
           <Col span={4} className="">
             <AccountBalance />
-            <button className="mx-auto" onClick={showModal}>
+            <button
+              className="mx-auto px-2 py-1 text-sky-400 border-sky-400 bg-transparent hover:bg-sky-400 hover:text-white"
+              onClick={showModal}
+            >
               Nạp tiền
             </button>
             <Modal

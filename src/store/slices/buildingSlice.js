@@ -41,9 +41,9 @@ export const createBuilding = createAsyncThunk(
 
 export const updateBuilding = createAsyncThunk(
   "building/update",
-  async (id, params) => {
+  async ({ id, params }) => {
     try {
-      const res = await buildingApi.updateBuilding(id, params);
+      const res = await buildingApi.updateBuilding(params, id);
       return res.data;
     } catch (error) {
       console.log(error);

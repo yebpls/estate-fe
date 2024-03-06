@@ -14,11 +14,18 @@ import SearchBar from "../components/SharedComponent/SearchBar";
 import AgencyInfo from "../components/ApartmentDetail/AgencyInfo";
 import { getAgencyByApartmentId } from "../store/slices/accountSlice";
 import { getAllCity } from "../store/slices/buildingSlice";
+import { getAppointmentByApartmentId } from "../store/slices/appointmentSlice";
 
 export default function ApartmentDetail() {
   const { id } = useParams();
   const { apartmentDetail, isLoading } = useSelector(
     (state) => state.apartmentReducer
+  );
+  const { appointmentByApartment, loading } = useSelector(
+    (state) => state.appointmentReducer
+  );
+  const { loadingSubcription } = useSelector(
+    (state) => state.subcriptionReducer
   );
   const { agencyByApartment } = useSelector((state) => state.accountReducer);
 
@@ -26,6 +33,7 @@ export default function ApartmentDetail() {
   useEffect(() => {
     dispatch(getApartmentById(id));
     dispatch(getAgencyByApartmentId(id));
+    dispatch(getAppointmentByApartmentId(id));
     dispatch(getAllCity());
   }, [id, dispatch]);
 
@@ -33,24 +41,36 @@ export default function ApartmentDetail() {
     <div className="px-5">
       <SearchBar />
       <div className="mt-10">
+        {loadingSubcription ? (
+          <div className="flex justify-center items-center h-[200px]">
+            <Spin size="large" />
+          </div>
+        ) : (
+          ""
+        )}
+
         {isLoading ? (
           <div className="flex justify-center items-center h-[200px]">
             <Spin size="large" />
           </div>
         ) : (
-            <div className="flex m-5 mx-20  ">
-              <Row gutter={16} className="mt-8">
-                <Col className="gutter-row" span={5}>
-                  <AgencyInfo agency={agencyByApartment} />
-                  <RelatedApartment />
-                  <Tool />
-                  <BrokerInfo />
-                </Col>
-                <Col className="gutter-row" span={19}>
-                  <Row gutter={16}>
-                    <ApartmentImg apartment={apartmentDetail} />
-                    <ApartmentOverView apartment={apartmentDetail} />
-                    <ProjectDescription apartment={apartmentDetail} />
+          <div className="flex m-5 mx-20  ">
+            <Row gutter={16} className="mt-8">
+              <Col className="gutter-row" span={5}>
+                <AgencyInfo
+                  agency={agencyByApartment}
+                  appointment={appointmentByApartment}
+                  apartmentId={id}
+                />
+                <RelatedApartment />
+                <Tool />
+                <BrokerInfo />
+              </Col>
+              <Col className="gutter-row" span={19}>
+                <Row gutter={16}>
+                  <ApartmentImg apartment={apartmentDetail} />
+                  <ApartmentOverView apartment={apartmentDetail} />
+                  <ProjectDescription apartment={apartmentDetail} />
                 </Row>
               </Col>
             </Row>

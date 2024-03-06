@@ -38,6 +38,8 @@ export default function UpdateBuilding({ building, projectId }) {
       id: building ? building.id : "",
       buildingName: building ? building.name : "",
       cityId: building ? building.cityId : "",
+      cityname: city?.map((city) => city.id === building.cityId),
+      address: building ? building.address : "",
       projectId: projectId ? projectId : "",
       // Other fields as needed
     },
@@ -47,11 +49,12 @@ export default function UpdateBuilding({ building, projectId }) {
     handleSubmit: handleSubmitChangeBuilding,
   } = formChangeBuilding;
   const onSubmitChangeBuilding = (data) => {
-    console.log(data);
-    dispatch(updateBuilding({ params: data, id: projectId }));
+    console.log("update data", data);
+    const { cityName, id, ...params } = data;
+    console.log("update param", params);
+    dispatch(updateBuilding({ params: params, id: data.id }));
     handleCancel();
   };
-
   useEffect(() => {
     // When projectDetail is available (i.e., fetched), update form default values
     if (building) {
@@ -59,6 +62,7 @@ export default function UpdateBuilding({ building, projectId }) {
         id: building.id,
         buildingName: building.buildingName,
         cityId: building.cityId,
+        address: building.address,
         cityName: city?.filter((city) => {
           return city.id === building.cityId;
         }),
@@ -109,17 +113,27 @@ export default function UpdateBuilding({ building, projectId }) {
                 name="buildingName"
               ></input>
             </div>
+            <div className="m-2 w-96">
+              <p className="m-2">Địa chỉ tòa nhà</p>
+              <input
+                className="px-2 py-1 w-full"
+                placeholder="Địa chỉ tòa nhà"
+                {...registerChangeBuilding("address", { required: true })}
+                id="address"
+                name="address"
+              ></input>
+            </div>
 
             <div className="mb-2">
               <p className="mb-2">Tỉnh/Thành phố</p>
               <Controller
-                name="buildingId"
+                name="cityId"
                 control={formChangeBuilding.control}
                 render={({ field }) => (
                   <Select
                     {...field}
-                    style={{ width: 300 }}
-                    placeholder={"Chọn toà nhà"}
+                    style={{ width: 150 }}
+                    placeholder={"Chọn tỉnh thành"}
                     // defaultValue={options[0].value}
                     onChange={(value) => field.onChange(value)}
                     options={options}
@@ -132,6 +146,7 @@ export default function UpdateBuilding({ building, projectId }) {
               placement="right"
               title="Nhắc nhở"
               description="Bạn có muốn đổi sửa lại dự án không?"
+              onConfirm={handleSubmitChangeBuilding(onSubmitChangeBuilding)}
               okButtonProps={{
                 style: { backgroundColor: "#1ac5ff " },
               }}
@@ -145,7 +160,6 @@ export default function UpdateBuilding({ building, projectId }) {
             >
               <Button
                 className="px-2 py-1 ml-2 mt-1 w-16 bg-white text-sky-400 hover:bg-sky-400 border-slate-300 hover:text-white"
-                onClick={handleSubmitChangeBuilding(onSubmitChangeBuilding)}
                 type="submit"
               >
                 Sửa

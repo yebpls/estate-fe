@@ -5,4 +5,8 @@ export const appointmentApi = {
     const url = `/api/appointment/booking-distribution/${id}`;
     return axiosClient.get(url);
   },
+  getAppointmentByApartmentId(id) {
+    const url = `/api/appointment/apartment/${id}`;
+    return axiosClient.get(url);
+  },
 };

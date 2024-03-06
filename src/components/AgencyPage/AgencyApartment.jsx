@@ -46,7 +46,7 @@ export default function AgencyApartment() {
       .filter((apartment) => apartment.bookingFee);
 
     setAgencyApart(matchedApartments);
-    console.log(matchedApartments);
+    // console.log(matchedApartments);
   }, [bookingDistribution, apartments]);
   return (
     <div className="mx-10 mt-10">
