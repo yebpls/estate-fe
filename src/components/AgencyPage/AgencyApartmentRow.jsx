@@ -15,6 +15,7 @@ export default function AgencyApartmentRow({ apartment, stt }) {
   const [building, setBuilding] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { apartmentDetail } = useSelector((state) => state.apartmentReducer);
+  const dispatch = useDispatch();
 
   const deleteProject = (id) => {
     dispatch(cancelBookingDistribution(id));
