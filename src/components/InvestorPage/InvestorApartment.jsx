@@ -39,10 +39,10 @@ export default function InvestorApartment() {
     formState: { errors },
   } = form;
 
-  const options = buildings?.map((building) => ({
-    value: building.id,
-    label: building.buildingName,
-  }));
+  // const options = buildings?.map((building) => ({
+  //   value: building.id,
+  //   label: building.buildingName,
+  // }));
 
   const isNumber = (value) => {
     return (!isNaN(value) && !isNaN(parseFloat(value))) || "Phải là số";

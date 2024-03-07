@@ -13,6 +13,10 @@ export const buildingApi = {
     const url = "/api/building/create";
     return axiosClient.post(url, params);
   },
+  updateBuilding(params, id) {
+    const url = `/api/building/${id}`;
+    return axiosClient.put(url, params);
+  },
   deleteBuilding(id) {
     const url = `/api/building/delete/${id}`;
     return axiosClient.delete(url);

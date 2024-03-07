@@ -39,6 +39,18 @@ export const createBuilding = createAsyncThunk(
   }
 );
 
+export const updateBuilding = createAsyncThunk(
+  "building/update",
+  async ({ id, params }) => {
+    try {
+      const res = await buildingApi.updateBuilding(params, id);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const deleteBuilding = createAsyncThunk(
   "building/delete",
   async (id) => {
@@ -89,6 +101,12 @@ const buildingSlice = createSlice({
 
       toast.success("Thêm tòa nhà thành công");
       return { ...state, buildings: newBuildings, loadingChange: false };
+    });
+    builder.addCase(updateBuilding.pending, (state, action) => {
+      return { ...state, loadingModal: true };
+    });
+    builder.addCase(updateBuilding.fulfilled, (state, action) => {
+      return { ...state, loadingModal: false };
     });
     builder.addCase(deleteBuilding.pending, (state, action) => {
       return { ...state, loadingChange: true };
