@@ -97,13 +97,16 @@ export default function ViewAppointment({ apartment, buildingName }) {
                         />
                       </div>
                     ))}
-
-                    <Pagination
-                      current={currentPage}
-                      total={subcriptionByAppointment?.length}
-                      pageSize={5}
-                      onChange={handlePageChange}
-                    />
+                    {subcriptionByAppointment?.length > 5 ? (
+                      <Pagination
+                        current={currentPage}
+                        total={subcriptionByAppointment?.length}
+                        pageSize={5}
+                        onChange={handlePageChange}
+                      />
+                    ) : (
+                      ""
+                    )}
                   </div>
                 ) : (
                   <p>Nothing to display</p>

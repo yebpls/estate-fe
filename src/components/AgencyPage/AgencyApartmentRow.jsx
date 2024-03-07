@@ -55,17 +55,17 @@ export default function AgencyApartmentRow({ apartment, stt }) {
               />
             </div>
           </td>
-          <td className="whitespace-nowrap px-6 mx-2 w-12  py-4 text-sm">
+          <td className="whitespace-nowrap px-3 mx-2 w-12  py-4 text-sm">
             {apartment?.apartmentNumber}
             {/* {booking.id} */}
           </td>
           <td className="whitespace-nowrap w-20 ml-12  py-4 text-sm">
             {formattedNumber}đ
           </td>
-          <td className=" mx-2 py-auto text-sm ml-16 w-12">
+          <td className=" mx-2 py-auto text-sm ml-14 w-12">
             {apartment?.projectName}
           </td>
-          <td className="whitespace-nowrap  ml-14 mr-6  w-7 py-4 text-sm">
+          <td className="whitespace-nowrap  ml-11 mr-6  w-7 py-4 text-sm">
             {building?.buildingName}
           </td>
           <td className="whitespace-nowrap  ml-16 mr-6 w-4  py-4 text-sm">

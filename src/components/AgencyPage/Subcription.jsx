@@ -65,18 +65,19 @@ export default function Subcription() {
       </div>
       <div>
         {loadingSubcription ? (
-          <div className="mt-30 ml-32 h-20">
+          <div className="text-center mt-32 h-20 text-lg text-slate-500">
             <Spin
               indicator={
                 <LoadingOutlined
                   style={{
-                    fontSize: 24,
+                    fontSize: 27,
+                    margin: 2,
                   }}
                   spin
                 />
               }
             />
-            Đang tải dự án
+            Đang tải danh sách đăng ký
           </div>
         ) : (
           <div>
@@ -90,16 +91,21 @@ export default function Subcription() {
                     />
                   </div>
                 ))}
-
-                <Pagination
-                  current={currentPage}
-                  total={subcriptionByAppointment?.length}
-                  pageSize={5}
-                  onChange={handlePageChange}
-                />
+                {subcriptionByAppointment?.length > 5 ? (
+                  <Pagination
+                    current={currentPage}
+                    total={subcriptionByAppointment?.length}
+                    pageSize={5}
+                    onChange={handlePageChange}
+                  />
+                ) : (
+                  ""
+                )}
               </div>
             ) : (
-              <p>Nothing to display</p>
+              <p className="text-center mt-32 text-xl text-slate-500">
+                Hiện chưa có đăng ký
+              </p>
             )}
           </div>
         )}
