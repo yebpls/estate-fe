@@ -2,12 +2,12 @@ import { Image, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 
 export default function ApartmentImg({ apartment }) {
-  const [productImages, setProductImages] = useState([
-    "https://mylisting365.co.uk/blog/wp-content/uploads/2014/09/realestateagentuk.jpg",
-    "https://blog.hdestates.com/wp-content/uploads/2020/04/HD-Real-Estate-Photography-scaled.jpg",
-    "https://mylisting365.co.uk/blog/wp-content/uploads/2014/09/realestateagentuk.jpg",
-    "https://blog.hdestates.com/wp-content/uploads/2020/04/HD-Real-Estate-Photography-scaled.jpg",
-  ]);
+  // const [productImages, setProductImages] = useState([
+  //   "https://mylisting365.co.uk/blog/wp-content/uploads/2014/09/realestateagentuk.jpg",
+  //   "https://blog.hdestates.com/wp-content/uploads/2020/04/HD-Real-Estate-Photography-scaled.jpg",
+  //   "https://mylisting365.co.uk/blog/wp-content/uploads/2014/09/realestateagentuk.jpg",
+  //   "https://blog.hdestates.com/wp-content/uploads/2020/04/HD-Real-Estate-Photography-scaled.jpg",
+  // ]);
   const [isPreviewOpen, setPreviewOpen] = useState(false);
   const [selectedImageUrl, setSelectedImageUrl] = useState("");
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function ApartmentImg({ apartment }) {
             src={selectedImageUrl}
           />
         </div>
-        <div className="flex">
+        {/* <div className="flex">
           {productImages &&
             productImages.map((item, index) => (
               <Image
@@ -39,7 +39,7 @@ export default function ApartmentImg({ apartment }) {
                 // alt={product.productName}
               />
             ))}
-        </div>
+        </div> */}
       </div>
     </div>
   );
