@@ -78,10 +78,14 @@ export default function AgencyApartmentRow({ apartment, stt }) {
             {expireDistributionDate}
           </td>
           <td className="whitespace-nowrap ml-20 w-12 py-4 text-sm">
-            <ViewAppointment
-              apartment={apartment}
-              buildingName={building?.buildingName}
-            />
+            <Link
+              to={`/agency/appointment/apartment/${apartment.id}`}
+              state={{ buildingName: building?.buildingName }}
+            >
+              <button className="text-white h-8 px-4  mx-1  rounded-md bg-orange-400 text-sm hover:bg-orange-500">
+                Xem
+              </button>
+            </Link>
           </td>
         </div>
         {/* <td className="whitespace-nowrap px-6 py-4">
