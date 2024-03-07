@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input, Modal, Pagination, Select, Spin } from "antd";
 import AgencyApartmentRow from "./AgencyApartmentRow";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBuilding } from "../../store/slices/buildingSlice";
 import LoadingComponent from "../SharedComponent/LoadingComponent";
 
 export default function AgencyApartment() {
@@ -13,6 +14,7 @@ export default function AgencyApartment() {
   const { bookingDistribution } = useSelector(
     (state) => state.bookingDistributionReducer
   );
+  const dispatch = useDispatch();
   // MAKE A PAGING
   // Calculate the start and end index for the current page
   const startIndex = (currentPage - 1) * 5;
@@ -50,43 +52,47 @@ export default function AgencyApartment() {
     setAgencyApart(matchedApartments);
     // console.log(matchedApartments);
   }, [bookingDistribution, apartments]);
+
+  useEffect(() => {
+    dispatch(getAllBuilding());
+  }, []);
   return (
-    <div className="mx-10 mt-10">
+    <div className="mx-5 mt-10">
       <LoadingComponent loadingDependency={isLoading} message={"Đang huỷ"} />
       <p className="m-2 text-center text-2xl  font-semibold text-blue-700">
         Các căn hộ đang bán hộ
       </p>
-      <thead className="border-b font-medium dark:border-neutral-500 text-sm">
+      <thead className="border-b font-medium dark:border-neutral-500 text-sm text-slate-600">
         <tr>
           <th scope="col" className="px-6 py-4">
             STT
           </th>
-          <th scope="col" className="px-4 py-4 pl-4">
+          <th scope="col" className="px-2 py-4 pl-4">
             Ảnh
           </th>
-          <th scope="col" className="pl-36  py-4">
-            Số của căn hộ
+          <th scope="col" className="pl-40  py-4">
+            Số căn hộ
           </th>
-          <th scope="col" className="pl-10 py-4">
+          <th scope="col" className="pl-9 py-2">
             Giá
           </th>
-          <th scope="col" className="pl-24 py-4">
+          <th scope="col" className="pl-28   py-4">
             Dự án
           </th>
           <th scope="col" className="pl-12 py-4">
             Tên tòa nhà
           </th>
-          <th scope="col" className="pl-12 py-4">
+          <th scope="col" className="pl-10 py-4">
             Mức phí
           </th>
-          <th scope="col" className="pl-12 py-4">
+          <th scope="col" className="pl-11 py-4">
             Ngày phân phối
           </th>
           <th scope="col" className="pl-12 py-4">
             Ngày hết hạn
           </th>
-          <th scope="col" className="pl-10 py-4">
-            Hủy dự án
+          <th scope="col" className="pl-14 py-4">
+            Hành động
           </th>
         </tr>
       </thead>

@@ -4,6 +4,7 @@ import { appointmentApi } from "../../api/appointmentApi";
 const initialState = {
   appointment: null,
   appointmentLoading: false,
+  isChange: false,
 };
 
 export const getAppointmentByDistributionId = createAsyncThunk(
@@ -36,13 +37,14 @@ const appointmentSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAppointmentByApartmentId.pending, (state, action) => {
-      return { ...state, appointmentLoading: true };
+      return { ...state, appointmentLoading: true, isChange: false };
     });
     builder.addCase(getAppointmentByApartmentId.fulfilled, (state, action) => {
       return {
         ...state,
         appointmentByApartment: action.payload,
         appointmentLoading: false,
+        isChange: true,
       };
     });
   },

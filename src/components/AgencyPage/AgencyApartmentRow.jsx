@@ -7,6 +7,7 @@ import AppointmentModal from "./AppointmentModal";
 import { getSubcriptionByAppointmentId } from "../../store/slices/subcriptionSlice";
 import { getAppointmentByApartmentId } from "../../store/slices/appointmentSlice";
 import ViewAppointment from "./ViewAppointment";
+import { getAllBuilding } from "../../store/slices/buildingSlice";
 import { cancelBookingDistribution } from "../../store/slices/bookingDistributionSlice";
 
 export default function AgencyApartmentRow({ apartment, stt }) {
@@ -14,7 +15,6 @@ export default function AgencyApartmentRow({ apartment, stt }) {
   const [building, setBuilding] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { apartmentDetail } = useSelector((state) => state.apartmentReducer);
-  const dispatch = useDispatch();
 
   const deleteProject = (id) => {
     dispatch(cancelBookingDistribution(id));
@@ -59,17 +59,17 @@ export default function AgencyApartmentRow({ apartment, stt }) {
               />
             </div>
           </td>
-          <td className="whitespace-nowrap px-6 mx-2 w-12  py-4 text-sm">
+          <td className="whitespace-nowrap px-3 mx-2 w-12  py-4 text-sm">
             {apartment?.apartmentNumber}
             {/* {booking.id} */}
           </td>
           <td className="whitespace-nowrap w-20 ml-12  py-4 text-sm">
             {formattedNumber}đ
           </td>
-          <td className=" mx-2 py-auto text-sm ml-16 w-12">
+          <td className=" mx-2 py-auto text-sm ml-14 w-12">
             {apartment?.projectName}
           </td>
-          <td className="whitespace-nowrap  ml-14 mr-6  w-7 py-4 text-sm">
+          <td className="whitespace-nowrap  ml-11 mr-6  w-7 py-4 text-sm">
             {building?.buildingName}
           </td>
           <td className="whitespace-nowrap  ml-16 mr-6 w-4  py-4 text-sm">
@@ -82,7 +82,14 @@ export default function AgencyApartmentRow({ apartment, stt }) {
             {expireDistributionDate}
           </td>
           <td className="whitespace-nowrap ml-20 w-12 py-4 text-sm">
-            <ViewAppointment apartment={apartment} />
+            <Link
+              to={`/agency/appointment/apartment/${apartment.id}`}
+              state={{ buildingName: building?.buildingName }}
+            >
+              <button className="text-white h-8 px-4  mx-1  rounded-md bg-orange-400 text-sm hover:bg-orange-500">
+                Xem
+              </button>
+            </Link>
           </td>
         </div>
         {/* <td className="whitespace-nowrap px-6 py-4">
@@ -106,7 +113,7 @@ export default function AgencyApartmentRow({ apartment, stt }) {
             okText="Hủy"
             cancelText="Không"
           >
-            <button className="text-white h-8 px-2  mx-1  rounded-md bg-red-500 text-sm">
+            <button className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm hover:bg-red-600">
               Hủy
             </button>
           </Popconfirm>
