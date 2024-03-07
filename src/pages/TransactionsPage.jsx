@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllTransactions } from "../store/slices/accountSlice";
-import { Table } from "antd";
+import { Pagination, Table } from "antd";
 import dayjs from "dayjs";
 
 function TransactionsPage() {
+  const [currentPage, setCurrentPage] = useState(1);
   const { transaction, accountForAdmin } = useSelector(
     (state) => state.accountReducer
   );
@@ -20,7 +21,15 @@ function TransactionsPage() {
       email: account ? account.email : "Not found",
     };
   });
-
+  // MAKE A PAGING
+  // Calculate the start and end index for the current page
+  const startIndex = (currentPage - 1) * 5;
+  const endIndex = startIndex + 5;
+  // Slice the data array to show only the items for the current page
+  const currentData = mapTransaction?.slice(startIndex, endIndex);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   useEffect(() => {
     dispatch(getAllTransactions());
   }, []);
@@ -41,8 +50,8 @@ function TransactionsPage() {
                 </tr>
               </thead>
               <tbody class="bg-white">
-                {mapTransaction &&
-                  mapTransaction.map((item, index) => (
+                {currentData &&
+                  currentData.map((item, index) => (
                     <tr class="text-gray-700">
                       <td class="px-4 py-3 border">
                         <div class="flex items-center text-sm">
@@ -82,6 +91,12 @@ function TransactionsPage() {
                       </td>
                     </tr>
                   ))}
+                <Pagination
+                  current={currentPage}
+                  total={mapTransaction?.length}
+                  pageSize={5}
+                  onChange={handlePageChange}
+                />
               </tbody>
             </table>
           </div>

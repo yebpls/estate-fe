@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input, Modal, Pagination, Select, Spin } from "antd";
 import AgencyApartmentRow from "./AgencyApartmentRow";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBuilding } from "../../store/slices/buildingSlice";
 
 export default function AgencyApartment() {
   const [agencyApart, setAgencyApart] = useState(null);
@@ -12,6 +13,7 @@ export default function AgencyApartment() {
   const { bookingDistribution } = useSelector(
     (state) => state.bookingDistributionReducer
   );
+  const dispatch = useDispatch();
   // MAKE A PAGING
   // Calculate the start and end index for the current page
   const startIndex = (currentPage - 1) * 5;
@@ -48,6 +50,10 @@ export default function AgencyApartment() {
     setAgencyApart(matchedApartments);
     // console.log(matchedApartments);
   }, [bookingDistribution, apartments]);
+
+  useEffect(() => {
+    dispatch(getAllBuilding());
+  }, []);
   return (
     <div className="mx-10 mt-10">
       <p className="m-2 text-center text-2xl  font-semibold text-blue-700">

@@ -3,15 +3,19 @@ import { getAppointmentByApartmentId } from "../../store/slices/appointmentSlice
 import { getSubcriptionByAppointmentId } from "../../store/slices/subcriptionSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function SubcriptionRow({ subcriptions }) {
+export default function SubcriptionRow({ subcription }) {
+  const subscribeDate = new Date(subcription?.subscribeDate)
+    .toISOString()
+    .split("T")[0];
+  const updateDate = new Date(subcription?.updateDate)
+    .toISOString()
+    .split("T")[0];
+
   return (
     <div>
-      {subcriptions?.map((subcription) => (
-        <div>
-          <p>{subcription?.id}</p>
-          <p>{subcription?.subscribeDate}</p>
-        </div>
-      ))}
+      <p>{subcription.id}</p>
+      <p>{subscribeDate}</p>
+      <p>{updateDate}</p>
     </div>
   );
 }

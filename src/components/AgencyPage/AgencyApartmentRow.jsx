@@ -7,13 +7,13 @@ import AppointmentModal from "./AppointmentModal";
 import { getSubcriptionByAppointmentId } from "../../store/slices/subcriptionSlice";
 import { getAppointmentByApartmentId } from "../../store/slices/appointmentSlice";
 import ViewAppointment from "./ViewAppointment";
+import { getAllBuilding } from "../../store/slices/buildingSlice";
 
 export default function AgencyApartmentRow({ apartment, stt }) {
   const { buildings } = useSelector((state) => state.buildingReducer);
   const [building, setBuilding] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { apartmentDetail } = useSelector((state) => state.apartmentReducer);
-  const dispatch = useDispatch();
 
   const deleteProject = () => {};
   const cancelDelete = () => {};
@@ -78,13 +78,16 @@ export default function AgencyApartmentRow({ apartment, stt }) {
             {expireDistributionDate}
           </td>
           <td className="whitespace-nowrap ml-20 w-12 py-4 text-sm">
-            <ViewAppointment apartment={apartment} />
+            <ViewAppointment
+              apartment={apartment}
+              buildingName={building?.buildingName}
+            />
           </td>
         </div>
         {/* <td className="whitespace-nowrap px-6 py-4">
   {pet.isSold ? "Đã bán" : "Chưa bán"}
 </td> */}
-        <td className="whitespace-nowrap ml-16 py-4 flex justify-between">
+        <td className="whitespace-nowrap ml-4 py-4 flex justify-between">
           <Popconfirm
             placement="bottomRight"
             title="Nhắc nhở"
@@ -102,7 +105,7 @@ export default function AgencyApartmentRow({ apartment, stt }) {
             okText="Hủy"
             cancelText="Không"
           >
-            <button className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm">
+            <button className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm hover:bg-red-600">
               Hủy
             </button>
           </Popconfirm>
