@@ -9,6 +9,7 @@ import {
 import LoadingComponent from "../components/SharedComponent/LoadingComponent";
 import { LoadingOutlined } from "@ant-design/icons";
 import FilterApartments from "../components/SharedComponent/Filter/FilterApartments";
+import SearchBar from "../components/SharedComponent/SearchBar";
 
 export default function AllApartment() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,15 +41,7 @@ export default function AllApartment() {
       <p className="w-full text-center my-7 font-semibold text-blue-400 text-2xl">
         Các dự án đang mở bán
       </p>
-      <div className="absolute right-7">
-        <input
-          placeholder="Search a project by name"
-          className="px-3 p-1.5 text-sm text-orange-300 w-60 placeholder-gray_3 focus:outline-none focus:border-orange-300  focus:ring-0 ring-gray-400 rounded-e-none"
-        />
-        <button className="px-3 p-1 hover:bg-orange-300 bg-orange-400 text-white border-none rounded-s-none">
-          Search
-        </button>
-      </div>
+      <SearchBar />
       <Row gutter={16} className="mt-20 ">
         <Col className="gutter-row" span={4}>
           <FilterApartments />

@@ -19,7 +19,9 @@ export default function SubcriptionRow({ subcription, stt }) {
       </p>
       <p className="w-1/5 text-base text-slate-700">{subscribeDate}</p>
       {subcription.subscriptionStatus === 0 ? (
-        <p className="w-1/5 text-base text-slate-700">Đã mua</p>
+        <div>
+          <p className="w-1/5 text-base text-slate-700">Đã mua</p>
+        </div>
       ) : subcription.subscriptionStatus === 1 ? (
         <p className="w-1/5 text-base text-orange-400">Đang chờ hẹn</p>
       ) : subcription.subscriptionStatus === 2 ? (

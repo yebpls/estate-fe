@@ -13,6 +13,7 @@ export default function Project() {
     (state) => state.apartmentReducer
   );
   const dispatch = useDispatch();
+  const viewProject = apartmentsCanBuy?.slice(0, 10);
 
   useEffect(() => {
     dispatch(getAllCanBuy());
@@ -40,8 +41,8 @@ export default function Project() {
             </div>
           )}
           <Row gutter={16}>
-            {apartmentsCanBuy &&
-              apartmentsCanBuy.map((apartment) => (
+            {viewProject &&
+              viewProject.map((apartment) => (
                 <Col className="gutter-row w-full" span={6}>
                   <ProjectCard key={apartment.id} apartment={apartment} />
                 </Col>

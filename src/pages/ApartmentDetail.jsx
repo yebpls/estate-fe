@@ -45,7 +45,6 @@ export default function ApartmentDetail() {
             ← Trở về trang trước
           </Link>
         </button>
-        <SearchBar />
       </div>
       <div className="mt-10">
         {loadingSubcription ? (

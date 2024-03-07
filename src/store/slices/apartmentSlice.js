@@ -137,19 +137,19 @@ const apartmentSlice = createSlice({
       };
     },
     getViewApartment: (state, action) => {
-      const { apartments } = state;
-      return { ...state, viewApartment: apartments };
+      const { apartmentsCanBuy } = state;
+      return { ...state, viewApartment: apartmentsCanBuy };
     },
     getApartmentByCity: (state, action) => {
-      const { apartments } = state;
-      const apartmentsByCity = apartments?.filter((apartment) => {
+      const { apartmentsCanBuy } = state;
+      const apartmentsByCity = apartmentsCanBuy?.filter((apartment) => {
         return apartment.cityName === action.payload;
       });
       return { ...state, viewApartment: apartmentsByCity };
     },
     getApartmentBySquare: (state, action) => {
-      const { apartments } = state;
-      const apartmentBySquare = apartments?.filter((apartment) => {
+      const { apartmentsCanBuy } = state;
+      const apartmentBySquare = apartmentsCanBuy?.filter((apartment) => {
         return (
           apartment.area >= action.payload.min &&
           apartment.area <= action.payload.max
@@ -157,6 +157,16 @@ const apartmentSlice = createSlice({
       });
       console.log(action.payload.min, action.payload.max, apartmentBySquare);
       return { ...state, viewApartment: apartmentBySquare };
+    },
+    searchApartmentByProjectName: (state, action) => {
+      const { apartmentsCanBuy } = state;
+
+      const searchValue = action.payload;
+      console.log("search value:", searchValue);
+      const apartmetnBySearchValue = apartmentsCanBuy?.filter((apartment) =>
+        apartment.projectName.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      return { ...state, viewApartment: apartmetnBySearchValue };
     },
     setIsChange: (state, action) => {
       return { ...state, isChange: !state.isChange };
@@ -300,6 +310,7 @@ export const {
   getViewApartment,
   getApartmentByCity,
   getApartmentBySquare,
+  searchApartmentByProjectName,
 } = apartmentSlice.actions;
 
 export default apartmentSlice.reducer;
