@@ -46,6 +46,7 @@ import PaymentPage from "./pages/PaymentPage";
 import AllApartment from "./pages/AllApartment";
 import NoPage from "./pages/NoPage";
 import TransactionsPage from "./pages/TransactionsPage";
+import AccountBalance from "./components/SharedComponent/AccountBalance";
 
 function App() {
   const { isLogin, role, id } = useSelector((state) => state.accountReducer);

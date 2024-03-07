@@ -34,6 +34,15 @@ export const getAgencyId = createAsyncThunk("agency/get_id", async (id) => {
   }
 });
 
+export const getCustomerId = createAsyncThunk("customer/get_id", async (id) => {
+  try {
+    const res = await accountApi.getCustomerId(id);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export const getAgencyByApartmentId = createAsyncThunk(
   "apartment/getAgency",
   async (id) => {
@@ -103,6 +112,7 @@ const initialState = {
   error: null,
   success: false,
   investor: null,
+  customer: null,
   agency: null,
   agencyByApartment: null,
   transaction: null,
@@ -137,6 +147,9 @@ const accountSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getInvestorId.fulfilled, (state, action) => {
       return { ...state, investor: action.payload };
+    });
+    builder.addCase(getCustomerId.fulfilled, (state, action) => {
+      return { ...state, customer: action.payload };
     });
     builder.addCase(getAgencyId.fulfilled, (state, action) => {
       return { ...state, agency: action.payload };

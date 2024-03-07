@@ -97,7 +97,7 @@ export default function AgencyApartmentRow({ apartment, stt }) {
           <Popconfirm
             placement="bottomRight"
             title="Nhắc nhở"
-            description="Bạn có muốn hủy dự án này không?"
+            description="Nếu bạn huỷ bạn sẽ mất tiền cọc cho căn hộ này?"
             onConfirm={deleteProject}
             okButtonProps={{
               style: { backgroundColor: "red " },

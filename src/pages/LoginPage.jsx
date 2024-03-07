@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getAgencyId,
+  getCustomerId,
   getInvestorId,
   setAccId,
   setIsLogin,
@@ -55,7 +56,7 @@ function LoginPage() {
           // navigate("/agency");
         }
         if (role === "CUSTOMER") {
-          navigate("/customer");
+          dispatch(getCustomerId(id));
         }
         //else if (role === "Admin") {
         //   navigate("/admin");
