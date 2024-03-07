@@ -7,6 +7,7 @@ import AppointmentModal from "./AppointmentModal";
 import { getSubcriptionByAppointmentId } from "../../store/slices/subcriptionSlice";
 import { getAppointmentByApartmentId } from "../../store/slices/appointmentSlice";
 import ViewAppointment from "./ViewAppointment";
+import { cancelBookingDistribution } from "../../store/slices/bookingDistributionSlice";
 
 export default function AgencyApartmentRow({ apartment, stt }) {
   const { buildings } = useSelector((state) => state.buildingReducer);
@@ -15,7 +16,10 @@ export default function AgencyApartmentRow({ apartment, stt }) {
   const { apartmentDetail } = useSelector((state) => state.apartmentReducer);
   const dispatch = useDispatch();
 
-  const deleteProject = () => {};
+  const deleteProject = (id) => {
+    dispatch(cancelBookingDistribution(id));
+    // console.log(id);
+  };
   const cancelDelete = () => {};
   // useEffect(() => {
   //   dispatch(getApartmentById(booking.apartmentId));
@@ -84,12 +88,12 @@ export default function AgencyApartmentRow({ apartment, stt }) {
         {/* <td className="whitespace-nowrap px-6 py-4">
   {pet.isSold ? "Đã bán" : "Chưa bán"}
 </td> */}
-        <td className="whitespace-nowrap ml-16 py-4 flex justify-between">
+        <td className="whitespace-nowrap py-4 flex justify-between">
           <Popconfirm
             placement="bottomRight"
             title="Nhắc nhở"
             description="Nếu bạn huỷ bạn sẽ mất tiền cọc cho căn hộ này?"
-            onConfirm={deleteProject}
+            onConfirm={() => deleteProject(apartment.bookingId)}
             okButtonProps={{
               style: { backgroundColor: "red " },
             }}
@@ -102,7 +106,7 @@ export default function AgencyApartmentRow({ apartment, stt }) {
             okText="Hủy"
             cancelText="Không"
           >
-            <button className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm">
+            <button className="text-white h-8 px-2  mx-1  rounded-md bg-red-500 text-sm">
               Hủy
             </button>
           </Popconfirm>

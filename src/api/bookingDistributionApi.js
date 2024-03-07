@@ -9,6 +9,10 @@ export const bookingDistributionApi = {
     const url = `/api/booking-distribution/create`;
     return axiosClient.post(url, params);
   },
+  cancel(id) {
+    const url = `/api/booking-distribution/cancel/${id}`;
+    return axiosClient.post(url);
+  },
   // getAllByProjectId(id) {
   //   const url = `/api/booking-distribution/`;
   //   return axiosClient.get(url);
