@@ -9,4 +9,9 @@ export const subcriptionApi = {
     const url = `/api/subscription/appointment/${id}`;
     return axiosClient.get(url, id);
   },
+  updateSubcriptionStatus(id, status) {
+    const url = `/api/subscription/${id}/${status}`;
+    console.log("api: ", id, status);
+    return axiosClient.put(url, id, status);
+  },
 };

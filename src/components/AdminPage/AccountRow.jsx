@@ -8,6 +8,9 @@ import {
 
 export default function AccountRow({ account, stt }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [cityName, setCityName] = useState();
+  const { city } = useSelector((state) => state.buildingReducer);
+
   const dispatch = useDispatch();
   const changeConfirm = () => {
     setIsModalOpen(true);
@@ -22,6 +25,13 @@ export default function AccountRow({ account, stt }) {
     console.log("account id:", account.id);
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    const accountCity = city?.find((city) => {
+      return city.id === account.cityId;
+    });
+    setCityName(accountCity.cityName);
+  }, []);
   return (
     <div>
       <tr className="flex items-center hover:bg-slate-100">
@@ -50,7 +60,7 @@ export default function AccountRow({ account, stt }) {
             ? "Customer"
             : ""}
         </td>
-        <td className=" mx-2 py-auto text-sm ml-9 w-32">{account.cityId}</td>
+        <td className=" mx-2 py-auto text-sm ml-9 w-32">{cityName}</td>
         <td className="whitespace-nowrap  ml-4 mr-6 text-sm w-28">
           {account.status === true ? (
             <p className="text-blue-400 text-base">Còn hoạt động</p>

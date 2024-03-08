@@ -7,15 +7,15 @@ import { Pagination, Spin } from "antd";
 import SubcriptionRow from "./SubcriptionRow";
 import { getApartmentById } from "../../store/slices/apartmentSlice";
 import { LoadingOutlined } from "@ant-design/icons";
+import LoadingComponent from "../SharedComponent/LoadingComponent";
 
 export default function Subcription() {
   const { apartmentId } = useParams();
   const { state } = useLocation();
   const [appointId, setAppointId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const { subcriptionByAppointment, loadingSubcription } = useSelector(
-    (state) => state.subcriptionReducer
-  );
+  const { subcriptionByAppointment, loadingSubcription, loadingSubNofi } =
+    useSelector((state) => state.subcriptionReducer);
 
   const { apartmentDetail } = useSelector((state) => state.apartmentReducer);
 
@@ -56,14 +56,18 @@ export default function Subcription() {
         Căn {apartmentDetail?.apartmentNumber} ở tòa {state.buildingName} thuộc
         dự án {apartmentDetail?.projectName}
       </p>
-      <div className="flex mt-4 mb-2">
-        <p className="w-1/6 text-base text-slate-500">Stt</p>
+      <div className="flex mt-4 mb-2 text-center">
+        <p className="w-1/12 text-base text-slate-500">Stt</p>
         <p className="w-1/6 text-base text-slate-500 -ml-7">Mã khách</p>
         <p className="w-1/5 text-base text-slate-500">Ngày đăng ký</p>
         <p className="w-1/5 text-base text-slate-500">Trạng thái</p>
-        <p className="w-1/4 text-base text-slate-500">Cập nhật trạng thái</p>
+        <p className="w-1/5 text-base text-slate-500">Cập nhật trạng thái</p>
       </div>
       <div>
+        <LoadingComponent
+          message={"Đang cập nhật lại"}
+          loadingDependency={loadingSubNofi}
+        />
         {loadingSubcription ? (
           <div className="text-center mt-32 h-20 text-lg text-slate-500">
             <Spin

@@ -8,10 +8,10 @@ export default function Account() {
   const { loading, accountForAdmin, loadingButton } = useSelector(
     (state) => state.accountReducer
   );
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllAccount());
-    console.log(accountForAdmin);
   }, [dispatch]);
   return (
     <div className="mx-10 mt-10">
