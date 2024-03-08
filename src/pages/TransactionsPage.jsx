@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllTransactions } from "../store/slices/accountSlice";
-import { Pagination, Table } from "antd";
+import { Pagination, Spin, Table } from "antd";
 import dayjs from "dayjs";
 
 function TransactionsPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const { transaction, accountForAdmin } = useSelector(
+  const { transaction, accountForAdmin, loading } = useSelector(
     (state) => state.accountReducer
   );
   const dispatch = useDispatch();

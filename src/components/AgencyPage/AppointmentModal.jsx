@@ -23,15 +23,15 @@ export default function AppointmentModal({
     (state) => state.subcriptionReducer
   );
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log(
-      apartment?.id,
-      appointmentByApartment?.id,
-      subcriptionByAppointment
-    );
-    dispatch(getAppointmentByApartmentId(apartment?.id));
-    dispatch(getSubcriptionByAppointmentId(appointmentByApartment?.id));
-  }, [apartment, dispatch]);
+  // useEffect(() => {
+  //   console.log(
+  //     apartment?.id,
+  //     appointmentByApartment?.id,
+  //     subcriptionByAppointment
+  //   );
+  //   dispatch(getAppointmentByApartmentId(apartment?.id));
+  //   dispatch(getSubcriptionByAppointmentId(appointmentByApartment?.id));
+  // }, [apartment, dispatch]);
   return (
     <div>
       <div onClick={openModal}>{children}</div>

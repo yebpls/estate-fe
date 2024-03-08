@@ -65,13 +65,13 @@ export default function AddBuilding({ projectId }) {
           </div>
           <div className="m-2">
             <p className="m-2">Địa chỉ</p>
-            <input
+            <textarea
               className="w-full p-1"
               {...registerBuilding("address", { require: true })}
               placeholder="Địa chỉ"
               id="address"
               name="address"
-            ></input>
+            ></textarea>
           </div>
           <div>
             <p className="ml-2">Tỉnh</p>

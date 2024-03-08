@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AccountBalance from "../AccountBalance";
 
 export default function Admin() {
   return (
@@ -25,6 +26,10 @@ export default function Admin() {
               Quản lý các giao dịch
             </span>
           </Link>
+        </li>
+
+        <li className="inline-block ml-8">
+          <AccountBalance />
         </li>
       </ul>
     </div>

@@ -3,6 +3,7 @@ import { Button, Input, Modal, Pagination, Select, Spin } from "antd";
 import AgencyApartmentRow from "./AgencyApartmentRow";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBuilding } from "../../store/slices/buildingSlice";
+import LoadingComponent from "../SharedComponent/LoadingComponent";
 
 export default function AgencyApartment() {
   const [agencyApart, setAgencyApart] = useState(null);
@@ -38,6 +39,7 @@ export default function AgencyApartment() {
             bookingFee: matchingBooking.bookingFee,
             distributionDate: matchingBooking.distributionDate,
             expireDistributionDate: matchingBooking.expireDistributionDate,
+            bookingId: matchingBooking.id,
             // Include any other booking properties you need
           };
         }
@@ -56,6 +58,7 @@ export default function AgencyApartment() {
   }, []);
   return (
     <div className="mx-5 mt-10">
+      <LoadingComponent loadingDependency={isLoading} message={"Đang huỷ"} />
       <p className="m-2 text-center text-2xl  font-semibold text-blue-700">
         Các căn hộ đang bán hộ
       </p>

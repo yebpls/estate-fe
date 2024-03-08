@@ -32,6 +32,19 @@ export const createBookingDistribution = createAsyncThunk(
   }
 );
 
+export const cancelBookingDistribution = createAsyncThunk(
+  "booking_distribution/cancel",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await bookingDistributionApi.cancel(id);
+      // return res.data;
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const bookingDistributionSlice = createSlice({
   name: "bookingDistribution",
   initialState,
@@ -62,6 +75,24 @@ const bookingDistributionSlice = createSlice({
     builder.addCase(createBookingDistribution.rejected, (state, action) => {
       toast.error("Tạo đăng ký bán thất bại");
 
+      return { ...state, isLoading: false };
+    });
+    builder.addCase(cancelBookingDistribution.pending, (state, action) => {
+      return { ...state, isLoading: true };
+    });
+    builder.addCase(cancelBookingDistribution.fulfilled, (state, action) => {
+      const { bookingDistribution } = state;
+      const bookingId = action.meta.arg;
+      const newBookingList = bookingDistribution.filter(
+        (item) => item.id !== bookingId
+      );
+      toast.success(
+        "Bạn đã huỷ bán hộ thành công. Số tiền của bạn sẽ được chuyển về ví của investor "
+      );
+      return { ...state, bookingDistribution: newBookingList };
+    });
+    builder.addCase(cancelBookingDistribution.rejected, (state, action) => {
+      toast.error("Còn subscription bên trong dự án, không thể huỷ");
       return { ...state, isLoading: false };
     });
   },
