@@ -7,7 +7,7 @@ import LoadingComponent from "../SharedComponent/LoadingComponent";
 
 export default function AgencyInfo({ agency, appointment, apartmentId }) {
   const { city } = useSelector((state) => state.buildingReducer);
-  const { role } = useSelector((state) => state.accountReducer);
+  const { role, customer } = useSelector((state) => state.accountReducer);
   const cityName = city.find((city) => city.id === agency?.cityId);
   //GET CURRENT DATE
   const date = new Date();
@@ -22,7 +22,7 @@ export default function AgencyInfo({ agency, appointment, apartmentId }) {
       subscribeDate: currentDate,
       updateDate: currentDate,
       subscriptionStatus: 1,
-      customerId: 1,
+      customerId: customer?.id,
       appointmentId: appointment.id,
       apartmentId: apartmentId,
     };

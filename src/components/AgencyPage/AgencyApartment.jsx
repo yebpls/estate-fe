@@ -8,6 +8,7 @@ import LoadingComponent from "../SharedComponent/LoadingComponent";
 export default function AgencyApartment() {
   const [agencyApart, setAgencyApart] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+
   const { apartments, isLoading } = useSelector(
     (state) => state.apartmentReducer
   );

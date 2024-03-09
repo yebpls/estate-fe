@@ -11,7 +11,10 @@ export const subcriptionApi = {
   },
   updateSubcriptionStatus(id, status) {
     const url = `/api/subscription/${id}/${status}`;
-    console.log("api: ", id, status);
     return axiosClient.put(url, id, status);
+  },
+  getSubcriptionByCusId(id) {
+    const url = `/api/subscription/customer/${id}`;
+    return axiosClient.get(url, id);
   },
 };

@@ -6,6 +6,7 @@ import {
   setAccId,
   setAgency,
   setCurrentUser,
+  setCustomer,
   setInvestor,
   setIsLogin,
   setRole,
@@ -31,6 +32,7 @@ function ProfileDropdown() {
     dispatch(setAccId(null));
     dispatch(setAgency(null));
     dispatch(setInvestor(null));
+    dispatch(setCustomer(null));
     navigate("/");
 
     return new Promise((resolve) => setTimeout(resolve, 100)); // Wait for 100ms (adjust as needed)

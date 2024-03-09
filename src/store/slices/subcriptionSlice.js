@@ -38,6 +38,20 @@ export const updateStatusBySubcriptionId = createAsyncThunk(
   }
 );
 
+export const getSubcriptionByCustomerId = createAsyncThunk(
+  "subcription/get_by_customer",
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const res = await subcriptionApi.getSubcriptionByCusId(id);
+      const apartments = getState().apartmentReducer.apartments;
+      const buildings = getState().buildingReducer.buildings;
+      return { data: res.data, apartments, buildings };
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   subcription: null,
   loadingSubcription: false,
@@ -111,6 +125,37 @@ const subcriptionSlice = createSlice({
     });
     builder.addCase(updateStatusBySubcriptionId.rejected, (state, action) => {
       return { ...state, loadingSubNofi: false };
+    });
+    builder.addCase(getSubcriptionByCustomerId.pending, (state, action) => {
+      return { ...state };
+    });
+    builder.addCase(getSubcriptionByCustomerId.fulfilled, (state, action) => {
+      const { data, apartments, buildings } = action.payload;
+      const newSubcription = data?.map((subcription) => {
+        const matchApartment = apartments?.find(
+          (apartments) => apartments.id === subcription.apartmentId
+        );
+        if (matchApartment) {
+          const matchBuilding = buildings?.find(
+            (building) => building?.id === matchApartment?.buildingId
+          );
+          if (matchBuilding) {
+            return {
+              ...subcription,
+              projectName: matchApartment?.projectName,
+              address: matchBuilding?.address,
+              buildingName: matchBuilding?.buildingName,
+              apartmentNumber: matchApartment?.apartmentNumber,
+              mainImage: matchApartment?.mainImage,
+              price: matchApartment?.price,
+              area: matchApartment?.area,
+            };
+          }
+        }
+        return subcription;
+      });
+      console.log(data, apartments, newSubcription, buildings); // Now you can access the apartments data directly
+      return { ...state, subcriptionByCus: newSubcription };
     });
   },
 });

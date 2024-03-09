@@ -1,9 +1,16 @@
 import { Modal } from "antd";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getApartmentById } from "../../store/slices/apartmentSlice";
+import axios from "axios";
 
-export default function ApartmentRow() {
+export default function ApartmentRow({ subcription, stt }) {
+  const apartmentPrice = subcription?.price.toLocaleString("de-DE");
+  const subcribeDate = new Date(subcription?.subscribeDate)
+    .toISOString()
+    .split("T")[0];
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dispatch = useDispatch();
   const DeleteConfirm = () => {
     setIsModalOpen(true);
   };
@@ -13,49 +20,58 @@ export default function ApartmentRow() {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   return (
     <div>
       <tr className="flex items-center hover:bg-slate-100">
-        <Link
-          to=""
-          className=" hover:bg-slate-100 flex items-center p-1 rounded-md"
-        >
-          <td className="mx-6 py-4">
-            <p>1</p>
+        <div className=" hover:bg-slate-100 flex items-center p-1 rounded-md">
+          <td className="mx-2 py-4">
+            <p>{stt}</p>
           </td>
           <td className=" px-6 py-4">
             <div className="w-40 h-20">
               <img
-                src={`https://www.souciehorner.com/wp-content/uploads/2017/04/Kitchen3-1536.jpg`}
+                src={subcription?.mainImage}
                 alt=""
                 className="w-full h-full  rounded-sm"
               />
             </div>
           </td>
-          <div className="w-64">
+          <div className="w-80">
             <p className="whitespace-nowrap text-xl font-semibold py-1 text-slate-600">
-              Dự án Rivana
+              {subcription?.projectName}
             </p>
-            <p className="whitespace-nowrap text-xs text-slate-500">
-              Phòng 606 tòa River
+            <p className="text-xs text-slate-500">
+              Căn {subcription?.apartmentNumber} Tòa {subcription?.buildingName}
             </p>
-            <p className="text-xs py-2">
-              68 Quốc lộ 13, Phường Vĩnh Phú, Thành Phố Thuận An, Tỉnh Bình
-              Dương
+            <p className="text-xs py-1 text-slate-500">
+              {subcription?.address}
             </p>
-          </div>
-          <div className="w-60 ml-9">
-            <p className="whitespace-nowrap text-sm py-2 text-orange-600">
-              Tình trạng đăng ký: Chờ đợi
-            </p>
-            <p className="whitespace-nowrap text-xs text-orange-400 py-1">
-              Ngày cập nhật: 30/02/2024
-            </p>
-            <p className="whitespace-nowrap text-xs text-orange-400">
-              Ngày đăng ký: 24/02/2024
+            <p className="text-sm py-1 text-slate-700">
+              Có giá {apartmentPrice}đ ({subcription?.area}m2)
             </p>
           </div>
-          <div className="w-60 ml-4">
+          <div className="w-64 ml-3">
+            {subcription?.subscriptionStatus === 0 ? (
+              <p className="text-red-400 text-sm py-2">
+                Tình trạng đăng ký: Căn hộ đã bán
+              </p>
+            ) : subcription?.subscriptionStatus === 1 ? (
+              <p className="text-orange-400 text-sm py-2">
+                Tình trạng đăng ký: Chờ xác nhận
+              </p>
+            ) : subcription?.subscriptionStatus === 2 ? (
+              <p className="text-green-400 text-sm py-2">
+                Tình trạng đăng ký: Đã lên lịch hẹn
+              </p>
+            ) : (
+              ""
+            )}
+            <p className="whitespace-nowrap text-xs text-blue-400">
+              Ngày đăng ký: {subcribeDate}
+            </p>
+          </div>
+          <div className="w-60 ml-2">
             <p className="whitespace-nowrap text-sm py-2 text-orange-600">
               Tình trạng cuộc hẹn: Chờ đợi
             </p>
@@ -66,7 +82,7 @@ export default function ApartmentRow() {
               Ngày hẹn gặp: 24/02/2024
             </p>
           </div>
-        </Link>
+        </div>
         {/* <td className="whitespace-nowrap px-6 py-4">
 {pet.isSold ? "Đã bán" : "Chưa bán"}
 </td> */}
