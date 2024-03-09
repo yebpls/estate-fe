@@ -16,14 +16,21 @@ export default function ApartmentImg({ apartment }) {
 
   return (
     <div>
-      <div>
+      <div className=" pt-6">
+        <p className="text-base text-slate-500 p-1">
+          Căn hộ chung cư phòng {apartment?.apartmentNumber} tại tòa{" "}
+          {apartment?.buildingName} thuộc dự án {apartment?.projectName}
+        </p>
         <div className="p-2">
           <Image
             width="100%"
-            height="70vh"
-            className="object-cover"
+            height="50vh"
+            className="object-cover rounded-sm"
             src={selectedImageUrl}
           />
+          <p className="text-sm text-slate-500 p-1">
+            Địa chỉ: {apartment?.address}
+          </p>
         </div>
         {/* <div className="flex">
           {productImages &&

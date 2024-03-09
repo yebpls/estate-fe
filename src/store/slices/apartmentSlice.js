@@ -40,10 +40,13 @@ export const getAllCanBuy = createAsyncThunk(
 
 export const getApartmentById = createAsyncThunk(
   "apartment/get_by_id",
-  async (id, { rejectWithValue }) => {
+  async (id, { rejectWithValue, getState }) => {
     try {
       const res = await apartmentApi.getById(id);
-      return res.data;
+      const buildings = getState().buildingReducer.buildings;
+      console.log('buildings: ', buildings)
+
+      return { data: res.data, buildings };
     } catch (error) {
       console.log(error);
       return rejectWithValue(error.response.message);
@@ -195,7 +198,22 @@ const apartmentSlice = createSlice({
       return { ...state, isLoading: true };
     });
     builder.addCase(getApartmentById.fulfilled, (state, action) => {
-      return { ...state, apartmentDetail: action.payload, isLoading: false };
+      const { data, buildings } = action.payload;
+      const buildingByApartment = buildings?.find(
+        (building) => building.id === data.buildingId
+      );
+      console.log('building: ', buildingByApartment)
+      const newApartmentDetail = {
+        ...data,
+        buildingName: buildingByApartment?.buildingName,
+        address: buildingByApartment?.address,
+      };
+      console.log("apartment: ", newApartmentDetail);
+      return {
+        ...state,
+        apartmentDetail: newApartmentDetail,
+        isLoading: false,
+      };
     });
     builder.addCase(getApartmentById.rejected, (state, action) => {
       return { ...state, isLoading: false };

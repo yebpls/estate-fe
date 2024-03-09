@@ -3,6 +3,7 @@ import axiosClient from "./axiosClient";
 export const subcriptionApi = {
   createSubcription(params) {
     const url = `/api/subscription/create`;
+    console.log('param api', params);
     return axiosClient.post(url, params);
   },
   getByAppointmentId(id) {

@@ -138,7 +138,7 @@ const accountSlice = createSlice({
       return { ...state, investor: action.payload };
     },
     setCustomer: (state, action) => {
-      return { ...state, customer: action.pay };
+      return { ...state, customer: action.payload };
     },
     setUsername: (state, action) => {
       state.username = action.payload;

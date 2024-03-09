@@ -7,6 +7,7 @@ export const createSubcription = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const res = await subcriptionApi.createSubcription(params);
+      console.log('param:', params);
       return res;
     } catch (error) {
       return rejectWithValue(error.response.data);

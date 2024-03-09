@@ -1,14 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { createSubcription } from "../../store/slices/subcriptionSlice";
 import { toast } from "react-toastify";
 import LoadingComponent from "../SharedComponent/LoadingComponent";
+import { Popconfirm } from "antd";
 
 export default function AgencyInfo({ agency, appointment, apartmentId }) {
   const { city } = useSelector((state) => state.buildingReducer);
   const { role, customer } = useSelector((state) => state.accountReducer);
   const cityName = city.find((city) => city.id === agency?.cityId);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const changeConfirm = () => {
+    setIsModalOpen(true);
+  };
+
   //GET CURRENT DATE
   const date = new Date();
   const dateDay = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
@@ -51,12 +59,36 @@ export default function AgencyInfo({ agency, appointment, apartmentId }) {
         {agency?.email}
       </Link>
 
-      <button
-        onClick={makeASubcription}
-        className="w-2/3 mx-auto m-2 bg-orange-500 text-white text-sm font-semibold border-none hover:bg-orange-200 hover:text-orange-400"
+      <Popconfirm
+        placement="bottomRight"
+        title="Xác nhận"
+        description="Xác nhận là bạn muốn tạo cuộc hẹn xem nhà"
+        onConfirm={() => makeASubcription()}
+        okButtonProps={{
+          style: { backgroundColor: "#FFAC33 " },
+        }}
+        okText="Xác nhận"
+        cancelText="Hủy"
+        cancelButtonProps={{
+          style: {
+            color: "#FFAC33",
+            border: "1px solid transparent",
+          },
+          onMouseOver: (e) => {
+            e.target.style.borderColor = "#FFAC33";
+          },
+          onMouseOut: (e) => {
+            e.target.style.borderColor = "#FFAC33";
+          },
+        }}
       >
-        Tạo cuộc hẹn xem nhà
-      </button>
+        <button
+          onClick={changeConfirm}
+          className="w-2/3 mx-auto m-2 bg-orange-500 text-white text-sm font-semibold border-none hover:bg-orange-200 hover:text-orange-400"
+        >
+          Tạo cuộc hẹn xem nhà
+        </button>
+      </Popconfirm>
     </div>
   );
 }
