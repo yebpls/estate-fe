@@ -219,7 +219,10 @@ const apartmentSlice = createSlice({
       toast.success("Tạo căn hộ thành công");
       const { apartmentByProject } = state;
       const newApartmentByProject = action.payload;
-      const newApartList = [...apartmentByProject, newApartmentByProject];
+      const newApartList = [
+        ...(apartmentByProject || []),
+        newApartmentByProject,
+      ];
       return {
         ...state,
         loadingChange: false,

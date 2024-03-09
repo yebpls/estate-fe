@@ -69,10 +69,31 @@ function TransactionsPage() {
                         </div>
                       </td>
                       <td class="px-4 py-3 text-xs border">
-                        {item.status === 0 && "Nạp tiền"}
-                        {item.status === 1 && "Agency cọc"}
-                        {item.status === 2 && "Trả tiền cho agency"}
-                        {item.status === 3 && "Trả tiền cho hệ thống"}
+                        {item.status === 0 && (
+                          <p className="bg-green-400 rounded-md py-2 px-1 text-white font-bold uppercase">
+                            + Nạp tiền
+                          </p>
+                        )}
+                        {item.status === 1 && (
+                          <p className="bg-green-400 rounded-md py-2 px-1 text-white font-bold uppercase">
+                            + Agency cọc
+                          </p>
+                        )}
+                        {item.status === 2 && (
+                          <p className="bg-red-400 rounded-md py-2 px-1 text-white font-bold uppercase">
+                            - Trả tiền cho investor
+                          </p>
+                        )}
+                        {item.status === 3 && (
+                          <p className="bg-red-400 rounded-md py-2 px-1 text-white font-bold uppercase">
+                            - Trả tiền cho agency
+                          </p>
+                        )}
+                        {item.status === 4 && (
+                          <p className="bg-green-400 rounded-md py-2 px-1 text-white font-bold uppercase">
+                            + Investor trả tiền cho hệ thống
+                          </p>
+                        )}
                       </td>
                       <td class="px-4 py-3 text-xs border">
                         {item.amount.toLocaleString("de-DE")}đ
