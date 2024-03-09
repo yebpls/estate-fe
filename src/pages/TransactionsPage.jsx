@@ -71,8 +71,9 @@ function TransactionsPage() {
                       <td class="px-4 py-3 text-xs border">
                         {item.status === 0 && "Nạp tiền"}
                         {item.status === 1 && "Agency cọc"}
-                        {item.status === 2 && "Trả tiền cho agency"}
-                        {item.status === 3 && "Trả tiền cho hệ thống"}
+                        {item.status === 2 && "Trả tiền cho investor"}
+                        {item.status === 3 && "Trả tiền cho agency"}
+                        {item.status === 4 && "Investor trả tiền cho hệ thống"}
                       </td>
                       <td class="px-4 py-3 text-xs border">
                         {item.amount.toLocaleString("de-DE")}đ
