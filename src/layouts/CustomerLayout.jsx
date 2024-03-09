@@ -4,12 +4,14 @@ import Header from "../components/Header";
 import SideBar from "../components/SharedComponent/SideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { getAgencyId, getCustomerId } from "../store/slices/accountSlice";
+import { getAllBuilding } from "../store/slices/buildingSlice";
 
 export default function CustomerLayout() {
   const { id } = useSelector((state) => state.accountReducer);
 
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getAllBuilding());
     dispatch(getCustomerId(id));
   }, [dispatch, id]);
   return (

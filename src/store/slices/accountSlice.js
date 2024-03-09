@@ -137,6 +137,9 @@ const accountSlice = createSlice({
     setInvestor: (state, action) => {
       return { ...state, investor: action.payload };
     },
+    setCustomer: (state, action) => {
+      return { ...state, customer: action.payload };
+    },
     setUsername: (state, action) => {
       state.username = action.payload;
     },
@@ -231,6 +234,7 @@ export const {
   setCurrentUser,
   setAgency,
   setInvestor,
+  setCustomer,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

@@ -38,15 +38,15 @@ export default function ApartmentDetail() {
   }, [id, dispatch]);
 
   return (
-    <div className="px-5">
-      <div className="flex mt-4">
-        <button className="border-none inline-block text-left">
+    <div className="">
+      <div className="flex">
+        <button className="border-none inline-block text-left mt-5 ml-5">
           <Link to="/" className="text-sky-600 hover:text-sky-400">
             ← Trở về trang trước
           </Link>
         </button>
       </div>
-      <div className="mt-10">
+      <div className="">
         {loadingSubcription ? (
           <div className="flex justify-center items-center h-[200px]">
             <Spin size="large" />
@@ -60,7 +60,7 @@ export default function ApartmentDetail() {
             <Spin size="large" />
           </div>
         ) : (
-          <div className="flex m-5 mx-20  ">
+            <div className="flex mx-20  ">
             <Row gutter={16} className="mt-8">
               <Col className="gutter-row" span={5}>
                 <AgencyInfo
@@ -68,15 +68,21 @@ export default function ApartmentDetail() {
                   appointment={appointmentByApartment}
                   apartmentId={id}
                 />
-                <RelatedApartment />
+                  {/* <RelatedApartment />
                 <Tool />
-                <BrokerInfo />
+                <BrokerInfo /> */}
               </Col>
+
               <Col className="gutter-row" span={19}>
-                <Row gutter={16}>
-                  <ApartmentImg apartment={apartmentDetail} />
                   <ApartmentOverView apartment={apartmentDetail} />
-                  <ProjectDescription apartment={apartmentDetail} />
+
+                <Row gutter={16}>
+                    <Col span={12}>
+                      <ApartmentImg apartment={apartmentDetail} />
+                    </Col>
+                    <Col span={12}>
+                      <ProjectDescription apartment={apartmentDetail} />
+                    </Col>
                 </Row>
               </Col>
             </Row>
