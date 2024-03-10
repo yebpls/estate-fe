@@ -99,7 +99,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            <ProtectRole role={role}>
+            <ProtectRole role={role} allowedRoles={["ADMIN"]}>
               <AdminLayout />
             </ProtectRole>
           }
@@ -112,7 +112,7 @@ function App() {
         <Route
           path="/investor"
           element={
-            <ProtectRole role={role}>
+            <ProtectRole role={role} allowedRoles={["INVESTOR"]}>
               <InvestorLayout />
             </ProtectRole>
           }
@@ -129,7 +129,7 @@ function App() {
         <Route
           path="/agency"
           element={
-            <ProtectRole role={role}>
+            <ProtectRole role={role} allowedRoles={["AGENCY"]}>
               <AgencyLayout />
             </ProtectRole>
           }
@@ -152,7 +152,7 @@ function App() {
         <Route
           path="/customer"
           element={
-            <ProtectRole role={role}>
+            <ProtectRole role={role} allowedRoles={["CUSTOMER"]}>
               <CustomerLayout />
             </ProtectRole>
           }
@@ -167,7 +167,14 @@ function App() {
           />
           <Route path="/customer/info/" element={<AccountInfo />} />
         </Route>
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/login"
+          element={
+            <Protected isAccess={isLogin}>
+              <LoginPage />
+            </Protected>
+          }
+        />
         <Route
           path="/register"
           element={

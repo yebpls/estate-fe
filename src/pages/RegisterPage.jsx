@@ -1,4 +1,9 @@
-import { faFont, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFont,
+  faLock,
+  faPhone,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DatePicker, Select } from "antd";
 import React from "react";
@@ -113,20 +118,41 @@ function RegisterPage() {
             />
           </div>
 
-          <div className="text-left text-sm text-red-500">
-            {errors.name?.message}
-          </div>
-          <div className="mb-4 w-full relative">
-            <FontAwesomeIcon
-              icon={faFont}
-              className="absolute top-1/2 -translate-y-1/2 left-4 text-gray_9"
-            />
-            <input
-              className="w-full h-[50px] pl-10   rounded-[6px]  placeholder-gray_3  focus:placeholder-transparent focus:outline-none  focus:ring-1 ring-gray-400"
-              type="text"
-              placeholder="Tên của bạn"
-              {...register("name", { required: true })}
-            />
+          <div className="flex">
+            <div className="w-1/2 mr-2">
+              <div className="text-left text-sm text-red-500">
+                {errors.name?.message}
+              </div>
+              <div className="mb-4 w-full relative">
+                <FontAwesomeIcon
+                  icon={faFont}
+                  className="absolute top-1/2 -translate-y-1/2 left-4 text-gray_9"
+                />
+                <input
+                  className="w-full h-[50px] pl-10   rounded-[6px]  placeholder-gray_3  focus:placeholder-transparent focus:outline-none  focus:ring-1 ring-gray-400"
+                  type="text"
+                  placeholder="Tên của bạn"
+                  {...register("name", { required: true })}
+                />
+              </div>
+            </div>
+            <div className="w-1/2 ml-2">
+              <div className="text-left text-sm text-red-500">
+                {errors.phoneNumber?.message}
+              </div>
+              <div className="mb-4 w-full relative">
+                <FontAwesomeIcon
+                  icon={faPhone}
+                  className="absolute top-1/2 -translate-y-1/2 left-4 text-gray_9"
+                />
+                <input
+                  className="w-full h-[50px] pl-10   rounded-[6px]  placeholder-gray_3  focus:placeholder-transparent focus:outline-none  focus:ring-1 ring-gray-400"
+                  type="text"
+                  placeholder="Số điện thoại"
+                  {...register("phoneNumber", { required: true })}
+                />
+              </div>
+            </div>
           </div>
           <div className="mb-4 flex">
             <div className="w-1/2">

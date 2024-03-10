@@ -2,6 +2,12 @@ import yup from "../yubGlobal";
 const schemaRegister = yup.object().shape({
   email: yup.string().email().required("Email bắt buộc nhập "),
   name: yup.string().required("Tên bắt buộc nhập "),
+  phoneNumber: yup
+    .string()
+    .phoneNumber()
+    .required("Số điện thoại bắt buộc nhập")
+    .min(10, "Số điện thoại phải có ít nhất 10 ký tự")
+    .max(10, "Số điện thoại tối đa 10 ký tự"),
   password: yup
     .string()
     .required("Password bắt buộc nhập")
