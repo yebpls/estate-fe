@@ -8,13 +8,14 @@ import {
   setIsChange,
 } from "../../store/slices/bookingDistributionSlice";
 import { toast } from "react-toastify";
+import LoadingComponent from "../SharedComponent/LoadingComponent";
 
 export default function AvailableApartmentRow({ apartment, stt }) {
   const { buildings } = useSelector((state) => state.buildingReducer);
   const { agency, currentUser, balance } = useSelector(
     (state) => state.accountReducer
   );
-  const { bookingDistribution } = useSelector(
+  const { bookingDistribution, loadingBooking } = useSelector(
     (state) => state.bookingDistributionReducer
   );
 
@@ -49,7 +50,7 @@ export default function AvailableApartmentRow({ apartment, stt }) {
     reset,
   } = form;
 
-  const DeleteConfirm = () => {
+  const TakeApartment = () => {
     setIsModalOpen(true);
   };
 
@@ -71,12 +72,12 @@ export default function AvailableApartmentRow({ apartment, stt }) {
     let expireDistributionDate = new Date();
 
     const { bookingFee } = data;
-    console.log(typeof bookingFee);
-    console.log(typeof apartment.price);
-    console.log(typeof balance);
-    console.log(bookingFee * apartment.price > balance);
+    // console.log(typeof bookingFee);
+    // console.log(typeof apartment.price);
+    // console.log(typeof balance);
+    // console.log(bookingFee * apartment.price > balance);
 
-    if (bookingFee * apartment.price > balance) {
+    if (!bookingFee || bookingFee * apartment.price > balance) {
       console.log(bookingFee * apartment.price > balance);
       toast.error("Số dư không đủ");
     } else {
@@ -103,7 +104,7 @@ export default function AvailableApartmentRow({ apartment, stt }) {
         apartmentId: apartment.id,
       };
       dispatch(createBookingDistribution(params));
-      dispatch(setIsChange());
+      console.log("param: ", params);
       handleCancel();
     }
   };
@@ -117,15 +118,19 @@ export default function AvailableApartmentRow({ apartment, stt }) {
     }
 
     const bookingItem = bookingDistribution?.find(
-      (item) => item.apartmentId === apartment.id
+      (item) => item?.apartmentId === apartment?.id
     );
     setBooking(bookingItem); // This will be `undefined` if no booking matches, which is falsy
   }, [apartment, buildings, bookingDistribution]); // Ensure bookingDistribution is a dependency
 
   return (
     <div>
+      <LoadingComponent
+        loadingDependency={loadingBooking}
+        message={"Đang nhận căn hộ"}
+      />
       <tr className="flex items-center hover:bg-slate-100">
-        <td className="mx-6 py-4">
+        <td className="mx-6 py-4 w-3">
           <p>{stt}</p>
         </td>
         <td className=" px-6 py-4">
@@ -133,10 +138,10 @@ export default function AvailableApartmentRow({ apartment, stt }) {
             <img src={apartment.mainImage} alt="" className="w-full h-full" />
           </div>
         </td>
-        <td className="whitespace-nowrap px-6 ml-6 py-4 text-sm">
+        <td className="whitespace-nowrap px-6 ml-2 py-4 text-sm w-6">
           {apartment.apartmentNumber}
         </td>
-        <td className="whitespace-nowrap px-6 ml-6  py-4  w-32 text-sm">
+        <td className="whitespace-nowrap px-6 ml-14 py-4  w-32 text-sm">
           {formattedNumber}đ
         </td>
         <td className=" mx-2 py-auto text-sm ml-14 w-20">
@@ -145,7 +150,7 @@ export default function AvailableApartmentRow({ apartment, stt }) {
         <td className="whitespace-nowrap ml-12 w-24 text-sm">
           {building?.buildingName}
         </td>
-        <td className="whitespace-nowrap  ml-10 mr-6 text-sm">
+        <td className="whitespace-nowrap  ml-10 mr-6 text-sm text-green-500">
           {apartment.status === 0 ? "Đã bán" : ""}
           {apartment.status === 1 ? "Còn mở đăng ký bán" : ""}
           {apartment.status === 2 ? "Đã có agency đăng ký" : ""}{" "}
@@ -156,8 +161,8 @@ export default function AvailableApartmentRow({ apartment, stt }) {
             ""
           ) : (
             <button
-              className="text-white h-8 px-4  mx-1  rounded-md bg-green-700 text-sm"
-              onClick={DeleteConfirm}
+              className="text-white h-8 px-4  mx-1  rounded-md bg-green-600 text-sm"
+              onClick={TakeApartment}
             >
               Nhận
             </button>

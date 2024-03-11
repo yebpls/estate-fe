@@ -48,6 +48,7 @@ import NoPage from "./pages/NoPage";
 import TransactionsPage from "./pages/TransactionsPage";
 import Subcription from "./components/AgencyPage/Subcription";
 import AccountBalance from "./components/SharedComponent/AccountBalance";
+import Contract from "./components/SharedComponent/Contract";
 
 function App() {
   const { isLogin, role, id } = useSelector((state) => state.accountReducer);
@@ -139,6 +140,7 @@ function App() {
           <Route path="/agency/own/booking" element={<Booking />} />
           <Route path="/agency/info/" element={<AccountInfo />} />
           <Route path="/agency/article" element={<Article />} />
+          <Route path="/agency/contract" element={<Contract />} />
           <Route
             path="/agency/appointment/apartment/:apartmentId"
             element={<Subcription />}

@@ -1,9 +1,16 @@
 import React, { useEffect } from "react";
-import { getAppointmentByApartmentId } from "../../store/slices/appointmentSlice";
+import {
+  getAppointmentByApartmentId,
+  soldApartment,
+} from "../../store/slices/appointmentSlice";
 import { updateStatusBySubcriptionId } from "../../store/slices/subcriptionSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { Popconfirm } from "antd";
 
 export default function SubcriptionRow({ subcription, stt }) {
+  const { appointmentByApartment } = useSelector(
+    (state) => state.appointmentReducer
+  );
   const dispatch = useDispatch();
   const subscribeDate = new Date(subcription?.subscribeDate)
     .toISOString()
@@ -15,6 +22,11 @@ export default function SubcriptionRow({ subcription, stt }) {
   const updateSubcriptionStatus = (id, status) => {
     dispatch(updateStatusBySubcriptionId({ id: id, status: status }));
     console.log("data: ", id, status);
+  };
+
+  const updateIsSold = (appointId, subId) => {
+    console.log("params: ", appointId, subId);
+    // dispatch(soldApartment({ appointId: appointId, subId: subId }));
   };
 
   return (
@@ -46,11 +58,40 @@ export default function SubcriptionRow({ subcription, stt }) {
         </a>
       ) : subcription.subscriptionStatus === 2 ? (
         <a className="w-1/5">
-          <span
-            onClick={() => updateSubcriptionStatus(subcription.id, 0)}
-            className=" bg-green-400 hover:bg-green-500 ml-2 p-1 px-2 text-white rounded-lg hover:cursor-pointer"
+          <Popconfirm
+            placement="bottomRight"
+            title="Xác nhận"
+            description="Xác nhận bán căn hộ thành công"
+            onConfirm={updateIsSold(
+              appointmentByApartment?.id,
+              subcription?.id
+            )}
+            okButtonProps={{
+              style: { backgroundColor: "#23FF00 " },
+            }}
+            okText="Bán"
+            cancelText="Hủy"
+            cancelButtonProps={{
+              style: {
+                color: "#1ac5ff ",
+              },
+            }}
           >
-            Đã bán
+            <span
+              // onClick={() =>
+              //   updateIsSold(appointmentByApartment?.id, subcription?.id)
+              // }
+              className=" bg-green-400 hover:bg-green-500 ml-2 p-1 px-2 text-white rounded-lg hover:cursor-pointer"
+            >
+              Đã bán
+            </span>
+          </Popconfirm>
+
+          <span
+            onClick={() => updateSubcriptionStatus(subcription.id, 1)}
+            className=" bg-red-400 hover:bg-red-500 ml-2 p-1 px-2 text-white rounded-lg hover:cursor-pointer"
+          >
+            Hủy
           </span>
         </a>
       ) : (

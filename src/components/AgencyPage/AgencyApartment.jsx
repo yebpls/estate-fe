@@ -12,7 +12,7 @@ export default function AgencyApartment() {
   const { apartments, isLoading } = useSelector(
     (state) => state.apartmentReducer
   );
-  const { bookingDistribution } = useSelector(
+  const { bookingDistribution, loadingBooking } = useSelector(
     (state) => state.bookingDistributionReducer
   );
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ export default function AgencyApartment() {
       ?.map((apartment) => {
         // Find the matching booking for the current apartment
         const matchingBooking = bookingDistribution?.find(
-          (booking) => booking.apartmentId === apartment.id
+          (booking) => booking?.apartmentId === apartment.id
         );
 
         // If there's a matching booking, spread its desired properties into the current apartment object
@@ -59,7 +59,10 @@ export default function AgencyApartment() {
   }, []);
   return (
     <div className="mx-5 mt-10">
-      <LoadingComponent loadingDependency={isLoading} message={"Đang huỷ"} />
+      <LoadingComponent
+        loadingDependency={loadingBooking}
+        message={"Đang huỷ"}
+      />
       <p className="m-2 text-center text-2xl  font-semibold text-blue-700">
         Các căn hộ đang bán hộ
       </p>

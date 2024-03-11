@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { subcriptionApi } from "../../api/subcriptionApi";
 import { toast } from "react-toastify";
+import { soldApartment } from "./appointmentSlice";
 
 export const createSubcription = createAsyncThunk(
   "subcription/create",
@@ -31,7 +32,6 @@ export const updateStatusBySubcriptionId = createAsyncThunk(
   async ({ id, status }, { rejectWithValue }) => {
     try {
       await subcriptionApi.updateSubcriptionStatus(id, status);
-      console.log("slice: ", id, status);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -100,13 +100,10 @@ const subcriptionSlice = createSlice({
     builder.addCase(updateStatusBySubcriptionId.fulfilled, (state, action) => {
       if (action.meta.arg.status === 2) {
         toast.success("Hẹn gặp thành công");
-      } else if (action.meta.arg.status === 0) {
-        toast.success("Đã bán thành công căn hộ");
       }
       const { subcriptionByAppointment } = state;
       const subcriptionChangeId = action.meta.arg.id; // Accessing id passed as argument
-      console.log(subcriptionByAppointment, subcriptionByAppointment);
-      const newSubcriptionByAppointment = subcriptionByAppointment.map(
+      const newSubcriptionByAppointment = subcriptionByAppointment?.map(
         (subcription) => {
           if (subcription.id === subcriptionChangeId) {
             return {
@@ -114,7 +111,7 @@ const subcriptionSlice = createSlice({
               subscriptionStatus: action.meta.arg.status,
             };
           }
-          return newSubcriptionByAppointment;
+          return subcription;
         }
       );
       return {
@@ -125,6 +122,32 @@ const subcriptionSlice = createSlice({
     });
     builder.addCase(updateStatusBySubcriptionId.rejected, (state, action) => {
       return { ...state, loadingSubNofi: false };
+    });
+    builder.addCase(soldApartment.fulfilled, (state, action) => {
+      const { subcriptionByAppointment } = state;
+      const subcriptionChangeId = action.meta.arg.subId; // Accessing id passed as argument
+      const newSubcriptionByAppointment = subcriptionByAppointment?.map(
+        (subcription) => {
+          if (subcription.id === subcriptionChangeId) {
+            return {
+              ...subcription,
+              subscriptionStatus: 0,
+            };
+          }
+          return subcription;
+        }
+      );
+      console.log(
+        "slice: ",
+        subcriptionChangeId,
+        subcriptionByAppointment,
+        newSubcriptionByAppointment
+      );
+      return {
+        ...state,
+        loadingSubNofi: false,
+        subcriptionByAppointment: newSubcriptionByAppointment,
+      };
     });
     builder.addCase(getSubcriptionByCustomerId.pending, (state, action) => {
       return { ...state };
@@ -154,7 +177,6 @@ const subcriptionSlice = createSlice({
         }
         return subcription;
       });
-      console.log(data, apartments, newSubcription, buildings); // Now you can access the apartments data directly
       return { ...state, subcriptionByCus: newSubcription };
     });
   },

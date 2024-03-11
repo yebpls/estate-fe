@@ -10,6 +10,7 @@ import LoadingComponent from "../components/SharedComponent/LoadingComponent";
 import { LoadingOutlined } from "@ant-design/icons";
 import FilterApartments from "../components/SharedComponent/Filter/FilterApartments";
 import SearchBar from "../components/SharedComponent/SearchBar";
+import { getCustomerId } from "../store/slices/accountSlice";
 
 export default function AllApartment() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,6 +18,7 @@ export default function AllApartment() {
   const { viewApartment, isLoading } = useSelector(
     (state) => state.apartmentReducer
   );
+  const { id } = useSelector((state) => state.accountReducer);
 
   const dispatch = useDispatch();
   // MAKE A PAGING

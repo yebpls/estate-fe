@@ -7,11 +7,12 @@ import { Pagination, Spin } from "antd";
 
 export default function AvailableApartment() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [viewAvailableApartment, setViewAvailableApartment] = useState();
-  const { availableApartment, isLoading } = useSelector(
+  const { availableApartment, isLoading, viewAvailableApartment } = useSelector(
     (state) => state.apartmentReducer
   );
-  const { isChange } = useSelector((state) => state.bookingDistributionReducer);
+  const { loadingBooking } = useSelector(
+    (state) => state.bookingDistributionReducer
+  );
   const dispatch = useDispatch();
   // MAKE A PAGING
   // Calculate the start and end index for the current page
@@ -26,13 +27,8 @@ export default function AvailableApartment() {
     dispatch(getAllBuilding());
   }, []);
   useEffect(() => {
-    const newAvailableApartment = availableApartment?.filter((apartment) => {
-      return apartment.status === 1;
-    });
-    setViewAvailableApartment(newAvailableApartment);
     dispatch(getAllAvailableApartment());
   }, []);
-
   return (
     <div className="mx-10 mt-10">
       <p className="m-2 text-center text-2xl  font-semibold text-blue-700">

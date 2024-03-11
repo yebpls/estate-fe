@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { bookingDistributionApi } from "../../api/bookingDistributionApi";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { updateAvailableApartment } from "./apartmentSlice";
 
 const initialState = {
   bookingDistribution: null,
   isChange: false,
   isLoading: false,
+  loadingBooking: false,
 };
 
 export const getAllBookingDistributionByAgencyId = createAsyncThunk(
@@ -22,7 +25,7 @@ export const getAllBookingDistributionByAgencyId = createAsyncThunk(
 
 export const createBookingDistribution = createAsyncThunk(
   "booking_distribution/create",
-  async (params) => {
+  async (params, { dispatch }) => {
     try {
       const res = await bookingDistributionApi.create(params);
       return res.data;
@@ -60,25 +63,29 @@ const bookingDistributionSlice = createSlice({
         return { ...state, bookingDistribution: action.payload };
       }
     );
+    builder.addCase(createBookingDistribution.pending, (state, action) => {
+      return { ...state, loadingBooking: true };
+    });
     builder.addCase(createBookingDistribution.fulfilled, (state, action) => {
       const { bookingDistribution } = state;
       toast.success("Tạo đăng ký bán thành công");
       const newBooking = action.payload;
+      console.log("new booking distribute: ", newBooking);
       const newBookingList = [...bookingDistribution, newBooking];
 
       return {
         ...state,
-        isLoading: false,
+        loadingBooking: false,
         bookingDistribution: newBookingList,
       };
     });
     builder.addCase(createBookingDistribution.rejected, (state, action) => {
       toast.error("Tạo đăng ký bán thất bại");
 
-      return { ...state, isLoading: false };
+      return { ...state, loadingBooking: false };
     });
     builder.addCase(cancelBookingDistribution.pending, (state, action) => {
-      return { ...state, isLoading: true };
+      return { ...state, loadingBooking: true };
     });
     builder.addCase(cancelBookingDistribution.fulfilled, (state, action) => {
       const { bookingDistribution } = state;
@@ -89,11 +96,15 @@ const bookingDistributionSlice = createSlice({
       toast.success(
         "Bạn đã huỷ bán hộ thành công. Số tiền của bạn sẽ được chuyển về ví của investor "
       );
-      return { ...state, bookingDistribution: newBookingList };
+      return {
+        ...state,
+        bookingDistribution: newBookingList,
+        loadingBooking: false,
+      };
     });
     builder.addCase(cancelBookingDistribution.rejected, (state, action) => {
       toast.error("Còn subscription bên trong dự án, không thể huỷ");
-      return { ...state, isLoading: false };
+      return { ...state, loadingBooking: false };
     });
   },
 });

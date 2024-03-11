@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { appointmentApi } from "../../api/appointmentApi";
+import { toast } from "react-toastify";
 
 const initialState = {
   appointment: null,
@@ -31,6 +32,18 @@ export const getAppointmentByApartmentId = createAsyncThunk(
   }
 );
 
+export const soldApartment = createAsyncThunk(
+  "appointment/is_sold",
+  async ({ appointId, subId }) => {
+    try {
+      const res = await appointmentApi.setIsSoldApartment(appointId, subId);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const appointmentSlice = createSlice({
   name: "appointment",
   initialState,
@@ -46,6 +59,19 @@ const appointmentSlice = createSlice({
         appointmentLoading: false,
         isChange: true,
       };
+    });
+    builder.addCase(getAppointmentByApartmentId.rejected, (state, action) => {
+      return { ...state, appointmentLoading: false, isChange: false };
+    });
+    builder.addCase(soldApartment.pending, (state, action) => {
+      return { ...state, loadingSold: true };
+    });
+    builder.addCase(soldApartment.fulfilled, (state, action) => {
+      toast.success("Đã bán căn hộ thành công");
+      return { ...state, loadingSold: false };
+    });
+    builder.addCase(soldApartment.rejected, (state, action) => {
+      return { ...state, loadingSold: false };
     });
   },
 });
