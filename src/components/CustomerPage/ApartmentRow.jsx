@@ -47,8 +47,14 @@ export default function ApartmentRow({ subcription, stt }) {
             <p className="text-xs py-1 text-slate-500">
               {subcription?.address}
             </p>
-            <p className="text-sm py-1 text-slate-700">
-              Có giá {apartmentPrice}đ ({subcription?.area}m2)
+          </div>
+
+          <div className="w-60 ml-5">
+            <p className="whitespace-nowrap text-base py-2 text-slate-600">
+              Diện tích: {subcription?.area}m2
+            </p>
+            <p className="whitespace-nowrap text-sm text-slate-600 py-1">
+              Giá trị: {apartmentPrice}đ
             </p>
           </div>
           <div className="w-64 ml-3">
@@ -71,22 +77,11 @@ export default function ApartmentRow({ subcription, stt }) {
               Ngày đăng ký: {subcribeDate}
             </p>
           </div>
-          <div className="w-60 ml-2">
-            <p className="whitespace-nowrap text-sm py-2 text-orange-600">
-              Tình trạng cuộc hẹn: Chờ đợi
-            </p>
-            <p className="whitespace-nowrap text-xs text-orange-400 py-1">
-              Ngày cập nhật: 30/02/2024
-            </p>
-            <p className="whitespace-nowrap text-xs text-orange-400">
-              Ngày hẹn gặp: 24/02/2024
-            </p>
-          </div>
         </div>
         {/* <td className="whitespace-nowrap px-6 py-4">
 {pet.isSold ? "Đã bán" : "Chưa bán"}
 </td> */}
-        <td className="whitespace-nowrap px-6 py-4 ml-9 flex justify-between">
+        {/* <td className="whitespace-nowrap px-6 py-4 ml-9 flex justify-between">
           <button
             className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm"
             onClick={DeleteConfirm}
@@ -103,7 +98,7 @@ export default function ApartmentRow({ subcription, stt }) {
             cancelText="Không"
             className="text-cyan-700 mt-40"
           ></Modal>
-        </td>
+        </td> */}
       </tr>
     </div>
   );

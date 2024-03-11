@@ -2,12 +2,6 @@ import { Button, Modal, Popconfirm } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getApartmentById } from "../../store/slices/apartmentSlice";
-import AppointmentModal from "./AppointmentModal";
-import { getSubcriptionByAppointmentId } from "../../store/slices/subcriptionSlice";
-import { getAppointmentByApartmentId } from "../../store/slices/appointmentSlice";
-import ViewAppointment from "./ViewAppointment";
-import { getAllBuilding } from "../../store/slices/buildingSlice";
 import { cancelBookingDistribution } from "../../store/slices/bookingDistributionSlice";
 
 export default function AgencyApartmentRow({ apartment, stt }) {
@@ -19,7 +13,7 @@ export default function AgencyApartmentRow({ apartment, stt }) {
 
   const deleteProject = (id) => {
     dispatch(cancelBookingDistribution(id));
-    // console.log(id);
+    console.log(id);
   };
   const cancelDelete = () => {};
   // useEffect(() => {
@@ -40,6 +34,7 @@ export default function AgencyApartmentRow({ apartment, stt }) {
       setBuilding(buildingItem);
     }
     // console.log("building: ", buildings);
+    console.log("hahaha", apartment);
   }, [apartment, buildings]);
   return (
     <div>
@@ -96,29 +91,35 @@ export default function AgencyApartmentRow({ apartment, stt }) {
         {/* <td className="whitespace-nowrap px-6 py-4">
   {pet.isSold ? "Đã bán" : "Chưa bán"}
 </td> */}
-        <td className="whitespace-nowrap py-4 flex justify-between">
-          <Popconfirm
-            placement="bottomRight"
-            title="Nhắc nhở"
-            description="Nếu bạn huỷ bạn sẽ mất tiền cọc cho căn hộ này?"
-            onConfirm={() => deleteProject(apartment.bookingId)}
-            okButtonProps={{
-              style: { backgroundColor: "red " },
-            }}
-            onCancel={cancelDelete}
-            cancelButtonProps={{
-              style: {
-                color: "red ",
-              },
-            }}
-            okText="Hủy"
-            cancelText="Không"
-          >
-            <button className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm hover:bg-red-600">
-              Hủy
-            </button>
-          </Popconfirm>
-        </td>
+        {apartment?.status === 0 ? (
+          <td>
+            <p className="text-red-400 pl-3">Đã bán</p>
+          </td>
+        ) : (
+          <td className="whitespace-nowrap py-4 flex justify-between">
+            <Popconfirm
+              placement="bottomRight"
+              title="Nhắc nhở"
+              description="Nếu bạn huỷ bạn sẽ mất tiền cọc cho căn hộ này?"
+              onConfirm={() => deleteProject(apartment.bookingId)}
+              okButtonProps={{
+                style: { backgroundColor: "red " },
+              }}
+              onCancel={cancelDelete}
+              cancelButtonProps={{
+                style: {
+                  color: "red ",
+                },
+              }}
+              okText="Hủy"
+              cancelText="Không"
+            >
+              <button className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm hover:bg-red-600">
+                Hủy
+              </button>
+            </Popconfirm>
+          </td>
+        )}
       </tr>
     </div>
   );

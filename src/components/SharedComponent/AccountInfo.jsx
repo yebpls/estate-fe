@@ -1,42 +1,19 @@
-import {
-  Button,
-  Col,
-  DatePicker,
-  Input,
-  Modal,
-  Row,
-  Select,
-  Typography,
-  message,
-} from "antd";
-import dayjs from "dayjs";
+import { Col, Modal, Row, Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import ChangePassword from "../SharedComponent/ChangePassword";
-import ChangeAvatar from "../SharedComponent/ChangeAvatar";
 import AccountBalance from "./AccountBalance";
-import SaveProfile from "./SaveProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { createPayment } from "../../store/slices/paymentSlice";
+import UpdateAccount from "./UpdateAccount";
 
 export default function AccountInfo() {
   const { currentUser, balance, role } = useSelector(
     (state) => state.accountReducer
   );
-
-  const [avatarUrl, setAvatarUrl] = useState(
-    "https://tse2.mm.bing.net/th?id=OIP.0HPHOhiMHVdQGlxYc4z86AHaFj&pid=Api&P=0&h=180"
-  );
-  const [email, setEmail] = useState("thisisemail@gmail.com");
-  const [gender, setGender] = useState("Nam");
-  const [dob, setDob] = useState("2002-05-01");
-  const [address, setAddress] = useState(
-    "35 Yersin, Phú Cường, Thủ Dầu Một, Bình Dương"
-  );
-
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const birthdayDate = new Date(currentUser?.dob).toISOString().split("T")[0];
   const { Paragraph, Text, Title } = Typography;
   const dispatch = useDispatch();
 
@@ -69,20 +46,6 @@ export default function AccountInfo() {
     handleCancel();
   };
 
-  const onChangeDate = (date, dateString) => {
-    setDob(dateString);
-    console.log(dob);
-  };
-  const handleChangeGender = (value) => {
-    setGender(value);
-    console.log("gender: ", gender);
-  };
-
-  useEffect(() => {
-    setAvatarUrl(currentUser?.avatarUrl);
-    setEmail(currentUser?.email);
-  }, [currentUser]);
-
   return (
     <div className="w-full">
       <Title level={3} className="text-center mt-5">
@@ -90,64 +53,36 @@ export default function AccountInfo() {
       </Title>
       <Row className="ml-12 w-full">
         <Col span={7} className="m-9">
-          <ChangeAvatar avatar={avatarUrl} />
+          <img src={currentUser?.avatarUrl} style={{ width: "400px" }} />
         </Col>
         <Col span={9} className="ml-16 mt-16">
           <div className="profile-form">
             <Text type="secondary">Email</Text>
-            <Paragraph
-              editable={{
-                onChange: setEmail,
-              }}
-              style={{ marginTop: "3px", fontSize: "16px" }}
-            >
-              {currentUser.email}
+            <Paragraph style={{ marginTop: "3px", fontSize: "16px" }}>
+              {currentUser?.email}
             </Paragraph>
             <Text type="secondary">Tên</Text>
-            <Paragraph
-              editable={{
-                onChange: setAddress,
-              }}
-              style={{ marginTop: "3px", fontSize: "16px" }}
-            >
-              {currentUser.name}
+            <Paragraph style={{ marginTop: "3px", fontSize: "16px" }}>
+              {currentUser?.name}
             </Paragraph>
             <Text type="secondary">Giới tính</Text>
             <br />
-            <Select
-              value={gender}
-              style={{
-                width: 100,
-                margin: "10px",
-                fontSize: "16px",
-              }}
-              onChange={handleChangeGender}
-              options={[
-                {
-                  value: "Male",
-                  label: "Nam",
-                },
-                {
-                  value: "Female",
-                  label: "Nữ",
-                },
-                {
-                  value: "Other",
-                  label: "Khác",
-                },
-              ]}
-            />
-            <br />
-            <Text type="secondary">Birthday</Text> <br />
-            <DatePicker
-              style={{ margin: "10px", fontSize: "16px" }}
-              value={dayjs(dob)}
-              onChange={onChangeDate}
-            />{" "}
+            <Paragraph style={{ marginTop: "3px", fontSize: "16px" }}>
+              {currentUser?.gender === 1
+                ? "Nam"
+                : currentUser?.gender === 2
+                ? "Nữ"
+                : "Khác"}
+            </Paragraph>
+            <Text type="secondary">Ngày Sinh</Text> <br />
+            <Paragraph style={{ marginTop: "3px", fontSize: "16px" }}>
+              {birthdayDate}
+            </Paragraph>
             <br />
             <ChangePassword />
             <br />
-            <SaveProfile />
+            {/* <SaveProfile /> */}
+            <UpdateAccount account={currentUser} />
           </div>
         </Col>
         {role === "CUSTOMER" ? (

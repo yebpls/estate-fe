@@ -6,6 +6,7 @@ import bookingDistributionReducer from "./slices/bookingDistributionSlice";
 import paymentReducer from "./slices/paymentSlice";
 import appointmentReducer from "./slices/appointmentSlice";
 import subcriptionReducer from "./slices/subcriptionSlice";
+import contractReducer from "./slices/contractSlice";
 
 import storage from "redux-persist/lib/storage";
 import {
@@ -35,6 +36,7 @@ const reducer = combineReducers({
   paymentReducer,
   appointmentReducer,
   subcriptionReducer,
+  contractReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

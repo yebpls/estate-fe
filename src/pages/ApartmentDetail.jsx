@@ -12,12 +12,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getApartmentById } from "../store/slices/apartmentSlice";
 import SearchBar from "../components/SharedComponent/SearchBar";
 import AgencyInfo from "../components/ApartmentDetail/AgencyInfo";
-import { getAgencyByApartmentId } from "../store/slices/accountSlice";
+import {
+  getAgencyByApartmentId,
+  getCustomerId,
+} from "../store/slices/accountSlice";
 import { getAllCity } from "../store/slices/buildingSlice";
 import { getAppointmentByApartmentId } from "../store/slices/appointmentSlice";
 
-export default function ApartmentDetail() {
+export default function ApartmentDetail({ cus }) {
   const { id } = useParams();
+
   const { apartmentDetail, isLoading } = useSelector(
     (state) => state.apartmentReducer
   );
@@ -31,7 +35,6 @@ export default function ApartmentDetail() {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getApartmentById(id));
     dispatch(getAgencyByApartmentId(id));
     dispatch(getAppointmentByApartmentId(id));
     dispatch(getAllCity());
@@ -60,7 +63,7 @@ export default function ApartmentDetail() {
             <Spin size="large" />
           </div>
         ) : (
-            <div className="flex mx-20  ">
+          <div className="flex mx-20  ">
             <Row gutter={16} className="mt-8">
               <Col className="gutter-row" span={5}>
                 <AgencyInfo
@@ -68,21 +71,21 @@ export default function ApartmentDetail() {
                   appointment={appointmentByApartment}
                   apartmentId={id}
                 />
-                  {/* <RelatedApartment />
+                {/* <RelatedApartment />
                 <Tool />
                 <BrokerInfo /> */}
               </Col>
 
               <Col className="gutter-row" span={19}>
-                  <ApartmentOverView apartment={apartmentDetail} />
+                <ApartmentOverView apartment={apartmentDetail} />
 
                 <Row gutter={16}>
-                    <Col span={12}>
-                      <ApartmentImg apartment={apartmentDetail} />
-                    </Col>
-                    <Col span={12}>
-                      <ProjectDescription apartment={apartmentDetail} />
-                    </Col>
+                  <Col span={12}>
+                    <ApartmentImg apartment={apartmentDetail} />
+                  </Col>
+                  <Col span={12}>
+                    <ProjectDescription apartment={apartmentDetail} />
+                  </Col>
                 </Row>
               </Col>
             </Row>

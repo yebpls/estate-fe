@@ -1,13 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { getSubcriptionByAppointmentId } from "../../store/slices/subcriptionSlice";
 import { Pagination, Spin } from "antd";
 import SubcriptionRow from "./SubcriptionRow";
 import { getApartmentById } from "../../store/slices/apartmentSlice";
 import { LoadingOutlined } from "@ant-design/icons";
 import LoadingComponent from "../SharedComponent/LoadingComponent";
+import { getAppointmentByApartmentId } from "../../store/slices/appointmentSlice";
 
 export default function Subcription() {
   const { apartmentId } = useParams();
@@ -40,9 +41,9 @@ export default function Subcription() {
       console.log(error);
     }
   };
-
   useEffect(() => {
     fetch(apartmentId);
+    dispatch(getAppointmentByApartmentId(apartmentId));
     console.log(state);
   }, [apartmentId]);
 
@@ -56,6 +57,11 @@ export default function Subcription() {
         Căn {apartmentDetail?.apartmentNumber} ở tòa {state.buildingName} thuộc
         dự án {apartmentDetail?.projectName}
       </p>
+      <Link to="/agency/contract" className=" p-1 px-2 block text-right">
+        <span className="text-base bg-yellow-400 hover:bg-yellow-200  text-white hover:text-yellow-500 p-1 px-2 rounded-md ">
+          Hiển thị hợp đồng
+        </span>
+      </Link>
       <div className="flex mt-4 mb-2 text-center">
         <p className="w-1/12 text-base text-slate-500">Stt</p>
         <p className="w-1/6 text-base text-slate-500 -ml-7">Mã khách</p>

@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { getCustomerId } from "../../store/slices/accountSlice";
 
 function ProjectCard({ apartment }) {
-  const formattedNumber = apartment.price.toLocaleString("de-DE");
+  const { id } = useSelector((state) => state.accountReducer);
 
+  const formattedNumber = apartment.price.toLocaleString("de-DE");
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCustomerId(id));
+  }, []);
   return (
     <div className="bg-white px-5 pt-5 h-96 hover:bg-slate-100 rounded-md">
       <Link to={`/apartment/${apartment.id}`} className="w-full">

@@ -25,7 +25,7 @@ export default function BookingApartment() {
     dispatch(getSubcriptionByCustomerId(customer?.id));
   }, [dispatch, customer]);
   return (
-    <div className="mx-auto mt-10 w-full px-8">
+    <div className="mx-auto mt-10 px-8">
       <p className="m-2 text-center text-2xl  font-semibold text-blue-900">
         Danh sách cuộc hẹn của tôi
       </p>

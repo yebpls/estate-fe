@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apartmentApi } from "../../api/apartmentApi";
 import { toast } from "react-toastify";
+import { createBookingDistribution } from "./bookingDistributionSlice";
 
 export const getAllApartment = createAsyncThunk(
   "apartment/get_all",
@@ -44,8 +45,6 @@ export const getApartmentById = createAsyncThunk(
     try {
       const res = await apartmentApi.getById(id);
       const buildings = getState().buildingReducer.buildings;
-      console.log('buildings: ', buildings)
-
       return { data: res.data, buildings };
     } catch (error) {
       console.log(error);
@@ -125,7 +124,6 @@ const apartmentSlice = createSlice({
   reducers: {
     getAll: (state, action) => {
       const { apartmentByProject } = state;
-      console.log("getaAll: ", apartmentByProject);
       return { ...state, displayApartment: apartmentByProject };
     },
     getApartmentByBuilding: (state, action) => {
@@ -158,14 +156,12 @@ const apartmentSlice = createSlice({
           apartment.area <= action.payload.max
         );
       });
-      console.log(action.payload.min, action.payload.max, apartmentBySquare);
       return { ...state, viewApartment: apartmentBySquare };
     },
     searchApartmentByProjectName: (state, action) => {
       const { apartmentsCanBuy } = state;
 
       const searchValue = action.payload;
-      console.log("search value:", searchValue);
       const apartmetnBySearchValue = apartmentsCanBuy?.filter((apartment) =>
         apartment.projectName.toLowerCase().includes(searchValue.toLowerCase())
       );
@@ -192,21 +188,45 @@ const apartmentSlice = createSlice({
       return { ...state, availableApartment: action.payload, isLoading: true };
     });
     builder.addCase(getAllAvailableApartment.fulfilled, (state, action) => {
-      return { ...state, availableApartment: action.payload, isLoading: false };
+      const newViewAvailableApartment = action.payload?.filter(
+        (apartment) => apartment.status === 1
+      );
+      return {
+        ...state,
+        availableApartment: action.payload,
+        viewAvailableApartment: newViewAvailableApartment,
+        isLoading: false,
+      };
     });
     builder.addCase(getApartmentById.pending, (state, action) => {
       return { ...state, isLoading: true };
+    });
+    builder.addCase(createBookingDistribution.fulfilled, (state, action) => {
+      const { availableApartment } = state;
+      const updateApartmentId = action.meta.arg?.apartmentId;
+      const newAvailableApartment = availableApartment
+        ?.map((apartment) => {
+          if (apartment.id === updateApartmentId) {
+            return {
+              ...apartment,
+              status: 2,
+            };
+          }
+          return apartment;
+        })
+        ?.filter((apartment) => apartment.status === 1);
+
+      return { ...state, viewAvailableApartment: newAvailableApartment };
     });
     builder.addCase(getApartmentById.fulfilled, (state, action) => {
       const { data, buildings } = action.payload;
       const buildingByApartment = buildings?.find(
         (building) => building.id === data.buildingId
       );
-      console.log('building: ', buildingByApartment)
       const newApartmentDetail = {
         ...data,
-        buildingName: buildingByApartment?.buildingName,
-        address: buildingByApartment?.address,
+        buildingName: buildingByApartment.buildingName,
+        address: buildingByApartment.address,
       };
       console.log("apartment: ", newApartmentDetail);
       return {
@@ -259,7 +279,6 @@ const apartmentSlice = createSlice({
     builder.addCase(deleteApartment.fulfilled, (state, action) => {
       const { apartmentByProject, currentBuidlingId } = state;
       const deletedApartmentId = action.meta.arg; // Accessing id passed as argument
-      console.log(deletedApartmentId);
       const newApartments = apartmentByProject.filter(
         (item) => item.id !== deletedApartmentId
       );
@@ -287,7 +306,6 @@ const apartmentSlice = createSlice({
       toast.success("Cập nhật căn hộ thành công");
       const { apartmentByProject, currentBuidlingId } = state;
       const apartmentChangedId = action.payload.id; // Accessing id passed as argument
-      console.log(apartmentChangedId, apartmentByProject);
       const newApartmentByProject = apartmentByProject.map((apartment) => {
         if (apartment.id === apartmentChangedId) {
           return {
@@ -318,7 +336,6 @@ const apartmentSlice = createSlice({
     });
     builder.addCase(updateApartment.rejected, (state, action) => {
       toast.error("Cập nhật căn hộ thất bại");
-      // console.log(action.payload);
       return { ...state, loadingChange: false };
     });
   },
@@ -332,6 +349,7 @@ export const {
   getApartmentByCity,
   getApartmentBySquare,
   searchApartmentByProjectName,
+  updateAvailableApartment,
 } = apartmentSlice.actions;
 
 export default apartmentSlice.reducer;

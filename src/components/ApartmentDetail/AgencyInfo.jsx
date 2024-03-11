@@ -38,6 +38,7 @@ export default function AgencyInfo({ agency, appointment, apartmentId }) {
       toast.error("Bạn hãy vui lòng đăng nhập với vai trò là khách");
     } else {
       dispatch(createSubcription(params));
+      // console.log(params);
     }
   };
   //   useEffect(() => {
