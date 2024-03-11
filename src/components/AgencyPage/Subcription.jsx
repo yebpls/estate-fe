@@ -54,7 +54,7 @@ export default function Subcription() {
   return (
     <div className="mx-10 mt-10 w-full">
       <p className="text-center block text-xl font-semibold text-orange-400">
-        Căn {apartmentDetail?.apartmentNumber} ở tòa {state.buildingName} thuộc
+        Căn {apartmentDetail?.apartmentNumber} ở tòa {state?.buildingName} thuộc
         dự án {apartmentDetail?.projectName}
       </p>
       <Link to="/agency/contract" className=" p-1 px-2 block text-right">

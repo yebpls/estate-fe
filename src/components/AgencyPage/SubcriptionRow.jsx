@@ -26,7 +26,7 @@ export default function SubcriptionRow({ subcription, stt }) {
 
   const updateIsSold = (appointId, subId) => {
     console.log("params: ", appointId, subId);
-    // dispatch(soldApartment({ appointId: appointId, subId: subId }));
+    dispatch(soldApartment({ appointId: appointId, subId: subId }));
   };
 
   return (
@@ -37,16 +37,19 @@ export default function SubcriptionRow({ subcription, stt }) {
       </p>
       <p className="w-1/5 text-base text-slate-700">{subscribeDate}</p>
       {subcription.subscriptionStatus === 0 ? (
-        <p className="w-1/5 text-base text-red-500">Đã bán</p>
+        <p className="w-1/5 text-base text-red-500">Đã mua</p>
       ) : subcription.subscriptionStatus === 1 ? (
         <p className="w-1/5 text-base text-orange-400">Đang chờ hẹn</p>
       ) : subcription.subscriptionStatus === 2 ? (
         <p className="w-1/5 text-base text-green-500">Đã lên lịch gặp</p>
+      ) : subcription.subscriptionStatus === 3 ? (
+        <p className="w-1/5 text-base text-red-500">Căn hộ đã được bán</p>
       ) : (
         ""
       )}
       {subcription.subscriptionStatus === 0 ? (
-        <p className="w-1/5 text-base text-red-500">Đã bán</p>
+        // <p className="w-1/5 text-base text-red-500">Đã bán</p>
+        ""
       ) : subcription.subscriptionStatus === 1 ? (
         <a className="w-1/5">
           <span
@@ -62,10 +65,9 @@ export default function SubcriptionRow({ subcription, stt }) {
             placement="bottomRight"
             title="Xác nhận"
             description="Xác nhận bán căn hộ thành công"
-            onConfirm={updateIsSold(
-              appointmentByApartment?.id,
-              subcription?.id
-            )}
+            onConfirm={() =>
+              updateIsSold(appointmentByApartment?.id, subcription?.id)
+            }
             okButtonProps={{
               style: { backgroundColor: "#23FF00 " },
             }}
