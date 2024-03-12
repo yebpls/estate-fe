@@ -6,12 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { createPayment } from "../../store/slices/paymentSlice";
 import UpdateAccount from "./UpdateAccount";
+import LoadingComponent from "./LoadingComponent";
 
 export default function AccountInfo() {
-  const { currentUser, balance, role } = useSelector(
+  const { currentUser, balance, role, loading } = useSelector(
     (state) => state.accountReducer
   );
-  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const birthdayDate = new Date(currentUser?.dob).toISOString().split("T")[0];
   const { Paragraph, Text, Title } = Typography;
@@ -48,6 +48,10 @@ export default function AccountInfo() {
 
   return (
     <div className="w-full">
+      <LoadingComponent
+        loadingDependency={loading}
+        message={"Đang cập nhật thông tin"}
+      />
       <Title level={3} className="text-center mt-5">
         Thông Tin Của Bạn
       </Title>
@@ -55,11 +59,15 @@ export default function AccountInfo() {
         <Col span={7} className="m-9">
           <img src={currentUser?.avatarUrl} style={{ width: "400px" }} />
         </Col>
-        <Col span={9} className="ml-16 mt-16">
+        <Col span={9} className="ml-16 mt-5">
           <div className="profile-form">
             <Text type="secondary">Email</Text>
             <Paragraph style={{ marginTop: "3px", fontSize: "16px" }}>
               {currentUser?.email}
+            </Paragraph>
+            <Text type="secondary">Số điện thoại</Text>
+            <Paragraph style={{ marginTop: "3px", fontSize: "16px" }}>
+              {currentUser?.phoneNumber}
             </Paragraph>
             <Text type="secondary">Tên</Text>
             <Paragraph style={{ marginTop: "3px", fontSize: "16px" }}>
@@ -78,8 +86,6 @@ export default function AccountInfo() {
             <Paragraph style={{ marginTop: "3px", fontSize: "16px" }}>
               {birthdayDate}
             </Paragraph>
-            <br />
-            <ChangePassword />
             <br />
             {/* <SaveProfile /> */}
             <UpdateAccount account={currentUser} />

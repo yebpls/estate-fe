@@ -14,6 +14,9 @@ export default function Subcription() {
   const { apartmentId } = useParams();
   const { state } = useLocation();
   const [appointId, setAppointId] = useState(null);
+  const [appointDate, setAppointDate] = useState(null);
+  const [appointStatus, setAppointStatus] = useState(null);
+  // const [appointDate, setAppointDate] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const { subcriptionByAppointment, loadingSubcription, loadingSubNofi } =
     useSelector((state) => state.subcriptionReducer);
@@ -35,7 +38,15 @@ export default function Subcription() {
       const res = await axios.get(
         `https://estate.zouzoumanagement.xyz/api/appointment/apartment/${id}`
       );
+      const newAppointDate = new Date(res.data?.meetingDate)
+        .toISOString()
+        .replace(":00.000Z", "")
+        .split("T");
+      // .split("Z");
+      setAppointStatus(res.data?.appointmentStatus);
+      setAppointDate(newAppointDate);
       setAppointId(res.data.id);
+      // console.log(newAppointDate[0] + "At" + newAppointDate[1]);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -57,11 +68,19 @@ export default function Subcription() {
         Căn {apartmentDetail?.apartmentNumber} ở tòa {state?.buildingName} thuộc
         dự án {apartmentDetail?.projectName}
       </p>
-      <Link to="/agency/contract" className=" p-1 px-2 block text-right">
-        <span className="text-base bg-yellow-400 hover:bg-yellow-200  text-white hover:text-yellow-500 p-1 px-2 rounded-md ">
-          Hiển thị hợp đồng
-        </span>
-      </Link>
+      <p>
+        lúc {appointDate && appointDate[1]} vào ngày{" "}
+        {appointDate && appointDate[0]}
+      </p>
+      {appointStatus === 2 ? (
+        <Link to="/agency/contract" className=" p-1 px-2 block text-right">
+          <span className="text-base bg-yellow-400 hover:bg-yellow-200  text-white hover:text-yellow-500 p-1 px-2 rounded-md ">
+            Hiển thị hợp đồng
+          </span>
+        </Link>
+      ) : (
+        ""
+      )}
       <div className="flex mt-4 mb-2 text-center">
         <p className="w-1/12 text-base text-slate-500">Stt</p>
         <p className="w-1/6 text-base text-slate-500 -ml-7">Mã khách</p>

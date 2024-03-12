@@ -17,6 +17,10 @@ const accountApi = {
     const url = `/api/account/${id}`;
     return axiosClient.get(url);
   },
+  updateAccountDetail(id, params) {
+    const url = `/api/account/update/${id}`;
+    return axiosClient.put(url, params);
+  },
   getInvestorId(id) {
     const url = `/api/investor/${id}`;
     return axiosClient.get(url);

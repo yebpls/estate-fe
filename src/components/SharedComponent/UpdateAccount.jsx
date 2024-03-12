@@ -2,14 +2,15 @@ import { Button, DatePicker, Modal, Popconfirm, Select } from "antd";
 import dayjs from "dayjs";
 import React, { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import schemaRegister from "../../yup/schema/schemaRegister";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { changeAccountDetail } from "../../store/slices/accountSlice";
 
 export default function UpdateAccount({ account }) {
   const [open, setOpen] = useState(false);
   const { city } = useSelector((state) => state.buildingReducer);
-
+  const dispatch = useDispatch();
   const disabledDate = (current) => {
     return current && current > dayjs().subtract(18, "year");
   };
@@ -39,6 +40,7 @@ export default function UpdateAccount({ account }) {
       id: account ? account.id : "",
       name: account ? account.name : "",
       avatarUrl: account ? account.avatarUrl : "",
+      phoneNumber: account ? account.phoneNumber : "",
       gender: account ? account.gender : "",
       dob: account ? account.dob : "",
       cityId: account ? account.cityId : "",
@@ -72,6 +74,7 @@ export default function UpdateAccount({ account }) {
   const changeProfile = (data) => {
     const { id, ...params } = data;
     console.log("Form data:", data.id, params);
+    dispatch(changeAccountDetail({ id: data?.id, params: params }));
     setOpen(false);
   };
 
@@ -82,6 +85,7 @@ export default function UpdateAccount({ account }) {
         id: account.id,
         name: account.name,
         avatarUrl: account.avatarUrl,
+        phoneNumber: account.phoneNumbe,
         gender: account.gender,
         dob: account.dob,
         cityId: account.cityId,
@@ -121,6 +125,12 @@ export default function UpdateAccount({ account }) {
             className="px-2 py-1 w-full"
             placeholder="URL ảnh đại diện"
             {...registerChangeProfile("avatarUrl", { required: true })}
+          />
+          <div className="m-2">Số điện thoại</div>
+          <input
+            className="px-2 py-1 w-full"
+            placeholder="Số điện thoại"
+            {...registerChangeProfile("phoneNumber", { required: true })}
           />
           <div className="mb-2">
             <p className="mb-2">Giới Tính</p>
