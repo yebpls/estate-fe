@@ -42,7 +42,7 @@ export default function Project() {
           )}
           <Row gutter={16}>
             {viewProject &&
-              viewProject.map((apartment) => (
+              viewProject.slice(0, 8).map((apartment) => (
                 <Col className="gutter-row w-full" span={6}>
                   <ProjectCard key={apartment.id} apartment={apartment} />
                 </Col>

@@ -21,11 +21,10 @@ function TransactionsPage() {
       email: account ? account.email : "Not found",
     };
   });
-  // MAKE A PAGING
-  // Calculate the start and end index for the current page
-  const startIndex = (currentPage - 1) * 5;
-  const endIndex = startIndex + 5;
-  // Slice the data array to show only the items for the current page
+
+  const startIndex = (currentPage - 1) * 10;
+  const endIndex = startIndex + 10;
+
   const currentData = mapTransaction?.slice(startIndex, endIndex);
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -56,7 +55,9 @@ function TransactionsPage() {
                       <td class="px-4 py-3 border">
                         <div class="flex items-center text-sm">
                           <div>
-                            <p class="font-semibold text-black">{index + 1}</p>
+                            <p class="font-semibold text-black">
+                              {index + startIndex + 1}
+                            </p>
                           </div>
                         </div>
                       </td>
@@ -115,7 +116,8 @@ function TransactionsPage() {
                 <Pagination
                   current={currentPage}
                   total={mapTransaction?.length}
-                  pageSize={5}
+                  showSizeChanger={false}
+                  pageSize={10}
                   onChange={handlePageChange}
                 />
               </tbody>
