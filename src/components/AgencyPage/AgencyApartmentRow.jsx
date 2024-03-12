@@ -19,7 +19,7 @@ export default function AgencyApartmentRow({ apartment, stt }) {
   // useEffect(() => {
   //   dispatch(getApartmentById(booking.apartmentId));
   // }, [booking.id, dispatch]);
-  const formattedNumber = apartment.price.toLocaleString("de-DE");
+  const formattedNumber = apartment.price?.toLocaleString("de-DE");
   const distributionDate = new Date(apartment?.distributionDate)
     .toISOString()
     .split("T")[0];

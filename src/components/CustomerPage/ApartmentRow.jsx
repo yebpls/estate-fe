@@ -5,7 +5,7 @@ import { getApartmentById } from "../../store/slices/apartmentSlice";
 import axios from "axios";
 
 export default function ApartmentRow({ subcription, stt }) {
-  const apartmentPrice = subcription?.price.toLocaleString("de-DE");
+  const apartmentPrice = subcription?.price?.toLocaleString("de-DE");
   const subcribeDate = new Date(subcription?.subscribeDate)
     .toISOString()
     .split("T")[0];

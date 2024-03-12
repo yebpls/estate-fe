@@ -100,6 +100,18 @@ export const getAllTransactions = createAsyncThunk(
   }
 );
 
+export const changeAccountDetail = createAsyncThunk(
+  "account/update_info",
+  async ({ id, params }) => {
+    try {
+      const res = await accountApi.updateAccountDetail(id, params);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   currentUser: null,
   isLogin: false,
@@ -173,6 +185,20 @@ const accountSlice = createSlice({
         loading: false,
       };
     });
+    builder.addCase(changeAccountDetail.pending, (state, action) => {
+      return { ...state, loading: true };
+    });
+    builder.addCase(changeAccountDetail.fulfilled, (state, action) => {
+      toast.success("Cập nhật thông tin thành công");
+      return {
+        ...state,
+        loading: false,
+        currentUser: action.payload,
+      };
+    });
+    builder.addCase(changeAccountDetail.rejected, (state, action) => {
+      return { ...state, loading: false };
+    });
     builder.addCase(getAllAccount.pending, (state, action) => {
       return { ...state, loading: true };
     });
@@ -213,7 +239,6 @@ const accountSlice = createSlice({
         loading: false,
       };
     });
-
     builder.addCase(getAllTransactions.pending, (state, action) => {
       return { ...state, loading: true };
     });
