@@ -32,6 +32,19 @@ export const getAppointmentByApartmentId = createAsyncThunk(
   }
 );
 
+export const updateMeetingDate = createAsyncThunk(
+  "appointment/update_by_id",
+  async ({ id, date }) => {
+    try {
+      const res = await appointmentApi.updateMeetingDate(id, date);
+      console.log("slice: ", date, id);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const soldApartment = createAsyncThunk(
   "appointment/is_sold",
   async ({ appointId, subId }) => {
@@ -62,6 +75,19 @@ const appointmentSlice = createSlice({
     });
     builder.addCase(getAppointmentByApartmentId.rejected, (state, action) => {
       return { ...state, appointmentLoading: false, isChange: false };
+    });
+    builder.addCase(updateMeetingDate.pending, (state, action) => {
+      return { ...state, appointmentLoading: true };
+    });
+    builder.addCase(updateMeetingDate.fulfilled, (state, action) => {
+      return {
+        ...state,
+        appointmentByApartment: action.payload,
+        appointmentLoading: false,
+      };
+    });
+    builder.addCase(updateMeetingDate.rejected, (state, action) => {
+      return { ...state, appointmentLoading: false };
     });
     builder.addCase(soldApartment.pending, (state, action) => {
       return { ...state, loadingSold: true };

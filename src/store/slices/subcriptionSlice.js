@@ -8,7 +8,7 @@ export const createSubcription = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const res = await subcriptionApi.createSubcription(params);
-      console.log('param:', params);
+      console.log("param:", params);
       return res;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -124,6 +124,9 @@ const subcriptionSlice = createSlice({
     builder.addCase(updateStatusBySubcriptionId.rejected, (state, action) => {
       return { ...state, loadingSubNofi: false };
     });
+    builder.addCase(soldApartment.pending, (state, action) => {
+      return { ...state, loadingSubNofi: true };
+    });
     builder.addCase(soldApartment.fulfilled, (state, action) => {
       const { subcriptionByAppointment } = state;
       const subcriptionChangeId = action.meta.arg.subId; // Accessing id passed as argument
@@ -138,17 +141,14 @@ const subcriptionSlice = createSlice({
           return subcription;
         }
       );
-      console.log(
-        "slice: ",
-        subcriptionChangeId,
-        subcriptionByAppointment,
-        newSubcriptionByAppointment
-      );
       return {
         ...state,
         loadingSubNofi: false,
         subcriptionByAppointment: newSubcriptionByAppointment,
       };
+    });
+    builder.addCase(soldApartment.rejected, (state, action) => {
+      return { ...state, loadingSubNofi: false };
     });
     builder.addCase(getSubcriptionByCustomerId.pending, (state, action) => {
       return { ...state };
