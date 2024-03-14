@@ -180,6 +180,9 @@ const subcriptionSlice = createSlice({
       });
       return { ...state, subcriptionByCus: newSubcription };
     });
+    builder.addCase(getSubcriptionByCustomerId.rejected, (state, action) => {
+      return { ...state, subcriptionByCus: null };
+    });
   },
 });
 

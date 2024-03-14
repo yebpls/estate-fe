@@ -5,6 +5,7 @@ import {
   changeAccountStatus,
   getAllAccount,
 } from "../../store/slices/accountSlice";
+import emailjs from "@emailjs/browser";
 
 export default function AccountRow({ account, stt }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +22,30 @@ export default function AccountRow({ account, stt }) {
     setIsModalOpen(false);
   };
   const handleChangeAccountStatus = (id) => {
+    if (account.status === false) {
+      emailjs.send(
+        "service_jl7ysfd",
+        "template_36w88no",
+        {
+          name: account.name,
+          email: account.email,
+        },
+        "bwBGvMPUt9Tm4k-2a"
+      );
+    } else {
+      emailjs.send(
+        "service_4mcyixq",
+        "template_nrmkpoo",
+        {
+          name: account.name,
+          email: account.email,
+        },
+        "86NmvFbUOMd0EgmqT"
+      );
+    }
+
     dispatch(changeAccountStatus(id));
+
     console.log("account id:", account.id);
     setIsModalOpen(false);
   };

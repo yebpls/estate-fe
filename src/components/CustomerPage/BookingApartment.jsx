@@ -9,7 +9,7 @@ import { getSubcriptionByCustomerId } from "../../store/slices/subcriptionSlice"
 export default function BookingApartment() {
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { customer } = useSelector((state) => state.accountReducer);
+  const { customer, id } = useSelector((state) => state.accountReducer);
   const { subcriptionByCus } = useSelector((state) => state.subcriptionReducer);
   const dispatch = useDispatch();
   // MAKE A PAGING
@@ -23,7 +23,7 @@ export default function BookingApartment() {
   };
   useEffect(() => {
     dispatch(getSubcriptionByCustomerId(customer?.id));
-  }, [dispatch, customer]);
+  }, [dispatch, id]);
   return (
     <div className="mx-auto mt-10 px-8">
       <p className="m-2 text-center text-2xl  font-semibold text-blue-900">

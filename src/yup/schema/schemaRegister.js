@@ -4,7 +4,6 @@ const schemaRegister = yup.object().shape({
   name: yup.string().required("Tên bắt buộc nhập "),
   phoneNumber: yup
     .string()
-    .phoneNumber()
     .required("Số điện thoại bắt buộc nhập")
     .min(10, "Số điện thoại phải có ít nhất 10 ký tự")
     .max(10, "Số điện thoại tối đa 10 ký tự"),
@@ -23,7 +22,7 @@ const schemaRegister = yup.object().shape({
     .oneOf([yup.ref("password")], "Password không trùng"),
   cityId: yup.string().required("Thành phố bắt buộc nhập "),
   dob: yup.string().required("Ngày sinh bắt buộc chọn "),
-  meetingDate: yup.string().required("Bắt buộc chọn ngày gặp mặt"),
+
   gender: yup.string().required("Giới tính bắt buộc chọn "),
   role: yup.string().required("Vai trò bắt buộc chọn "),
 });
