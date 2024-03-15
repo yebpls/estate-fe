@@ -97,6 +97,8 @@ export default function SubcriptionRow({ subcription, stt }) {
         <p className="w-1/5 text-base text-green-500">Đã lên lịch gặp</p>
       ) : subcription.subscriptionStatus === 3 ? (
         <p className="w-1/5 text-base text-red-500">Căn hộ đã được bán</p>
+      ) : subcription.subscriptionStatus === 4 ? (
+        <p className="w-1/5 text-base text-red-500">Vào hàng chờ</p>
       ) : (
         ""
       )}

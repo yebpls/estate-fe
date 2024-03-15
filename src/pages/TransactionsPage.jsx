@@ -22,8 +22,8 @@ function TransactionsPage() {
     };
   });
 
-  const startIndex = (currentPage - 1) * 10;
-  const endIndex = startIndex + 10;
+  const startIndex = (currentPage - 1) * 8;
+  const endIndex = startIndex + 8;
 
   const currentData = mapTransaction?.slice(startIndex, endIndex);
   const handlePageChange = (page) => {
@@ -35,41 +35,49 @@ function TransactionsPage() {
   return (
     <div className="w-full py-4">
       <h1 className="text-center font-bold text-lg">Quản lí giao dịch</h1>
-      <section class="container mx-auto p-6 font-mono">
-        <div class="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-          <div class="w-full overflow-x-auto">
-            <table class="w-full">
+      <section className="container mx-auto p-6 font-mono">
+        <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+          <div className="w-full overflow-x-auto">
+            <table className="w-full">
               <thead>
-                <tr class="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-                  <th class="px-4 py-3">STT</th>
-                  <th class="px-4 py-3">Tên người giao dịch</th>
-                  <th class="px-4 py-3">Loại giao dịch</th>
-                  <th class="px-4 py-3">Số tiền</th>
-                  <th class="px-4 py-3">Ngày giao dịch</th>
+                <tr className="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                  <th className="px-4 py-3">STT</th>
+                  <th className="px-4 py-3">Tên người giao dịch</th>
+                  <th className="px-4 py-3">Loại giao dịch</th>
+                  <th className="px-4 py-3">Số tiền</th>
+                  <th className="px-4 py-3">Ngày giao dịch</th>
                 </tr>
               </thead>
-              <tbody class="bg-white">
-                {currentData &&
+              <tbody className="bg-white">
+                {loading ? (
+                  <div className="flex justify-center py-2 h-[40px]">
+                    <Spin size="medium" className="inline-block" />
+                    <p className="text-base ml-5 inline-block text-blue-500 ml-">
+                      Chờ tý nhé
+                    </p>
+                  </div>
+                ) : (
+                  currentData &&
                   currentData.map((item, index) => (
-                    <tr class="text-gray-700">
-                      <td class="px-4 py-3 border">
-                        <div class="flex items-center text-sm">
+                    <tr className="text-gray-700" key={item.id}>
+                      <td className="px-4 py-3 border">
+                        <div className="flex items-center text-sm">
                           <div>
-                            <p class="font-semibold text-black">
+                            <p className="font-semibold text-black">
                               {index + startIndex + 1}
                             </p>
                           </div>
                         </div>
                       </td>
-                      <td class="px-4 py-3 text-xs font-semibold border">
+                      <td className="px-4 py-3 text-xs font-semibold border">
                         <div>
-                          <p class="font-semibold text-black">
+                          <p className="font-semibold text-black">
                             {item.accountName}
                           </p>
-                          <p class="text-xs text-gray-600">{item.email}</p>
+                          <p className="text-xs text-gray-600">{item.email}</p>
                         </div>
                       </td>
-                      <td class="px-4 py-3 text-xs border">
+                      <td className="px-4 py-3 text-xs border">
                         {item.status === 0 && (
                           <p className="bg-green-400 rounded-md py-2 px-1 text-white font-bold uppercase">
                             + Nạp tiền
@@ -96,10 +104,10 @@ function TransactionsPage() {
                           </p>
                         )}
                       </td>
-                      <td class="px-4 py-3 text-xs border">
+                      <td className="px-4 py-3 text-xs border">
                         {item.amount.toLocaleString("de-DE")}đ
                       </td>
-                      <td class="px-4 py-3 text-sm border">
+                      <td className="px-4 py-3 text-sm border">
                         {dayjs(
                           new Date(
                             item.transactionDate[0],
@@ -112,12 +120,13 @@ function TransactionsPage() {
                         ).format("YYYY-MM-DD HH:mm:ss")}
                       </td>
                     </tr>
-                  ))}
+                  ))
+                )}
                 <Pagination
                   current={currentPage}
                   total={mapTransaction?.length}
                   showSizeChanger={false}
-                  pageSize={10}
+                  pageSize={8}
                   onChange={handlePageChange}
                 />
               </tbody>

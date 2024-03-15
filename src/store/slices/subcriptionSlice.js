@@ -102,17 +102,33 @@ const subcriptionSlice = createSlice({
       if (action.meta.arg.status === 2) {
         toast.success("Hẹn gặp thành công");
       }
+      if (action.meta.arg.status === 1) {
+        toast.success("Đã huỷ cuộc hẹn");
+      }
       const { subcriptionByAppointment } = state;
       const subcriptionChangeId = action.meta.arg.id; // Accessing id passed as argument
+      const status = action.meta.arg.status;
       const newSubcriptionByAppointment = subcriptionByAppointment?.map(
         (subcription) => {
           if (subcription.id === subcriptionChangeId) {
             return {
               ...subcription,
-              subscriptionStatus: action.meta.arg.status,
+              subscriptionStatus: status,
             };
+          } else {
+            if (status === 2) {
+              return {
+                ...subcription,
+                subscriptionStatus: 4,
+              };
+            }
+            if (status === 1) {
+              return {
+                ...subcription,
+                subscriptionStatus: 1,
+              };
+            }
           }
-          return subcription;
         }
       );
       return {
