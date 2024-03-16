@@ -13,8 +13,14 @@ import moment from "moment";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import schemaRegister from "../../yup/schema/schemaRegister";
 import { yupResolver } from "@hookform/resolvers/yup";
+import schemaMeetingDate from "../../yup/schema/schemaMeetingDate";
 
-export default function SubcriptionRow({ subcription, stt }) {
+export default function SubcriptionRow({
+  subcription,
+  stt,
+  updateAppointStatus,
+  updateAppointDate,
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { appointmentByApartment } = useSelector(
@@ -23,19 +29,20 @@ export default function SubcriptionRow({ subcription, stt }) {
   dayjs.extend(customParseFormat);
 
   const dispatch = useDispatch();
-  const subscribeDate = new Date(subcription?.subscribeDate)
+  const newSubscribeDate = new Date(subcription?.subscribeDate)
     .toISOString()
-    .split("T")[0];
-  const updateDate = new Date(subcription?.updateDate)
-    .toISOString()
-    .split("T")[0];
+    .split("T")[0]
+    .split("-");
+
+  const subscribeDate =
+    newSubscribeDate[2] + "-" + newSubscribeDate[1] + "-" + newSubscribeDate[0];
 
   const meetingForm = useForm({
-    // resolver: yupResolver(schemaRegister),
+    resolver: yupResolver(schemaMeetingDate),
   });
   const {
     register,
-    // formState: { errors },
+    formState: { errors },
     handleSubmit,
     control,
     reset,
@@ -54,24 +61,23 @@ export default function SubcriptionRow({ subcription, stt }) {
     // Disable dates before the current date
     return current && current < moment().endOf("day");
   };
-  const createMeeting = (data) => {
+  const createMeeting = async (data) => {
     console.log("Meeting Data:", typeof data.meetingDate);
-    // if (!data === undefined) {
-    dispatch(
-      updateMeetingDate({
-        id: subcription?.appointmentId,
-        date: data.meetingDate,
-      })
-    );
-    updateSubcriptionStatus(subcription?.id, 2);
-    console.log("update data: ", data?.meetingDate, subcription?.appointmentId);
-    // }
+    if (data) {
+      const changeDate = data.meetingDate.split("-");
+      const newMeetingData =
+        changeDate[2] + "-" + changeDate[1] + "-" + changeDate[0];
+      console.log("changeDate", changeDate);
+      await dispatch(
+        updateMeetingDate({
+          id: subcription?.appointmentId,
+          date: newMeetingData,
+        })
+      );
+      await updateSubcriptionStatus(subcription?.id, 2);
+    }
     reset();
     setIsModalOpen(false);
-  };
-  const format = "HH:mm";
-  const onChange = (time, timeString) => {
-    console.log("log", time, timeString);
   };
   const updateSubcriptionStatus = (id, status) => {
     dispatch(updateStatusBySubcriptionId({ id: id, status: status }));
@@ -123,10 +129,8 @@ export default function SubcriptionRow({ subcription, stt }) {
             <div>
               <form onSubmit={handleSubmit(createMeeting)}>
                 <div className="w-1/2">
-                  <p className="text-lg font-bold">Ngày gặp mặt</p>
-                  <div className="text-left text-sm  text-red-500">
-                    {/* {errors.meetingDate?.message} */}
-                  </div>
+                  <p className="text-lg font-bold my-4">Ngày gặp mặt</p>
+
                   <Controller
                     name="meetingDate"
                     control={control}
@@ -135,13 +139,19 @@ export default function SubcriptionRow({ subcription, stt }) {
                         style={{ width: 300 }}
                         disabledDate={disabledDate}
                         placeholder="Chọn ngày gặp mặt"
+                        format={"DD-MM-YYYY"}
                         onChange={(date, dateString) =>
                           field.onChange(dateString)
                         }
-                        value={field.value ? dayjs(field.value) : null}
+                        value={
+                          field.value ? dayjs(field.value, "DD/MM/YYYY") : null
+                        }
                       />
                     )}
                   />
+                  <div className="text-left text-sm  text-red-500">
+                    {errors.meetingDate?.message}
+                  </div>
                 </div>
                 {/* <div className="w-1/2">
                   <p className="text-lg font-bold">Giờ gặp mặt</p>
@@ -164,13 +174,11 @@ export default function SubcriptionRow({ subcription, stt }) {
                     )}
                   />
                 </div> */}
-                <button
-                  // onClick={() => makeAnAppointment()}
-                  // type="submit"
-                  className=" bg-orange-400 hover:bg-orange-500 ml-2 p-1 px-2 text-white rounded-lg hover:cursor-pointer"
-                >
-                  Hẹn gặp
-                </button>
+                <a className="w-full mt-10">
+                  <span className="bg-orange-400 hover:bg-orange-500 ml-2 p-1 px-2 text-white rounded-lg hover:cursor-pointer absolute right-16 bottom-4">
+                    Hẹn gặp khách
+                  </span>
+                </a>
               </form>
             </div>
           </Modal>
@@ -195,12 +203,7 @@ export default function SubcriptionRow({ subcription, stt }) {
               },
             }}
           >
-            <span
-              onClick={() =>
-                updateIsSold(appointmentByApartment?.id, subcription?.id)
-              }
-              className=" bg-green-400 hover:bg-green-500 ml-2 p-1 px-2 text-white rounded-lg hover:cursor-pointer"
-            >
+            <span className=" bg-green-400 hover:bg-green-500 ml-2 p-1 px-2 text-white rounded-lg hover:cursor-pointer">
               Đã bán
             </span>
           </Popconfirm>

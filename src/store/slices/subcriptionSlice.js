@@ -103,7 +103,7 @@ const subcriptionSlice = createSlice({
         toast.success("Hẹn gặp thành công");
       }
       if (action.meta.arg.status === 1) {
-        toast.success("Đã huỷ cuộc hẹn");
+        toast.error("Đã huỷ cuộc hẹn");
       }
       const { subcriptionByAppointment } = state;
       const subcriptionChangeId = action.meta.arg.id; // Accessing id passed as argument

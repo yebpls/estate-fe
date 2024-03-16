@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import React, { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import schemaRegister from "../../yup/schema/schemaRegister";
+import schemaUpdateAccount from "../../yup/schema/schemaUpdateAccount";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { changeAccountDetail } from "../../store/slices/accountSlice";
 
@@ -35,7 +35,7 @@ export default function UpdateAccount({ account }) {
   ];
 
   const updateForm = useForm({
-    // resolver: yupResolver(schemaRegister),
+    resolver: yupResolver(schemaUpdateAccount),
     defaultValues: {
       id: account ? account.id : "",
       name: account ? account.name : "",
@@ -85,7 +85,7 @@ export default function UpdateAccount({ account }) {
         id: account.id,
         name: account.name,
         avatarUrl: account.avatarUrl,
-        phoneNumber: account.phoneNumbe,
+        phoneNumber: account.phoneNumber,
         gender: account.gender,
         dob: account.dob,
         cityId: account.cityId,
@@ -120,18 +120,27 @@ export default function UpdateAccount({ account }) {
             placeholder="Tên người dùng"
             {...registerChangeProfile("name", { required: true })}
           />
-          <div className="m-2">Avatar URL</div>
+          <div className="text-left text-sm  text-red-500">
+            {errors.name?.message}
+          </div>
+          <div className="m-2">Ảnh đại diện</div>
           <input
             className="px-2 py-1 w-full"
             placeholder="URL ảnh đại diện"
             {...registerChangeProfile("avatarUrl", { required: true })}
           />
+          <div className="text-left text-sm  text-red-500">
+            {errors.avatarUrl?.message}
+          </div>
           <div className="m-2">Số điện thoại</div>
           <input
             className="px-2 py-1 w-full"
             placeholder="Số điện thoại"
             {...registerChangeProfile("phoneNumber", { required: true })}
           />
+          <div className="text-left text-sm  text-red-500">
+            {errors.phoneNumber?.message}
+          </div>
           <div className="mb-2">
             <p className="mb-2">Giới Tính</p>
             <Controller
@@ -161,6 +170,9 @@ export default function UpdateAccount({ account }) {
                 />
               )}
             />
+            <div className="text-left text-sm  text-red-500">
+              {errors.cityId?.message}
+            </div>
           </div>
 
           <div className="mb-2">
