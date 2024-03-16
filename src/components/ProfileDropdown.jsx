@@ -35,7 +35,7 @@ function ProfileDropdown() {
     dispatch(setCustomer(null));
     navigate("/");
 
-    return new Promise((resolve) => setTimeout(resolve, 100)); // Wait for 100ms (adjust as needed)
+    return new Promise((resolve) => setTimeout(resolve, 100));
   };
 
   const onLogout = async () => {

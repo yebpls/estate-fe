@@ -124,13 +124,10 @@ function LoginPage() {
           </div>
           <div className="flex gap-2">
             <button
-              className="w-1/2 py-3 !bg-blue_1 hover:!bg-white text-white hover:text-blue_1 hover:border-blue_1 font-bold"
+              className="w-full py-3 !bg-blue_1 hover:!bg-white text-white hover:text-blue_1 hover:border-blue_1 font-bold"
               type="submit"
             >
               Đăng nhập
-            </button>
-            <button className="w-1/2 py-3 text-text_color_base hover:text-text_color_2 font-bold">
-              Quên mật khẩu?
             </button>
           </div>
           <div className="relative flex py-5 my-8 items-center">
@@ -144,13 +141,8 @@ function LoginPage() {
             </span>
             <div className="flex-grow border-t border-gray-400"></div>
           </div>
-          <div className="w-full">
-            <button className="w-full py-3  text-text_color_base hover:text-text_color_2 font-bold">
-              Đăng nhập bằng Google
-            </button>
-          </div>
         </form>
-        <DevTool control={control} />
+        {/* <DevTool control={control} /> */}
       </div>
     </div>
   );

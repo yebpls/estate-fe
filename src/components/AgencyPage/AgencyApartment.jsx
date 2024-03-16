@@ -48,7 +48,10 @@ export default function AgencyApartment() {
         // If no matching booking is found, return the apartment as is
         return apartment;
       })
-      .filter((apartment) => apartment.bookingFee);
+      .filter((apartment) => apartment.bookingFee)
+      .sort(
+        (a, b) => new Date(b.distributionDate) - new Date(a.distributionDate)
+      );
 
     setAgencyApart(matchedApartments);
     // console.log(matchedApartments);

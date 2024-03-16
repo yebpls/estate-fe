@@ -70,6 +70,10 @@ export default function ApartmentRow({ subcription, stt }) {
               <p className="text-green-400 text-sm py-2">
                 Tình trạng đăng ký: Đã lên lịch hẹn
               </p>
+            ) : subcription?.subscriptionStatus === 3 ? (
+              <p className="text-blue-400 text-sm py-2">
+                Tình trạng đăng ký: Đã được bán
+              </p>
             ) : (
               ""
             )}

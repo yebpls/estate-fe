@@ -18,17 +18,7 @@ function Header() {
       <Link to="/" className="block w-14 h-14">
         <img className="w-full h-full" src="/images/logo.png" alt="" />
       </Link>
-      <div className="flex items-center">
-        <div className="font-bold mx-2 text-text_color_base hover:text-black">
-          <Link to="">Chung cư bán</Link>
-        </div>
-        <div className="font-bold mx-2 text-text_color_base hover:text-black">
-          <Link to="">Dự án</Link>
-        </div>
-        <div className="font-bold mx-2 text-text_color_base hover:text-black">
-          <Link to="">Tin tức</Link>
-        </div>
-      </div>
+
       <div className="flex items-center">
         {isLogin ? (
           // <div className="flex">

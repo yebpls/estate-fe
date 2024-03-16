@@ -1,3 +1,4 @@
+import axios from "axios";
 import axiosClient from "./axiosClient";
 
 export const appointmentApi = {
@@ -12,5 +13,11 @@ export const appointmentApi = {
   setIsSoldApartment(appointId, subId) {
     const url = `/api/appointment/is-sold?appointId=${appointId}&subId=${subId}`;
     return axiosClient.put(url);
+  },
+  updateMeetingDate(id, date) {
+    const url = `/api/appointment/meeting-date/${id}`;
+    console.log("api: ", date, id);
+
+    return axiosClient.put(url, date);
   },
 };

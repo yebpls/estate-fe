@@ -8,7 +8,7 @@ export const createSubcription = createAsyncThunk(
   async (params, { rejectWithValue }) => {
     try {
       const res = await subcriptionApi.createSubcription(params);
-      console.log('param:', params);
+      console.log("param:", params);
       return res;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -102,17 +102,33 @@ const subcriptionSlice = createSlice({
       if (action.meta.arg.status === 2) {
         toast.success("Hẹn gặp thành công");
       }
+      if (action.meta.arg.status === 1) {
+        toast.success("Đã huỷ cuộc hẹn");
+      }
       const { subcriptionByAppointment } = state;
       const subcriptionChangeId = action.meta.arg.id; // Accessing id passed as argument
+      const status = action.meta.arg.status;
       const newSubcriptionByAppointment = subcriptionByAppointment?.map(
         (subcription) => {
           if (subcription.id === subcriptionChangeId) {
             return {
               ...subcription,
-              subscriptionStatus: action.meta.arg.status,
+              subscriptionStatus: status,
             };
+          } else {
+            if (status === 2) {
+              return {
+                ...subcription,
+                subscriptionStatus: 4,
+              };
+            }
+            if (status === 1) {
+              return {
+                ...subcription,
+                subscriptionStatus: 1,
+              };
+            }
           }
-          return subcription;
         }
       );
       return {
@@ -123,6 +139,9 @@ const subcriptionSlice = createSlice({
     });
     builder.addCase(updateStatusBySubcriptionId.rejected, (state, action) => {
       return { ...state, loadingSubNofi: false };
+    });
+    builder.addCase(soldApartment.pending, (state, action) => {
+      return { ...state, loadingSubNofi: true };
     });
     builder.addCase(soldApartment.fulfilled, (state, action) => {
       const { subcriptionByAppointment } = state;
@@ -138,17 +157,14 @@ const subcriptionSlice = createSlice({
           return subcription;
         }
       );
-      console.log(
-        "slice: ",
-        subcriptionChangeId,
-        subcriptionByAppointment,
-        newSubcriptionByAppointment
-      );
       return {
         ...state,
         loadingSubNofi: false,
         subcriptionByAppointment: newSubcriptionByAppointment,
       };
+    });
+    builder.addCase(soldApartment.rejected, (state, action) => {
+      return { ...state, loadingSubNofi: false };
     });
     builder.addCase(getSubcriptionByCustomerId.pending, (state, action) => {
       return { ...state };
@@ -179,6 +195,9 @@ const subcriptionSlice = createSlice({
         return subcription;
       });
       return { ...state, subcriptionByCus: newSubcription };
+    });
+    builder.addCase(getSubcriptionByCustomerId.rejected, (state, action) => {
+      return { ...state, subcriptionByCus: null };
     });
   },
 });

@@ -17,6 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import schemaRegister from "../yup/schema/schemaRegister";
 import accountApi from "../api/accountApi";
 import { toast } from "react-toastify";
+import emailjs from "@emailjs/browser";
 
 function RegisterPage() {
   const { city } = useSelector((state) => state.buildingReducer);
@@ -45,9 +46,25 @@ function RegisterPage() {
       const res = await accountApi.register(params);
       if (res) {
         console.log(res);
-
-        toast.success("Đăng ký thành công");
-        navigate("/login");
+        emailjs
+          .send(
+            "service_jl7ysfd",
+            "template_3wc70jo",
+            {
+              name: data.name,
+              email: data.email,
+            },
+            "bwBGvMPUt9Tm4k-2a"
+          )
+          .then((response) => {
+            console.log("Email successfully sent!", response);
+            toast.success("Đăng ký thành công");
+            navigate("/login");
+          })
+          .catch((error) => {
+            console.error("Failed to send email", error);
+            toast.error("Failed to send confirmation email");
+          });
       }
     } catch (error) {
       toast.error("Email đã được sử dụng");
@@ -265,7 +282,10 @@ function RegisterPage() {
             </div>
           </div>
           <div className="w-full">
-            <button className="w-full py-3  text-text_color_base hover:text-text_color_2 font-bold">
+            <button
+              type="submit"
+              className="w-full py-3  text-text_color_base hover:text-text_color_2 font-bold"
+            >
               Đăng ký
             </button>
           </div>
@@ -279,11 +299,6 @@ function RegisterPage() {
               </Link>
             </span>
             <div className="flex-grow border-t border-gray-400"></div>
-          </div>
-          <div className="w-full">
-            <button className="w-full py-3  text-text_color_base hover:text-text_color_2 font-bold">
-              Đăng nhập bằng Google
-            </button>
           </div>
         </form>
         {/* <DevTool control={control} /> */}

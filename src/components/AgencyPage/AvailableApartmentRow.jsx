@@ -103,7 +103,7 @@ export default function AvailableApartmentRow({ apartment, stt }) {
         bookingStatus: 2,
         apartmentId: apartment.id,
       };
-      dispatch(createBookingDistribution(params));
+      // dispatch(createBookingDistribution(params));
       console.log("param: ", params);
       handleCancel();
     }
