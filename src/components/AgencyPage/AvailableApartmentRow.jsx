@@ -106,7 +106,14 @@ export default function AvailableApartmentRow({ apartment, stt }) {
           bookingStatus: 2,
           apartmentId: apartment.id,
         };
-        // dispatch(createBookingDistribution(params));
+        const minusBalance = apartment.price * bookingFee;
+        dispatch(
+          createBookingDistribution({
+            params: params,
+            minusBalance: minusBalance,
+          })
+        );
+
         console.log("param: ", params);
         handleCancel();
       }

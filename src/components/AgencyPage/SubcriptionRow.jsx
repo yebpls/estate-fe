@@ -11,21 +11,17 @@ import { Controller, useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import moment from "moment";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import schemaRegister from "../../yup/schema/schemaRegister";
 import { yupResolver } from "@hookform/resolvers/yup";
 import schemaMeetingDate from "../../yup/schema/schemaMeetingDate";
+import emailjs from "@emailjs/browser";
 
-export default function SubcriptionRow({
-  subcription,
-  stt,
-  updateAppointStatus,
-  updateAppointDate,
-}) {
+export default function SubcriptionRow({ subcription, stt }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { appointmentByApartment } = useSelector(
     (state) => state.appointmentReducer
   );
+  const { apartmentDetail } = useSelector((state) => state.apartmentReducer);
   dayjs.extend(customParseFormat);
 
   const dispatch = useDispatch();
@@ -61,13 +57,26 @@ export default function SubcriptionRow({
     // Disable dates before the current date
     return current && current < moment().endOf("day");
   };
+
+  function sendMeetingMail(meetingDate) {
+    emailjs.send(
+      "service_6sqc535",
+      "template_870wils",
+      {
+        name: "Đội ngũ Nhà Đẹp",
+        message: `Kính gửi quý khách, đội ngũ nhà đẹp thay mặt đại lý mời quý khách đến khảo sát căn hộ số ${apartmentDetail?.apartmentNumber} thuộc dự án ${apartmentDetail?.projectName} tại ${apartmentDetail?.address} vào ngày ${meetingDate}. Rất kính mong quý khách có thể bỏ chút thời gian để hợp tác cùng đội ngũ của chúng tôi.`,
+      },
+      "IjYZDWDVeJohW3KBo"
+    );
+  }
   const createMeeting = async (data) => {
     console.log("Meeting Data:", typeof data.meetingDate);
     if (data) {
       const changeDate = data.meetingDate.split("-");
       const newMeetingData =
         changeDate[2] + "-" + changeDate[1] + "-" + changeDate[0];
-      console.log("changeDate", changeDate);
+      const mailDate =
+        changeDate[0] + "-" + changeDate[1] + "-" + changeDate[2];
       await dispatch(
         updateMeetingDate({
           id: subcription?.appointmentId,
@@ -75,6 +84,7 @@ export default function SubcriptionRow({
         })
       );
       await updateSubcriptionStatus(subcription?.id, 2);
+      sendMeetingMail(mailDate);
     }
     reset();
     setIsModalOpen(false);
@@ -149,36 +159,24 @@ export default function SubcriptionRow({
                       />
                     )}
                   />
-                  <div className="text-left text-sm  text-red-500">
+                  <div className="text-left m-2 text-sm  text-red-500">
                     {errors.meetingDate?.message}
                   </div>
                 </div>
-                {/* <div className="w-1/2">
-                  <p className="text-lg font-bold">Giờ gặp mặt</p>
-                  <Controller
-                    name="meetingTime"
-                    control={control}
-                    render={({ field }) => (
-                      <TimePicker
-                        style={{ width: 300 }}
-                        onChange={(time, timeString) =>
-                          field.onChange(timeString)
-                        }
-                        format={format}
-                        // value={
-                        //   field.value
-                        //     ? dayjs(field.value, format).toDate()
-                        //     : null
-                        // }
-                      />
-                    )}
-                  />
-                </div> */}
-                <a className="w-full mt-10">
-                  <span className="bg-orange-400 hover:bg-orange-500 ml-2 p-1 px-2 text-white rounded-lg hover:cursor-pointer absolute right-16 bottom-4">
+                <div className="w-full mt-10">
+                  <button className="bg-orange-400 hover:bg-orange-500 ml-2 p-1 px-2 text-white rounded-lg hover:cursor-pointer absolute right-16 bottom-4">
+                    Hẹn gặp khách
+                  </button>
+                </div>
+                {/* <a className="w-full mt-10">
+                  <span
+                    // onClick={() => createMeetingDate()}
+
+                    className="bg-orange-400 hover:bg-orange-500 ml-2 p-1 px-2 text-white rounded-lg hover:cursor-pointer absolute right-16 bottom-4"
+                  >
                     Hẹn gặp khách
                   </span>
-                </a>
+                </a> */}
               </form>
             </div>
           </Modal>

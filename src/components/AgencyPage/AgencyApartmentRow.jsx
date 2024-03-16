@@ -33,8 +33,6 @@ export default function AgencyApartmentRow({ apartment, stt }) {
       );
       setBuilding(buildingItem);
     }
-    // console.log("building: ", buildings);
-    console.log("hahaha", apartment);
   }, [apartment, buildings]);
   return (
     <div>
@@ -117,6 +115,7 @@ export default function AgencyApartmentRow({ apartment, stt }) {
               <button className="text-white h-8 px-4  mx-1  rounded-md bg-red-500 text-sm hover:bg-red-600">
                 Hủy
               </button>
+              {/* <p>{apartment?.appointmentStatus}</p> */}
             </Popconfirm>
           </td>
         )}

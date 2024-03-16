@@ -6,6 +6,7 @@ import { getAgencyId } from "../store/slices/accountSlice";
 import SideBar from "../components/SharedComponent/SideBar";
 import { getAllBookingDistributionByAgencyId } from "../store/slices/bookingDistributionSlice";
 import { getAllApartment } from "../store/slices/apartmentSlice";
+import { getAllAppointment } from "../store/slices/appointmentSlice";
 
 function AgencyLayout() {
   const { agency, id } = useSelector((state) => state.accountReducer);
@@ -21,6 +22,9 @@ function AgencyLayout() {
   useEffect(() => {
     dispatch(getAllApartment());
   }, [isChange, dispatch]);
+  useEffect(() => {
+    dispatch(getAllAppointment());
+  }, []);
   return (
     <div>
       <Header />

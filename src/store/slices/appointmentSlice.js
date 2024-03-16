@@ -2,9 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { appointmentApi } from "../../api/appointmentApi";
 import { toast } from "react-toastify";
 import { updateStatusBySubcriptionId } from "./subcriptionSlice";
+import { apartmentApi } from "../../api/apartmentApi";
 
 const initialState = {
   appointment: null,
+  appointments: null,
   appointmentByApartment: null,
   appointmentLoading: false,
   isChange: false,
@@ -16,6 +18,18 @@ export const getAppointmentByDistributionId = createAsyncThunk(
     try {
       const res = await appointmentApi.getAppointmentByDistributionId(id);
       return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+export const getAllAppointment = createAsyncThunk(
+  "appointment/get_all",
+  async () => {
+    try {
+      const res = await appointmentApi.getAllAppointment();
+      return res.data;
     } catch (error) {
       console.log(error);
     }
@@ -128,6 +142,19 @@ const appointmentSlice = createSlice({
     });
     builder.addCase(soldApartment.rejected, (state, action) => {
       return { ...state, loadingSold: false };
+    });
+    builder.addCase(getAllAppointment.pending, (state, action) => {
+      return { ...state, appointmentLoading: true };
+    });
+    builder.addCase(getAllAppointment.fulfilled, (state, action) => {
+      return {
+        ...state,
+        appointmentLoading: false,
+        appointments: action.payload,
+      };
+    });
+    builder.addCase(getAllAppointment.rejected, (state, action) => {
+      return { ...state, appointmentLoading: false };
     });
   },
 });

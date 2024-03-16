@@ -50,35 +50,40 @@ export default function ApartmentRow({ subcription, stt }) {
           </div>
 
           <div className="w-60 ml-5">
-            <p className="whitespace-nowrap text-base py-2 text-slate-600">
+            <p className="whitespace-nowrap text-sm py-2 text-slate-600">
               Diện tích: {subcription?.area}m2
             </p>
-            <p className="whitespace-nowrap text-sm text-slate-600 py-1">
+            <p className="whitespace-nowrap text-base text-slate-600 py-1">
               Giá trị: {apartmentPrice}đ
             </p>
           </div>
           <div className="w-64 ml-3">
             {subcription?.subscriptionStatus === 0 ? (
-              <p className="text-red-400 text-sm py-2">
-                Tình trạng đăng ký: Căn hộ đã bán
+              <p className="text-slate-500 text-sm py-2 flex">
+                Tình trạng đăng ký:
+                <p className=" px-1 text-green-500"> Đã mua thành công</p>
               </p>
             ) : subcription?.subscriptionStatus === 1 ? (
-              <p className="text-orange-400 text-sm py-2">
-                Tình trạng đăng ký: Chờ xác nhận
+              <p className="text-slate-500 text-sm py-2 flex">
+                Tình trạng đăng ký:
+                <p className=" px-1 text-orange-500">Chờ hẹn gặp</p>
               </p>
             ) : subcription?.subscriptionStatus === 2 ? (
-              <p className="text-green-400 text-sm py-2">
-                Tình trạng đăng ký: Đã lên lịch hẹn
+              <p className="text-slate-500 text-sm py-2 flex">
+                Tình trạng đăng ký:
+                <p className=" px-1 text-blue-500">Đã được hẹn</p>
               </p>
             ) : subcription?.subscriptionStatus === 3 ? (
-              <p className="text-blue-400 text-sm py-2">
-                Tình trạng đăng ký: Đã được bán
+              <p className="text-slate-500 text-sm py-2 flex">
+                Tình trạng đăng ký:
+                <p className=" px-1 text-red-500"> Đã bị bán</p>
               </p>
             ) : (
               ""
             )}
-            <p className="whitespace-nowrap text-xs text-blue-400">
-              Ngày đăng ký: {subcribeDate}
+            <p className="text-slate-500 text-sm  flex">
+              Ngày đăng ký:
+              <p className=" px-1 text-red-500"> {subcribeDate}</p>
             </p>
           </div>
         </div>

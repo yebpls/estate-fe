@@ -2,6 +2,10 @@ import axios from "axios";
 import axiosClient from "./axiosClient";
 
 export const appointmentApi = {
+  getAllAppointment() {
+    const url = "/api/appointment";
+    return axiosClient.get(url);
+  },
   getAppointmentByDistributionId(id) {
     const url = `/api/appointment/booking-distribution/${id}`;
     return axiosClient.get(url);
