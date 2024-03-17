@@ -49,7 +49,7 @@ export default function Subcription() {
   useEffect(() => {
     fetch(apartmentId);
     dispatch(getAppointmentByApartmentId(apartmentId));
-    console.log(state);
+    // console.log(state);
   }, [apartmentId]);
 
   useEffect(() => {
@@ -60,9 +60,10 @@ export default function Subcription() {
   useEffect(() => {
     const date = appointmentByApartment?.meetingDate;
 
-    const newAppointDate = date ? toString().split("T")[0].split("-") : [];
+    const newAppointDate = date ? date.toString().split("T")[0].split("-") : [];
+
     setAppointDate(newAppointDate);
-    console.log("date: ", appointDate);
+    // console.log("date: ", date, appointDate);
   }, [appointmentByApartment]);
   return (
     <div className="mx-10 mt-10 w-full">

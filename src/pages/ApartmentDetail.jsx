@@ -37,6 +37,7 @@ export default function ApartmentDetail({ cus }) {
   useEffect(() => {
     dispatch(getAgencyByApartmentId(id));
     dispatch(getAppointmentByApartmentId(id));
+    dispatch(getApartmentById(id));
     dispatch(getAllCity());
   }, [id, dispatch]);
 

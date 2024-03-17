@@ -31,7 +31,7 @@ import {
   setIsLogin,
   setRole,
 } from "./store/slices/accountSlice";
-import { getAllCity } from "./store/slices/buildingSlice";
+import { getAllBuilding, getAllCity } from "./store/slices/buildingSlice";
 import AgencyLayout from "./layouts/AgencyLayout";
 import AvailableApartment from "./components/AgencyPage/AvailableApartment";
 import AgencyApartment from "./components/AgencyPage/AgencyApartment";
@@ -82,6 +82,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getAllCity());
+    dispatch(getAllBuilding());
   }, []);
 
   useEffect(() => {

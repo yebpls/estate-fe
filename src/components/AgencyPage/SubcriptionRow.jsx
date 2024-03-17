@@ -65,12 +65,13 @@ export default function SubcriptionRow({ subcription, stt }) {
       {
         name: "Đội ngũ Nhà Đẹp",
         message: `Kính gửi quý khách, đội ngũ nhà đẹp thay mặt đại lý mời quý khách đến khảo sát căn hộ số ${apartmentDetail?.apartmentNumber} thuộc dự án ${apartmentDetail?.projectName} tại ${apartmentDetail?.address} vào ngày ${meetingDate}. Rất kính mong quý khách có thể bỏ chút thời gian để hợp tác cùng đội ngũ của chúng tôi.`,
+        email: "",
       },
       "IjYZDWDVeJohW3KBo"
     );
   }
   const createMeeting = async (data) => {
-    console.log("Meeting Data:", typeof data.meetingDate);
+    // console.log("Meeting Data:", typeof data.meetingDate);
     if (data) {
       const changeDate = data.meetingDate.split("-");
       const newMeetingData =
@@ -91,11 +92,11 @@ export default function SubcriptionRow({ subcription, stt }) {
   };
   const updateSubcriptionStatus = (id, status) => {
     dispatch(updateStatusBySubcriptionId({ id: id, status: status }));
-    console.log("data: ", id, status);
+    // console.log("data: ", id, status);
   };
 
   const updateIsSold = (appointId, subId) => {
-    console.log("params: ", appointId, subId);
+    // console.log("params: ", appointId, subId);
     dispatch(soldApartment({ appointId: appointId, subId: subId }));
   };
   return (

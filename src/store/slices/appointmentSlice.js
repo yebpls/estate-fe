@@ -53,7 +53,7 @@ export const updateMeetingDate = createAsyncThunk(
   async ({ id, date }) => {
     try {
       const res = await appointmentApi.updateMeetingDate(id, date);
-      console.log("slice: ", date, id);
+      // console.log("slice: ", date, id);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -85,12 +85,12 @@ const appointmentSlice = createSlice({
       const newAppoint = action.payload;
       const newMeetingDate = new Date(action.payload.meetingDate);
       newMeetingDate.setDate(newMeetingDate.getDate() + 1);
-      console.log("new date in appoint slice: ", newMeetingDate.toISOString());
+      // console.log("new date in appoint slice: ", newMeetingDate.toISOString());
       const newAppointment = {
         ...newAppoint,
         meetingDate: newMeetingDate.toISOString(),
       };
-      console.log("newAppointment:", newAppointment);
+      // console.log("newAppointment:", newAppointment);
       return {
         ...state,
         appointmentByApartment: newAppointment,
@@ -120,7 +120,7 @@ const appointmentSlice = createSlice({
     builder.addCase(updateStatusBySubcriptionId.fulfilled, (state, action) => {
       const { appointmentByApartment } = state;
       const newAppointStatus = action.meta.arg?.status - 1;
-      console.log("status update: ", newAppointStatus);
+      // console.log("status update: ", newAppointStatus);
       const newAppointment = {
         ...appointmentByApartment,
         appointmentStatus: newAppointStatus,
