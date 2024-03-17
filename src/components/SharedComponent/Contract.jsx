@@ -7,19 +7,25 @@ import { useParams } from "react-router-dom";
 export default function Contract() {
   const { apartmentDetail } = useSelector((state) => state.apartmentReducer);
   const { contractForAgency } = useSelector((state) => state.contractReducer);
+  const { appointmentByApartment } = useSelector(
+    (state) => state.appointmentReducer
+  );
   const { buildings } = useSelector((state) => state.buildingReducer);
   const building = buildings?.find(
     (building) => building.id === apartmentDetail?.buildingId
   );
   const price = apartmentDetail?.price.toLocaleString("de-DE");
   const textPrice = apartmentDetail?.price / 1000000000;
-  const signDate = new Date(contractForAgency?.signDate)
-    .toISOString()
-    .split("T")[0]
-    .split("-");
+  const signDate = contractForAgency?.signDate
+    ? new Date(contractForAgency.signDate)
+        .toISOString()
+        .split("T")[0]
+        .split("-")
+    : [];
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getContractByAppointment(19));
+    dispatch(getContractByAppointment(appointmentByApartment?.id));
+    console.log("contract:", contractForAgency);
     console.log(building, apartmentDetail);
   }, []);
   return (

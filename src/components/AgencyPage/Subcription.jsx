@@ -60,7 +60,7 @@ export default function Subcription() {
   useEffect(() => {
     const date = appointmentByApartment?.meetingDate;
 
-    const newAppointDate = date.toString().split("T")[0].split("-");
+    const newAppointDate = date ? toString().split("T")[0].split("-") : [];
     setAppointDate(newAppointDate);
     console.log("date: ", appointDate);
   }, [appointmentByApartment]);
