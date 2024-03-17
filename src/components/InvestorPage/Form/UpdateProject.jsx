@@ -1,8 +1,9 @@
+import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Modal, Popconfirm, Select, Spin } from "antd";
 import dayjs from "dayjs";
-import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { LoadingOutlined } from "@ant-design/icons";
 import {
   getAllProjectByInvesId,
   getProjectById,
@@ -10,7 +11,6 @@ import {
   setProjectDetail,
   updateProject,
 } from "../../../store/slices/projectSlice";
-import { LoadingOutlined } from "@ant-design/icons";
 
 export default function UpdateProject({ project }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,9 +18,9 @@ export default function UpdateProject({ project }) {
   const { projectDetail, loadingModal } = useSelector(
     (state) => state.projectReducer
   );
-
   const dispatch = useDispatch();
   const { reset } = useForm();
+
   const openEditProject = (id) => {
     dispatch(getProjectById(id));
     setIsModalOpen(true);
@@ -31,9 +31,7 @@ export default function UpdateProject({ project }) {
     reset();
     setIsModalOpen(false);
   };
-  const formBuilding = useForm();
-  const startDate = new Date(project.startDate);
-  const endDate = new Date(project.endDate);
+
   const formChangeProject = useForm({
     defaultValues: {
       projectName: "",
@@ -41,15 +39,9 @@ export default function UpdateProject({ project }) {
       status: 0,
       startDate: null,
       endDate: null,
-      // Other fields as needed
     },
   });
-  const { register: registerBuilding, handleSubmit: handleSubmitBuilding } =
-    formBuilding;
-  const {
-    register: registerChangeProject,
-    handleSubmit: handleSubmitChangeProject,
-  } = formChangeProject;
+
   const onSubmitChangeProject = (data) => {
     console.log(data);
     let params = {
@@ -62,16 +54,16 @@ export default function UpdateProject({ project }) {
     };
     console.log(params);
     dispatch(updateProject({ params: params, id: project.id }));
-    // dispatch(getAllProjectByInvesId(investor.id));
     handleCancel();
   };
+
   const disableStartDate = (current) => {
     return current && current < dayjs().startOf("day");
   };
 
   const disableEndDate = (current) => {
-    const startPlusThreeMonths = startDate
-      ? dayjs(startDate).add(3, "month")
+    const startPlusThreeMonths = formChangeProject.getValues("startDate")
+      ? dayjs(formChangeProject.getValues("startDate")).add(3, "month")
       : null;
     return (
       current &&
@@ -79,8 +71,8 @@ export default function UpdateProject({ project }) {
         (startPlusThreeMonths && current < startPlusThreeMonths))
     );
   };
+
   useEffect(() => {
-    // When projectDetail is available (i.e., fetched), update form default values
     if (projectDetail) {
       const startDate = new Date(projectDetail.startDate);
       let startDateFormat = startDate.toISOString().split("T")[0];
@@ -89,13 +81,20 @@ export default function UpdateProject({ project }) {
       formChangeProject.reset({
         projectName: projectDetail.name,
         image: projectDetail.image,
-        status: projectDetail.status, // Ensure compatibility with your Select component
+        status: projectDetail.status,
         startDate: startDateFormat,
         endDate: endDateFormat,
-        // Set other fields as necessary
       });
     }
   }, [projectDetail, formChangeProject.reset]);
+
+  const validateEndDate = (value) => {
+    const startDate = formChangeProject.getValues("startDate");
+    return startDate && value && new Date(value) < new Date(startDate)
+      ? "End date must be after start date"
+      : true;
+  };
+
   return (
     <div>
       <button
@@ -126,13 +125,17 @@ export default function UpdateProject({ project }) {
             Đang tải dự án
           </div>
         ) : (
-          <form onSubmit={handleSubmitChangeProject(onSubmitChangeProject)}>
+          <form
+            onSubmit={formChangeProject.handleSubmit(onSubmitChangeProject)}
+          >
             <div className="m-2">
               <p className="m-2">Tên dự án</p>
               <input
                 className="px-2 py-1"
                 placeholder="Tên dự án"
-                {...registerChangeProject("projectName", { required: true })}
+                {...formChangeProject.register("projectName", {
+                  required: true,
+                })}
                 id="projectName"
                 name="projectName"
               ></input>
@@ -143,7 +146,7 @@ export default function UpdateProject({ project }) {
               <input
                 className="px-2 py-1"
                 placeholder="Hình ảnh"
-                {...registerChangeProject("image", { required: true })}
+                {...formChangeProject.register("image", { required: true })}
                 id="image"
                 name="image"
               ></input>
@@ -173,6 +176,7 @@ export default function UpdateProject({ project }) {
                     disabledDate={disableEndDate}
                     onChange={(date, dateString) => field.onChange(dateString)}
                     value={field.value ? dayjs(field.value) : null}
+                    rules={{ validate: validateEndDate }}
                   />
                 )}
               />
@@ -205,7 +209,7 @@ export default function UpdateProject({ project }) {
               placement="right"
               title="Nhắc nhở"
               description="Bạn có muốn đổi sửa lại dự án không?"
-              onConfirm={handleSubmitChangeProject(onSubmitChangeProject)}
+              onConfirm={formChangeProject.handleSubmit(onSubmitChangeProject)}
               okButtonProps={{
                 style: { backgroundColor: "#1ac5ff " },
               }}
