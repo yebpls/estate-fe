@@ -38,7 +38,7 @@ export default function Subcription() {
   const fetch = async (id) => {
     try {
       const res = await axios.get(
-        `https://estate.zouzoumanagement.xyz/api/appointment/apartment/${id}`
+        `http://localhost:8080/api/appointment/apartment/${id}`
       );
       setAppointId(res.data.id);
       return res.data;

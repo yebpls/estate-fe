@@ -11,6 +11,8 @@ import {
   setProjectDetail,
   updateProject,
 } from "../../../store/slices/projectSlice";
+import schemaUpdateProject from "../../../yup/schema/schemaUpdateProject";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 export default function UpdateProject({ project }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -19,7 +21,6 @@ export default function UpdateProject({ project }) {
     (state) => state.projectReducer
   );
   const dispatch = useDispatch();
-  const { reset } = useForm();
 
   const openEditProject = (id) => {
     dispatch(getProjectById(id));
@@ -33,6 +34,7 @@ export default function UpdateProject({ project }) {
   };
 
   const formChangeProject = useForm({
+    resolver: yupResolver(schemaUpdateProject),
     defaultValues: {
       projectName: "",
       image: "",
@@ -42,6 +44,13 @@ export default function UpdateProject({ project }) {
     },
   });
 
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    control,
+    reset,
+  } = formChangeProject;
   const onSubmitChangeProject = (data) => {
     console.log(data);
     let params = {
@@ -58,7 +67,18 @@ export default function UpdateProject({ project }) {
   };
 
   const disableStartDate = (current) => {
-    return current && current < dayjs().startOf("day");
+    const endDate = formChangeProject.getValues("endDate");
+
+    if (!endDate) {
+      return false; // Allow selection when endDate is not set
+    }
+
+    const end = dayjs(endDate);
+    const minStartDate = end.subtract(3, "months");
+
+    return (
+      current && (current < dayjs().startOf("day") || current > minStartDate)
+    );
   };
 
   const disableEndDate = (current) => {
@@ -125,38 +145,38 @@ export default function UpdateProject({ project }) {
             Đang tải dự án
           </div>
         ) : (
-          <form
-            onSubmit={formChangeProject.handleSubmit(onSubmitChangeProject)}
-          >
+          <form onSubmit={handleSubmit(onSubmitChangeProject)}>
             <div className="m-2">
               <p className="m-2">Tên dự án</p>
               <input
                 className="px-2 py-1"
                 placeholder="Tên dự án"
-                {...formChangeProject.register("projectName", {
+                {...register("projectName", {
                   required: true,
                 })}
                 id="projectName"
                 name="projectName"
               ></input>
+              <p className="text-red-500">{errors.projectName?.message}</p>
             </div>
 
             <div className="m-2">
               <p className="m-2">Hình ảnh</p>
               <input
-                className="px-2 py-1"
+                className="px-2 py-1 w-full"
                 placeholder="Hình ảnh"
-                {...formChangeProject.register("image", { required: true })}
+                {...register("image", { required: true })}
                 id="image"
                 name="image"
               ></input>
+              <p className="text-red-500">{errors.image?.message}</p>
             </div>
 
             <div className="m-2">
               <p className="m-2">Ngày bắt đầu</p>
               <Controller
                 name="startDate"
-                control={formChangeProject.control}
+                control={control}
                 render={({ field }) => (
                   <DatePicker
                     disabledDate={disableStartDate}
@@ -165,12 +185,13 @@ export default function UpdateProject({ project }) {
                   />
                 )}
               />
+              <p className="text-red-500">{errors.startDate?.message}</p>
             </div>
             <div className="m-2">
               <p className="m-2">Ngày kết thúc</p>
               <Controller
                 name="endDate"
-                control={formChangeProject.control}
+                control={control}
                 render={({ field }) => (
                   <DatePicker
                     disabledDate={disableEndDate}
@@ -180,6 +201,7 @@ export default function UpdateProject({ project }) {
                   />
                 )}
               />
+              <p className="text-red-500">{errors.endDate?.message}</p>
             </div>
             <div className="m-2">
               <p className="m-2">Trạng thái</p>
@@ -209,7 +231,7 @@ export default function UpdateProject({ project }) {
               placement="right"
               title="Nhắc nhở"
               description="Bạn có muốn đổi sửa lại dự án không?"
-              onConfirm={formChangeProject.handleSubmit(onSubmitChangeProject)}
+              onConfirm={handleSubmit(onSubmitChangeProject)}
               okButtonProps={{
                 style: { backgroundColor: "#1ac5ff " },
               }}

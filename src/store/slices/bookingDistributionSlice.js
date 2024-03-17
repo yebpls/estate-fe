@@ -69,7 +69,7 @@ const bookingDistributionSlice = createSlice({
     builder.addCase(createBookingDistribution.fulfilled, (state, action) => {
       const { bookingDistribution } = state;
       toast.success("Tạo đăng ký bán thành công");
-      const newBooking = action.payload;
+      const newBooking = action.payload.data;
       console.log("new booking distribute: ", newBooking);
       const newBookingList = [...bookingDistribution, newBooking];
 

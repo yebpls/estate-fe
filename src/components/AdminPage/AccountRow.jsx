@@ -54,7 +54,7 @@ export default function AccountRow({ account, stt }) {
     const accountCity = city?.find((city) => {
       return city.id === account.cityId;
     });
-    setCityName(accountCity.cityName);
+    setCityName(accountCity?.cityName);
   }, []);
   return (
     <div>

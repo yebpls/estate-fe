@@ -7,6 +7,8 @@ import LoadingComponent from "../SharedComponent/LoadingComponent";
 import { Popconfirm } from "antd";
 
 export default function AgencyInfo({ agency, appointment, apartmentId }) {
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
   const { city } = useSelector((state) => state.buildingReducer);
   const { role, customer } = useSelector((state) => state.accountReducer);
   const cityName = city.find((city) => city.id === agency?.cityId);
@@ -41,9 +43,14 @@ export default function AgencyInfo({ agency, appointment, apartmentId }) {
       // console.log(params);
     }
   };
-  //   useEffect(() => {
-  //     console.log("use effect for sub param:", params);
-  //   }, []);
+  useEffect(() => {
+    if (role === "CUSTOMER") {
+      setIsButtonDisabled(true);
+    } else {
+      setIsButtonDisabled(false);
+    }
+    console.log("disable: ", isButtonDisabled);
+  }, [role]);
   return (
     <div className="w-60 h-80 m-5 grid text-center bg-gray-100 rounded-md">
       <div className="p-3 w-28 h-28 mx-auto">
@@ -60,36 +67,46 @@ export default function AgencyInfo({ agency, appointment, apartmentId }) {
         {agency?.email}
       </Link>
 
-      <Popconfirm
-        placement="bottomRight"
-        title="Xác nhận"
-        description="Xác nhận là bạn muốn tạo cuộc hẹn xem nhà"
-        onConfirm={() => makeASubcription()}
-        okButtonProps={{
-          style: { backgroundColor: "#FFAC33 " },
-        }}
-        okText="Xác nhận"
-        cancelText="Hủy"
-        cancelButtonProps={{
-          style: {
-            color: "#FFAC33",
-            border: "1px solid transparent",
-          },
-          onMouseOver: (e) => {
-            e.target.style.borderColor = "#FFAC33";
-          },
-          onMouseOut: (e) => {
-            e.target.style.borderColor = "#FFAC33";
-          },
-        }}
-      >
-        <button
-          onClick={changeConfirm}
-          className="w-2/3 mx-auto m-2 bg-orange-500 text-white text-sm font-semibold border-none hover:bg-orange-200 hover:text-orange-400"
+      {role === "CUSTOMER" ? (
+        <Popconfirm
+          placement="bottomRight"
+          title="Xác nhận"
+          description="Xác nhận là bạn muốn tạo cuộc hẹn xem nhà"
+          onConfirm={() => makeASubcription()}
+          okButtonProps={{
+            style: { backgroundColor: "#FFAC33 " },
+          }}
+          okText="Xác nhận"
+          cancelText="Hủy"
+          cancelButtonProps={{
+            style: {
+              color: "#FFAC33",
+              border: "1px solid transparent",
+            },
+            onMouseOver: (e) => {
+              e.target.style.borderColor = "#FFAC33";
+            },
+            onMouseOut: (e) => {
+              e.target.style.borderColor = "#FFAC33";
+            },
+          }}
         >
-          Tạo cuộc hẹn xem nhà
-        </button>
-      </Popconfirm>
+          <button
+            onClick={changeConfirm}
+            disabled={isButtonDisabled}
+            className="w-2/3 mx-auto m-2 bg-orange-500 text-white text-sm font-semibold border-none hover:bg-orange-200 hover:text-orange-400"
+          >
+            Tạo cuộc hẹn xem nhà
+          </button>
+        </Popconfirm>
+      ) : (
+        <Link
+          to="/login"
+          className="w-2/3 mx-auto m-2 bg-red-400 pt-1 text-white text-sm font-semibold border-none hover:bg-red-500 hover:text-white rounded-lg"
+        >
+          Đăng nhập để xem nhà
+        </Link>
+      )}
     </div>
   );
 }

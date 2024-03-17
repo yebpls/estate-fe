@@ -93,6 +93,8 @@ export default function UpdateAccount({ account }) {
       });
       console.log(account);
     }
+
+    console.log("city options: ", cityOptions);
   }, [account, updateForm.reset]);
   return (
     <div>
