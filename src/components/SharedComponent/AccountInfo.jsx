@@ -7,13 +7,19 @@ import { useForm } from "react-hook-form";
 import { createPayment } from "../../store/slices/paymentSlice";
 import UpdateAccount from "./UpdateAccount";
 import LoadingComponent from "./LoadingComponent";
+import dayjs from "dayjs";
 
 export default function AccountInfo() {
   const { currentUser, balance, role, loading } = useSelector(
     (state) => state.accountReducer
   );
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const birthdayDate = new Date(currentUser?.dob).toISOString().split("T")[0];
+
+  // const birthdayDate = new Date(currentUser?.dob).toISOString().split("T")[0];
+  const birthdayDate = dayjs(currentUser.dob)
+    .add(7, "hour")
+    .format("YYYY-MM-DD");
+
   const { Paragraph, Text, Title } = Typography;
   const dispatch = useDispatch();
 
