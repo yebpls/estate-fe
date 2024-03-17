@@ -77,35 +77,46 @@ export default function AvailableApartmentRow({ apartment, stt }) {
     // console.log(typeof balance);
     // console.log(bookingFee * apartment.price > balance);
 
-    if (!bookingFee || bookingFee * apartment.price > balance) {
-      console.log(bookingFee * apartment.price > balance);
-      toast.error("Số dư không đủ");
+    if (!bookingFee) {
+      toast.error("Bạn chưa chọn mức phí");
     } else {
-      if (bookingFee === 4 / 1000)
-        expireDistributionDate.setMonth(distributionDate.getMonth() + 3);
-      if (bookingFee === 6 / 1000)
-        expireDistributionDate.setMonth(distributionDate.getMonth() + 5);
-      if (bookingFee === 8 / 1000)
-        expireDistributionDate.setMonth(distributionDate.getMonth() + 8);
+      if (bookingFee && bookingFee * apartment.price > balance) {
+        console.log(bookingFee * apartment.price > balance);
+        toast.error("Số dư không đủ");
+      } else {
+        if (bookingFee === 4 / 1000)
+          expireDistributionDate.setMonth(distributionDate.getMonth() + 3);
+        if (bookingFee === 6 / 1000)
+          expireDistributionDate.setMonth(distributionDate.getMonth() + 5);
+        if (bookingFee === 8 / 1000)
+          expireDistributionDate.setMonth(distributionDate.getMonth() + 8);
 
-      const createDate = formatDateToYYYYMMDD(new Date());
-      const updateDate = createDate; // Assuming updateDate is the same as createDate
-      distributionDate = formatDateToYYYYMMDD(distributionDate);
-      expireDistributionDate = formatDateToYYYYMMDD(expireDistributionDate);
+        const createDate = formatDateToYYYYMMDD(new Date());
+        const updateDate = createDate; // Assuming updateDate is the same as createDate
+        distributionDate = formatDateToYYYYMMDD(distributionDate);
+        expireDistributionDate = formatDateToYYYYMMDD(expireDistributionDate);
 
-      const params = {
-        ...data,
-        createDate,
-        updateDate,
-        distributionDate,
-        expireDistributionDate,
-        agencyId: agency?.id,
-        bookingStatus: 2,
-        apartmentId: apartment.id,
-      };
-      // dispatch(createBookingDistribution(params));
-      console.log("param: ", params);
-      handleCancel();
+        const params = {
+          ...data,
+          createDate,
+          updateDate,
+          distributionDate,
+          expireDistributionDate,
+          agencyId: agency?.id,
+          bookingStatus: 2,
+          apartmentId: apartment.id,
+        };
+        const minusBalance = apartment.price * bookingFee;
+        dispatch(
+          createBookingDistribution({
+            params: params,
+            minusBalance: minusBalance,
+          })
+        );
+
+        console.log("param: ", params);
+        handleCancel();
+      }
     }
   };
 

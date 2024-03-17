@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import accountApi from "../../api/accountApi";
 import { apartmentApi } from "../../api/apartmentApi";
 import { toast } from "react-toastify";
+import { createBookingDistribution } from "./bookingDistributionSlice";
 
 export const getAccountDetail = createAsyncThunk(
   "account/get_detail",
@@ -247,6 +248,13 @@ const accountSlice = createSlice({
     });
     builder.addCase(getAllTransactions.rejected, (state, action) => {
       return { ...state, loading: false };
+    });
+    builder.addCase(createBookingDistribution.fulfilled, (state, action) => {
+      const { minusBalance, data } = action.payload;
+      console.log(minusBalance, data);
+      const newBalance = state.balance - minusBalance;
+      console.log(newBalance);
+      return { ...state, balance: newBalance };
     });
   },
 });

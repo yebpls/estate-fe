@@ -2,6 +2,10 @@ import axios from "axios";
 import axiosClient from "./axiosClient";
 
 export const appointmentApi = {
+  getAllAppointment() {
+    const url = "/api/appointment";
+    return axiosClient.get(url);
+  },
   getAppointmentByDistributionId(id) {
     const url = `/api/appointment/booking-distribution/${id}`;
     return axiosClient.get(url);
@@ -16,8 +20,11 @@ export const appointmentApi = {
   },
   updateMeetingDate(id, date) {
     const url = `/api/appointment/meeting-date/${id}`;
-    console.log("api: ", date, id);
+    console.log("api: ", id, date);
+    const formattedDate = typeof date === "object" ? date.toISOString() : date;
 
-    return axiosClient.put(url, date);
+    // Adjusted to match expected structure: { meetingDate: formattedDate }
+    return axiosClient.put(url, { meetingDate: formattedDate });
+    // return axiosClient.put(url, date);
   },
 };

@@ -15,6 +15,9 @@ export default function AgencyApartment() {
   const { bookingDistribution, loadingBooking } = useSelector(
     (state) => state.bookingDistributionReducer
   );
+  const { appointments, appointmentLoading } = useSelector(
+    (state) => state.appointmentReducer
+  );
   const dispatch = useDispatch();
   // MAKE A PAGING
   // Calculate the start and end index for the current page
@@ -52,9 +55,22 @@ export default function AgencyApartment() {
       .sort(
         (a, b) => new Date(b.distributionDate) - new Date(a.distributionDate)
       );
-
-    setAgencyApart(matchedApartments);
-    // console.log(matchedApartments);
+    //add appointment data to matchedApartments
+    const addAppointment = matchedApartments?.map((apartment) => {
+      const matchedAppoint = appointments?.find(
+        (appointment) => appointment?.distributionId === apartment.bookingId
+      );
+      if (matchedAppoint) {
+        return {
+          ...apartment,
+          appointmentId: matchedAppoint.id,
+          appointmentStatus: matchedAppoint.appointmentStatus,
+        };
+      }
+      return apartment;
+    });
+    setAgencyApart(addAppointment);
+    console.log(addAppointment, appointments);
   }, [bookingDistribution, apartments]);
 
   useEffect(() => {
@@ -117,7 +133,6 @@ export default function AgencyApartment() {
                 key={item.id}
                 apartment={item}
                 stt={index + startIndex + 1}
-                // apartmentId={item.apartmentId}
               />
             ))}
           <Pagination

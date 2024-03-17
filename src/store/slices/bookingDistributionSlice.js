@@ -25,10 +25,10 @@ export const getAllBookingDistributionByAgencyId = createAsyncThunk(
 
 export const createBookingDistribution = createAsyncThunk(
   "booking_distribution/create",
-  async (params, { dispatch }) => {
+  async ({ params, minusBalance }) => {
     try {
       const res = await bookingDistributionApi.create(params);
-      return res.data;
+      return { data: res.data, minusBalance };
     } catch (error) {
       console.log(error);
     }
