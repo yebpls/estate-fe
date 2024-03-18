@@ -25,6 +25,7 @@ import InvestorProject from "./components/InvestorPage/InvestorProject";
 import InvestorApartment from "./components/InvestorPage/InvestorApartment";
 import {
   getAccountDetail,
+  getAllCustomer,
   getInvestorId,
   setAccId,
   setCurrentUser,
@@ -85,6 +86,7 @@ function App() {
     dispatch(getAllCity());
     dispatch(getAllBuilding());
     dispatch(getAllApartment());
+    dispatch(getAllCustomer());
   }, []);
 
   useEffect(() => {

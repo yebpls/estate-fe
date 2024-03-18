@@ -7,7 +7,7 @@ import LoadingComponent from "../SharedComponent/LoadingComponent";
 import { Popconfirm } from "antd";
 
 export default function AgencyInfo({ agency, appointment, apartmentId }) {
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  // const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const { city } = useSelector((state) => state.buildingReducer);
   const { role, customer } = useSelector((state) => state.accountReducer);
@@ -43,14 +43,14 @@ export default function AgencyInfo({ agency, appointment, apartmentId }) {
       // console.log(params);
     }
   };
-  useEffect(() => {
-    if (role === "CUSTOMER") {
-      setIsButtonDisabled(true);
-    } else {
-      setIsButtonDisabled(false);
-    }
-    console.log("disable: ", isButtonDisabled);
-  }, [role]);
+  // useEffect(() => {
+  //   if (role === "CUSTOMER") {
+  //     setIsButtonDisabled(true);
+  //   } else {
+  //     setIsButtonDisabled(false);
+  //   }
+  //   console.log("disable: ", isButtonDisabled);
+  // }, [role]);
   return (
     <div className="w-60 h-80 m-5 grid text-center bg-gray-100 rounded-md">
       <div className="p-3 w-28 h-28 mx-auto">
@@ -93,7 +93,7 @@ export default function AgencyInfo({ agency, appointment, apartmentId }) {
         >
           <button
             onClick={changeConfirm}
-            disabled={isButtonDisabled}
+            // disabled={isButtonDisabled}
             className="w-2/3 mx-auto m-2 bg-orange-500 text-white text-sm font-semibold border-none hover:bg-orange-200 hover:text-orange-400"
           >
             Tạo cuộc hẹn xem nhà

@@ -17,6 +17,8 @@ import emailjs from "@emailjs/browser";
 
 export default function SubcriptionRow({ subcription, stt }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { cusList } = useSelector((state) => state.accountReducer);
+  const [customer, setCustomer] = useState();
 
   const { appointmentByApartment } = useSelector(
     (state) => state.appointmentReducer
@@ -65,7 +67,7 @@ export default function SubcriptionRow({ subcription, stt }) {
       {
         name: "Đội ngũ Nhà Đẹp",
         message: `Kính gửi quý khách, đội ngũ nhà đẹp thay mặt đại lý mời quý khách đến khảo sát căn hộ số ${apartmentDetail?.apartmentNumber} thuộc dự án ${apartmentDetail?.projectName} tại ${apartmentDetail?.address} vào ngày ${meetingDate}. Rất kính mong quý khách có thể bỏ chút thời gian để hợp tác cùng đội ngũ của chúng tôi.`,
-        email: "",
+        email: customer?.email,
       },
       "IjYZDWDVeJohW3KBo"
     );
@@ -99,12 +101,16 @@ export default function SubcriptionRow({ subcription, stt }) {
     // console.log("params: ", appointId, subId);
     dispatch(soldApartment({ appointId: appointId, subId: subId }));
   };
+
+  useEffect(() => {
+    const cus = cusList?.filter((cus) => cus.id === subcription.customerId);
+    setCustomer(cus[0]);
+    console.log(customer);
+  }, [subcription, customer]);
   return (
     <div className="flex mt-4 mb-2 text-center w-full">
       <p className="w-1/12 text-base text-slate-700">{stt}</p>
-      <p className="w-1/6 text-base text-slate-700 -ml-7">
-        {subcription.customerId}
-      </p>
+      <p className="w-1/6 text-base text-slate-700 -ml-7">{customer?.email}</p>
       <p className="w-1/5 text-base text-slate-700">{subscribeDate}</p>
       {subcription.subscriptionStatus === 0 ? (
         <p className="w-1/5 text-base text-red-500">Đã mua</p>

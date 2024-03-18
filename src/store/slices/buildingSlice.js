@@ -83,7 +83,7 @@ const buildingSlice = createSlice({
       return { ...state, isLoading: true };
     });
     builder.addCase(getAllByProjectId.fulfilled, (state, action) => {
-      return { ...state, buildings: action.payload, isLoading: false };
+      return { ...state, buildingByProject: action.payload, isLoading: false };
     });
     builder.addCase(getAllBuilding.fulfilled, (state, action) => {
       return { ...state, buildings: action.payload };
@@ -96,29 +96,65 @@ const buildingSlice = createSlice({
     });
     builder.addCase(createBuilding.fulfilled, (state, action) => {
       console.log(action.payload);
-      const { buildings } = state;
-      const newBuildings = [...buildings, action.payload];
+      const { buildingByProject } = state;
+      const newBuildings = [...buildingByProject, action.payload];
 
       toast.success("Thêm tòa nhà thành công");
-      return { ...state, buildings: newBuildings, loadingChange: false };
+      return {
+        ...state,
+        buildingByProject: newBuildings,
+        loadingChange: false,
+      };
+    });
+    builder.addCase(createBuilding.rejected, (state, action) => {
+      return { ...state, loadingChange: false };
     });
     builder.addCase(updateBuilding.pending, (state, action) => {
       return { ...state, loadingModal: true };
     });
     builder.addCase(updateBuilding.fulfilled, (state, action) => {
+      toast.success("Cập nhật tòa nhà thành công");
+      const { buildingByProject } = state;
+      const updateBuilding = action.payload; // Accessing id passed as argument
+      console.log("new building: ", updateBuilding);
+      const newBuildingByProject = buildingByProject?.map((building) => {
+        if (building.id === updateBuilding?.id) {
+          return {
+            ...building,
+            buildingName: updateBuilding?.buildingName,
+            address: updateBuilding?.address,
+            cityId: updateBuilding?.cityId,
+          };
+        }
+        return building;
+      });
+      return {
+        ...state,
+        loadingModal: false,
+        buildingByProject: newBuildingByProject,
+      };
+    });
+    builder.addCase(updateBuilding.rejected, (state, action) => {
       return { ...state, loadingModal: false };
     });
     builder.addCase(deleteBuilding.pending, (state, action) => {
       return { ...state, loadingChange: true };
     });
     builder.addCase(deleteBuilding.fulfilled, (state, action) => {
-      const { buildings } = state;
+      const { buildingByProject } = state;
       const deleteBuilding = action.meta.arg;
-      const newBuildings = buildings?.filter((building) => {
+      const newBuildings = buildingByProject?.filter((building) => {
         return building.id !== deleteBuilding;
       });
       toast.success("Xóa tòa nhà thành công");
-      return { ...state, buildings: newBuildings, loadingChange: false };
+      return {
+        ...state,
+        buildingByProject: newBuildings,
+        loadingChange: false,
+      };
+    });
+    builder.addCase(deleteBuilding.rejected, (state, action) => {
+      return { ...state, loadingChange: false };
     });
   },
 });

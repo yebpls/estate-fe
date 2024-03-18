@@ -25,12 +25,13 @@ export const getAllBookingDistributionByAgencyId = createAsyncThunk(
 
 export const createBookingDistribution = createAsyncThunk(
   "booking_distribution/create",
-  async ({ params, minusBalance }) => {
+  async ({ params, minusBalance }, { rejectWithValue }) => {
     try {
       const res = await bookingDistributionApi.create(params);
       return { data: res.data, minusBalance };
     } catch (error) {
       console.log(error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
