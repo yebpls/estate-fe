@@ -99,6 +99,8 @@ export default function AgencyInfo({ agency, appointment, apartmentId }) {
             Tạo cuộc hẹn xem nhà
           </button>
         </Popconfirm>
+      ) : role === "AGENCY" || role === "INVESTOR" || role === "ADMIN" ? (
+        ""
       ) : (
         <Link
           to="/login"
