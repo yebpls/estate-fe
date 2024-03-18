@@ -1,31 +1,34 @@
 import { Col, Row } from "antd";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getContractByAppointment } from "../../store/slices/contractSlice";
+import {
+  getContractByApartment,
+  getContractByAppointment,
+} from "../../store/slices/contractSlice";
 import { useParams } from "react-router-dom";
+import { getApartmentById } from "../../store/slices/apartmentSlice";
 
-export default function Contract() {
+export default function ContractByApart() {
+  const { apartmentId } = useParams();
   const { apartmentDetail } = useSelector((state) => state.apartmentReducer);
-  const { contractForAgency } = useSelector((state) => state.contractReducer);
-  const { appointmentByApartment } = useSelector(
-    (state) => state.appointmentReducer
-  );
+  const { contractForInvestor } = useSelector((state) => state.contractReducer);
   const { buildings } = useSelector((state) => state.buildingReducer);
   const building = buildings?.find(
     (building) => building.id === apartmentDetail?.buildingId
   );
   const price = apartmentDetail?.price.toLocaleString("de-DE");
   const textPrice = apartmentDetail?.price / 1000000000;
-  const signDate = contractForAgency?.signDate
-    ? new Date(contractForAgency.signDate)
+  const signDate = contractForInvestor?.signDate
+    ? new Date(contractForInvestor.signDate)
         .toISOString()
         .split("T")[0]
         .split("-")
     : [];
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getContractByAppointment(appointmentByApartment?.id));
-    console.log("contract:", contractForAgency);
+    dispatch(getApartmentById(apartmentId));
+    dispatch(getContractByApartment(apartmentId));
+    console.log("contract:", contractForInvestor);
     console.log(building, apartmentDetail);
   }, []);
   return (
@@ -49,7 +52,7 @@ export default function Contract() {
       >
         <p className="p-1 font-semibold">Đại diện bên bán(Đại lý)</p>
         <p className="p-1">
-          Đại diện bên bán(Đại lý): {contractForAgency?.agencyName} <br />
+          Đại diện bên bán(Đại lý): {contractForInvestor?.agencyName} <br />
           Là người đại diện bán căn hộ số {
             apartmentDetail?.apartmentNumber
           } tòa {building?.buildingName} của dự án{" "}
@@ -59,7 +62,7 @@ export default function Contract() {
         </p>
         <p className="p-1 font-semibold">Đại diện bên mua nhà(Khách)</p>
         <p className="p-1">
-          Ông/bà: {contractForAgency?.customerName} <br />
+          Ông/bà: {contractForInvestor?.customerName} <br />
           Sau đây gọi là bên B
         </p>
         <p className="p-1 text-slate-500">

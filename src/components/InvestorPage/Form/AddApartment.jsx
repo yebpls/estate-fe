@@ -11,7 +11,7 @@ import { getAllByProjectId } from "../../../store/slices/buildingSlice";
 import { Controller, useForm } from "react-hook-form";
 
 export default function AddApartment() {
-  const { buildings } = useSelector((state) => state.buildingReducer);
+  const { buildingByProject } = useSelector((state) => state.buildingReducer);
   const { isChange } = useSelector((state) => state.apartmentReducer);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { projectId } = useParams();
@@ -27,7 +27,7 @@ export default function AddApartment() {
     formState: { errors },
   } = form;
 
-  const options = buildings?.map((building) => ({
+  const options = buildingByProject?.map((building) => ({
     value: building.id,
     label: building.buildingName,
   }));
