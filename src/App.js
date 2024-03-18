@@ -25,6 +25,7 @@ import InvestorProject from "./components/InvestorPage/InvestorProject";
 import InvestorApartment from "./components/InvestorPage/InvestorApartment";
 import {
   getAccountDetail,
+  getAllCustomer,
   getInvestorId,
   setAccId,
   setCurrentUser,
@@ -49,6 +50,8 @@ import TransactionsPage from "./pages/TransactionsPage";
 import Subcription from "./components/AgencyPage/Subcription";
 import AccountBalance from "./components/SharedComponent/AccountBalance";
 import Contract from "./components/SharedComponent/Contract";
+import { getAllApartment } from "./store/slices/apartmentSlice";
+import ContractByApart from "./components/InvestorPage/ContractByApart";
 
 function App() {
   const { isLogin, role, id } = useSelector((state) => state.accountReducer);
@@ -83,6 +86,8 @@ function App() {
   useEffect(() => {
     dispatch(getAllCity());
     dispatch(getAllBuilding());
+    dispatch(getAllApartment());
+    dispatch(getAllCustomer());
   }, []);
 
   useEffect(() => {
@@ -125,6 +130,10 @@ function App() {
           <Route
             path="/investor/project/:projectId"
             element={<InvestorApartment />}
+          />
+          <Route
+            path="/investor/project/apartment/:apartmentId"
+            element={<ContractByApart />}
           />
         </Route>
         {/* Route for AGENCY */}

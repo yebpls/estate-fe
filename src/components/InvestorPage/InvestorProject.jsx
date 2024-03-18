@@ -14,14 +14,13 @@ import dayjs from "dayjs";
 import ProjectRow from "./ProjectRow";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  createProject,
   getAllProjectByInvesId,
   setIsChange,
 } from "../../store/slices/projectSlice";
 import { ToastContainer, toast } from "react-toastify";
-import { Controller, useForm } from "react-hook-form";
 import { LoadingOutlined } from "@ant-design/icons";
 import LoadingComponent from "../SharedComponent/LoadingComponent";
+import AddProject from "./Form/AddProject";
 
 export default function InvestorProject() {
   const { projects, isChange, isLoading, loadingChange } = useSelector(
@@ -30,46 +29,12 @@ export default function InvestorProject() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { investor } = useSelector((state) => state.accountReducer);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const form = useForm();
 
   const dispatch = useDispatch();
 
-  const { reset, control } = form;
-  const { register: registerAddProject, handleSubmit: handleSubmitAddProject } =
-    form;
-
-  const handleCancel = () => {
-    reset();
-    setIsModalOpen(false);
-  };
-
-  const openForm = () => {
-    setIsModalOpen(true);
-  };
-
-  const onSubmitCreate = (data) => {
-    const investorId = investor.id;
-    if (data.endDate < data.startDate) {
-      toast.error("Ngày kết thúc phải sau ngày bắt đầu");
-      return;
-    } else {
-      const params = {
-        investorId,
-        name: data.projectName,
-        startDate: data.startDate,
-        endDate: data.endDate,
-        image: data.image,
-      };
-      dispatch(createProject(params));
-      // dispatch(setIsChange());
-      setIsModalOpen(false);
-      reset();
-    }
-  };
-
   useEffect(() => {
     dispatch(getAllProjectByInvesId(investor?.id));
+    console.log("investor id:", investor);
   }, [investor]);
 
   // MAKE A PAGING
@@ -89,12 +54,7 @@ export default function InvestorProject() {
         Dự án
       </p>
       <LoadingComponent loadingDependency={loadingChange} />
-      <button
-        onClick={openForm}
-        className="px-2 py-1 bg-sky-400 text-white border-transparent hover:text-sky-500 hover:bg-white hover:border-sky-400"
-      >
-        Tạo dự án mới
-      </button>
+      <AddProject investor={investor} />
 
       <div className="border-b  pl-26 w-full font-medium dark:border-neutral-500">
         <tr>
@@ -145,75 +105,6 @@ export default function InvestorProject() {
           />
         </div>
       )}
-      {/* CREATE NEW PROJECT */}
-      <Modal
-        okButtonProps={{ style: { backgroundColor: "#4974a5" } }}
-        title="Tạo 1 dự án mới"
-        open={isModalOpen}
-        footer={null}
-        onCancel={handleCancel}
-        className="text-cyan-700"
-      >
-        <form onSubmit={handleSubmitAddProject(onSubmitCreate)}>
-          <div className="m-2">
-            <p className="m-2">Tên dự án</p>
-            <input
-              className="px-2 py-1"
-              placeholder="Tên dự án"
-              {...registerAddProject("projectName", { required: true })}
-              id="projectName"
-              name="projectName"
-            ></input>
-          </div>
-
-          <div className="m-2">
-            <p className="m-2">Hình ảnh</p>
-            <input
-              className="px-2 py-1"
-              placeholder="Hình ảnh"
-              {...registerAddProject("image", { required: true })}
-              id="image"
-              name="image"
-            ></input>
-          </div>
-
-          <div className="m-2">
-            <p className="m-2">Ngày bắt đầu</p>
-            <Controller
-              name="startDate"
-              control={control}
-              render={({ field }) => (
-                <DatePicker
-                  onChange={(date, dateString) => field.onChange(dateString)}
-                  value={field.value ? dayjs(field.value) : null}
-                />
-              )}
-            />
-          </div>
-          <div className="m-2">
-            <p className="m-2">Ngày kết thúc</p>
-            <Controller
-              name="endDate"
-              control={control}
-              render={({ field }) => (
-                <DatePicker
-                  onChange={(date, dateString) => field.onChange(dateString)}
-                  value={field.value ? dayjs(field.value) : null}
-                />
-              )}
-            />
-          </div>
-
-          <div>
-            <button
-              className="px-2 py-1 ml-2 bg-white text-sky-400 hover:bg-sky-400 hover:text-white"
-              type="submit"
-            >
-              Tạo
-            </button>
-          </div>
-        </form>
-      </Modal>
     </div>
   );
 }

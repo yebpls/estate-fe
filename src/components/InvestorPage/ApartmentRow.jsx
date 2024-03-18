@@ -104,7 +104,15 @@ export default function ApartmentRow({ apartment, stt }) {
           {apartment.status === 1 ? "Còn mở đăng ký bán" : ""}
           {apartment.status === 2 ? "Đã có agency đăng ký" : ""}
         </td>
-        {apartment.status === 1 ? (
+        {apartment.status === 0 ? (
+          <td className="whitespace-nowrap ml-20 py-4 flex justify-between">
+            <Link to={`/investor/project/apartment/${apartment?.id}`}>
+              <span className="bg-orange-400 rounded-md text-white hover:bg-orange-500 p-1">
+                Xem Hợp Đồng
+              </span>
+            </Link>
+          </td>
+        ) : apartment.status === 1 ? (
           <td className="whitespace-nowrap ml-20 py-4 flex justify-between">
             <button
               className="text-white h-8 px-4  mx-1 rounded-md bg-blue-500 text-sm"

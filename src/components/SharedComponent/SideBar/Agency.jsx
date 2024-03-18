@@ -28,7 +28,7 @@ export default function Agency() {
           </Link>
         </li>
         {/* Agency Article */}
-        <li>
+        {/* <li>
           <Link
             to={`/agency/article`}
             className={` relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-50 text-gray-600 hover:text-gray-800 border-l-4 border-transparent hover:border-sky-500 p-6`}
@@ -37,7 +37,7 @@ export default function Agency() {
               Bài báo của tôi
             </span>
           </Link>
-        </li>
+        </li> */}
         {/* Agency Info */}
         <li>
           <Link

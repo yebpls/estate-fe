@@ -26,6 +26,8 @@ export default function Subcription() {
     (state) => state.appointmentReducer
   );
 
+  const { cusList } = useSelector((state) => state.accountReducer);
+
   const dispatch = useDispatch();
   // MAKE A PAGING
   const startIndex = (currentPage - 1) * 5;
@@ -38,7 +40,7 @@ export default function Subcription() {
   const fetch = async (id) => {
     try {
       const res = await axios.get(
-        `https://estate.zouzoumanagement.xyz/api/appointment/apartment/${id}`
+        `http://localhost:8080/api/appointment/apartment/${id}`
       );
       setAppointId(res.data.id);
       return res.data;
@@ -46,6 +48,7 @@ export default function Subcription() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     fetch(apartmentId);
     dispatch(getAppointmentByApartmentId(apartmentId));
