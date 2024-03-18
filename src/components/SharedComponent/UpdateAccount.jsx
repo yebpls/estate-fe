@@ -21,15 +21,15 @@ export default function UpdateAccount({ account }) {
 
   const genderOptions = [
     {
-      value: "1",
+      value: 1,
       label: "Nam",
     },
     {
-      value: "2",
+      value: 2,
       label: "Nữ",
     },
     {
-      value: "3",
+      value: 3,
       label: "Khác",
     },
   ];
@@ -93,6 +93,8 @@ export default function UpdateAccount({ account }) {
       });
       console.log(account);
     }
+
+    console.log("city options: ", cityOptions);
   }, [account, updateForm.reset]);
   return (
     <div>
@@ -167,6 +169,9 @@ export default function UpdateAccount({ account }) {
                   style={{ width: 150 }}
                   onChange={(value) => field.onChange(value)}
                   options={cityOptions}
+                  value={genderOptions.find(
+                    (option) => option.value === field.value
+                  )}
                 />
               )}
             />

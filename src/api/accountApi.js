@@ -29,6 +29,10 @@ const accountApi = {
     const url = `/api/agency/${id}`;
     return axiosClient.get(url);
   },
+  getAllCus() {
+    const url = "/api/customer/get-all-detail";
+    return axiosClient.get(url);
+  },
   getCustomerId(id) {
     const url = `/api/customer/${id}`;
     return axiosClient.get(url);

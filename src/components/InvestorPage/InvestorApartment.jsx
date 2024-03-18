@@ -19,7 +19,7 @@ import ManageBuilding from "./ManageBuilding";
 
 export default function InvestorApartment() {
   const [currentPage, setCurrentPage] = useState(1);
-  const { buildings, isLoading } = useSelector(
+  const { buildings, isLoading, buildingByProject } = useSelector(
     (state) => state.buildingReducer
   );
   const { loadingApartment, loadingChange, displayApartment } = useSelector(
@@ -93,7 +93,7 @@ export default function InvestorApartment() {
 
       <div className="my-4">
         <p className="font-bold text-lg">Danh sách toà nhà:</p>
-        <ManageBuilding projectId={projectId} buildings={buildings} />
+        <ManageBuilding projectId={projectId} buildings={buildingByProject} />
 
         {isLoading ? (
           <LoadingComponent
@@ -108,8 +108,8 @@ export default function InvestorApartment() {
             >
               All
             </button>
-            {buildings &&
-              buildings?.map((building) => (
+            {buildingByProject &&
+              buildingByProject?.map((building) => (
                 <button
                   className="my-1 px-4 py-1 mr-2 bg-transparent hover:bg-sky-400 text-black hover:text-white"
                   key={building.id}

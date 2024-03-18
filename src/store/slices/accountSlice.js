@@ -35,6 +35,15 @@ export const getAgencyId = createAsyncThunk("agency/get_id", async (id) => {
   }
 });
 
+export const getAllCustomer = createAsyncThunk("customer/get_all", async () => {
+  try {
+    const res = await accountApi.getAllCus();
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export const getCustomerId = createAsyncThunk("customer/get_id", async (id) => {
   try {
     const res = await accountApi.getCustomerId(id);
@@ -115,6 +124,7 @@ export const changeAccountDetail = createAsyncThunk(
 
 const initialState = {
   currentUser: null,
+  cusList: null,
   isLogin: false,
   notification: null,
   role: "",
@@ -163,6 +173,9 @@ const accountSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getInvestorId.fulfilled, (state, action) => {
       return { ...state, investor: action.payload };
+    });
+    builder.addCase(getAllCustomer.fulfilled, (state, action) => {
+      return { ...state, cusList: action.payload };
     });
     builder.addCase(getCustomerId.fulfilled, (state, action) => {
       return { ...state, customer: action.payload };

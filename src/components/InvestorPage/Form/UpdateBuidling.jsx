@@ -80,6 +80,20 @@ export default function UpdateBuilding({ building, projectId }) {
       >
         Sửa
       </button>
+      {loadingModal ? (
+        <Spin
+          indicator={
+            <LoadingOutlined
+              style={{
+                fontSize: 39,
+              }}
+              spin
+            />
+          }
+        />
+      ) : (
+        ""
+      )}
       <Modal
         footer={null}
         title="Sửa Thông tin tòa nhà"
@@ -87,86 +101,70 @@ export default function UpdateBuilding({ building, projectId }) {
         onCancel={handleCancel}
         className="text-cyan-700"
       >
-        {loadingModal ? (
-          <div className="mt-11 ml-32 h-20">
-            <Spin
-              indicator={
-                <LoadingOutlined
-                  style={{
-                    fontSize: 24,
-                  }}
-                  spin
-                />
-              }
-            />{" "}
-            Đang tải dự án
+        <form onSubmit={handleSubmitChangeBuilding(onSubmitChangeBuilding)}>
+          <div className="m-2">
+            <p className="m-2">Tên tòa nhà</p>
+            <input
+              className="px-2 py-1"
+              placeholder="Tên tòa nhà"
+              {...registerChangeBuilding("buildingName", { required: true })}
+              id="buildingName"
+              name="buildingName"
+            ></input>
           </div>
-        ) : (
-          <form onSubmit={handleSubmitChangeBuilding(onSubmitChangeBuilding)}>
-            <div className="m-2">
-              <p className="m-2">Tên tòa nhà</p>
-              <input
-                className="px-2 py-1"
-                placeholder="Tên tòa nhà"
-                {...registerChangeBuilding("buildingName", { required: true })}
-                id="buildingName"
-                name="buildingName"
-              ></input>
-            </div>
-            <div className="m-2 w-96">
-              <p className="m-2">Địa chỉ tòa nhà</p>
-              <input
-                className="px-2 py-1 w-full"
-                placeholder="Địa chỉ tòa nhà"
-                {...registerChangeBuilding("address", { required: true })}
-                id="address"
-                name="address"
-              ></input>
-            </div>
+          <div className="m-2 w-96">
+            <p className="m-2">Địa chỉ tòa nhà</p>
+            <input
+              className="px-2 py-1 w-full"
+              placeholder="Địa chỉ tòa nhà"
+              {...registerChangeBuilding("address", { required: true })}
+              id="address"
+              name="address"
+            ></input>
+          </div>
 
-            <div className="mb-2">
-              <p className="mb-2">Tỉnh/Thành phố</p>
-              <Controller
-                name="cityId"
-                control={formChangeBuilding.control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    style={{ width: 150 }}
-                    placeholder={"Chọn tỉnh thành"}
-                    // defaultValue={options[0].value}
-                    onChange={(value) => field.onChange(value)}
-                    options={options}
-                  />
-                )}
-              />
-            </div>
+          <div className="mb-2">
+            <p className="mb-2">Tỉnh/Thành phố</p>
+            <Controller
+              name="cityId"
+              control={formChangeBuilding.control}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  style={{ width: 150 }}
+                  placeholder={"Chọn tỉnh thành"}
+                  // defaultValue={options[0].value}
+                  onChange={(value) => field.onChange(value)}
+                  options={options}
+                />
+              )}
+            />
+          </div>
 
-            <Popconfirm
-              placement="right"
-              title="Nhắc nhở"
-              description="Bạn có muốn đổi sửa lại dự án không?"
-              onConfirm={handleSubmitChangeBuilding(onSubmitChangeBuilding)}
-              okButtonProps={{
-                style: { backgroundColor: "#1ac5ff " },
-              }}
-              okText="Đổi"
-              cancelText="Không"
-              cancelButtonProps={{
-                style: {
-                  color: "#1ac5ff ",
-                },
-              }}
+          <Popconfirm
+            placement="right"
+            title="Nhắc nhở"
+            description="Bạn có muốn đổi sửa lại dự án không?"
+            onConfirm={handleSubmitChangeBuilding(onSubmitChangeBuilding)}
+            okButtonProps={{
+              style: { backgroundColor: "#1ac5ff " },
+            }}
+            okText="Đổi"
+            cancelText="Không"
+            cancelButtonProps={{
+              style: {
+                color: "#1ac5ff ",
+              },
+            }}
+          >
+            <Button
+              className="px-2 py-1 ml-2 mt-1 w-16 bg-white text-sky-400 hover:bg-sky-400 border-slate-300 hover:text-white"
+              type="submit"
             >
-              <Button
-                className="px-2 py-1 ml-2 mt-1 w-16 bg-white text-sky-400 hover:bg-sky-400 border-slate-300 hover:text-white"
-                type="submit"
-              >
-                Sửa
-              </Button>
-            </Popconfirm>
-          </form>
-        )}
+              Sửa
+            </Button>
+          </Popconfirm>
+        </form>
       </Modal>
     </div>
   );

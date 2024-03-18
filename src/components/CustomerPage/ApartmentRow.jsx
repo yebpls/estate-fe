@@ -56,6 +56,7 @@ export default function ApartmentRow({ subcription, stt }) {
             <p className="whitespace-nowrap text-base text-slate-600 py-1">
               Giá trị: {apartmentPrice}đ
             </p>
+            {/* <p>{subcription?.subscriptionStatus}</p> */}
           </div>
           <div className="w-64 ml-3">
             {subcription?.subscriptionStatus === 0 ? (
@@ -77,6 +78,11 @@ export default function ApartmentRow({ subcription, stt }) {
               <p className="text-slate-500 text-sm py-2 flex">
                 Tình trạng đăng ký:
                 <p className=" px-1 text-red-500"> Đã bị bán</p>
+              </p>
+            ) : subcription?.subscriptionStatus === 4 ? (
+              <p className="text-slate-500 text-sm py-2 flex">
+                Tình trạng đăng ký:
+                <p className=" px-1 text-red-500"> Đã có người hẹn</p>
               </p>
             ) : (
               ""

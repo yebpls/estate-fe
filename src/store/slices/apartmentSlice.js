@@ -203,20 +203,17 @@ const apartmentSlice = createSlice({
     });
     builder.addCase(createBookingDistribution.fulfilled, (state, action) => {
       const { availableApartment } = state;
-      const updateApartmentId = action.meta.arg?.apartmentId;
-      const newAvailableApartment = availableApartment
-        ?.map((apartment) => {
-          if (apartment.id === updateApartmentId) {
-            return {
-              ...apartment,
-              status: 2,
-            };
-          }
-          return apartment;
-        })
-        ?.filter((apartment) => apartment.status === 1);
-
-      return { ...state, viewAvailableApartment: newAvailableApartment };
+      const updateApartmentId = action.payload.data?.apartmentId;
+      console.log("update:", updateApartmentId);
+      const newAvailableApartment = availableApartment?.filter(
+        (apartment) => apartment.id !== updateApartmentId
+      );
+      const filterApart = newAvailableApartment?.filter(
+        (apartment) => apartment.status === 1
+      );
+      // console.log("filter:", filterApart);
+      console.log("new: ", newAvailableApartment, filterApart);
+      return { ...state, viewAvailableApartment: filterApart };
     });
     builder.addCase(getApartmentById.fulfilled, (state, action) => {
       const { data, buildings } = action.payload;

@@ -13,6 +13,18 @@ export const getContractByAppointment = createAsyncThunk(
   }
 );
 
+export const getContractByApartment = createAsyncThunk(
+  "contract/get_by_apartment",
+  async (id) => {
+    try {
+      const res = await contractApi.getContractByApart(id);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 const initialState = {
   contractForAgency: null,
   contractForInvestor: null,
@@ -25,6 +37,9 @@ const contractSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getContractByAppointment.fulfilled, (state, action) => {
       return { ...state, contractForAgency: action.payload };
+    });
+    builder.addCase(getContractByApartment.fulfilled, (state, action) => {
+      return { ...state, contractForInvestor: action.payload };
     });
   },
 });
