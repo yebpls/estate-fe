@@ -76,15 +76,15 @@ export default function ManageBuilding({ buildings, projectId }) {
           )}
         </div>
         <div className="flex mt-4 mb-2">
-          <p className="w-1/5 text-base text-slate-500">Tên tòa nhà</p>
-          <p className="w-4/5 text-base text-slate-500">Địa chỉ tòa nhà</p>
+          <p className="w-1/4 text-base text-slate-500">Tên tòa nhà</p>
+          <p className="w-3/5 text-base text-slate-500">Địa chỉ tòa nhà</p>
           <p className="w-1/4 text-base text-slate-500">Tỉnh/Thành phố</p>
-          <p className="w-1/4 text-base text-slate-500">Hành động</p>
+          <p className="w-1/4 text-base text-slate-500 pl-2">Hành động</p>
         </div>
         {displayBuilding?.map((building) => (
           <div className="flex">
-            <p className="w-1/5 pl-4 text-slate-700">{building.buildingName}</p>
-            <p className="w-4/5">{building.address}</p>
+            <p className="w-1/4 text-slate-700">{building.buildingName}</p>
+            <p className="w-3/5">{building.address}</p>
             <p className="w-1/4">{building.cityName}</p>
             <div className="flex w-1/4">
               <UpdateBuilding projectId={projectId} building={building} />

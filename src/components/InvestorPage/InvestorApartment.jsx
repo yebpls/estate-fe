@@ -142,7 +142,7 @@ export default function InvestorApartment() {
           <th scope="col" className="inline-block ml-44 py-4">
             Toà nhà
           </th>
-          <th scope="col" className="inline-block ml-12 py-4">
+          <th scope="col" className="inline-block ml-20 py-4">
             Trạng thái
           </th>
           <th scope="col" className="inline-block ml-36 py-4">
@@ -165,12 +165,16 @@ export default function InvestorApartment() {
                 stt={index + startIndex + 1}
               />
             ))}
-          <Pagination
-            current={currentPage}
-            total={displayApartment?.length}
-            pageSize={5}
-            onChange={handlePageChange}
-          />
+          {displayApartment?.length > 5 ? (
+            <Pagination
+              current={currentPage}
+              total={displayApartment?.length}
+              pageSize={5}
+              onChange={handlePageChange}
+            />
+          ) : (
+            ""
+          )}
         </div>
       )}
     </div>

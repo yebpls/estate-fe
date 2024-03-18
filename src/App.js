@@ -51,6 +51,7 @@ import Subcription from "./components/AgencyPage/Subcription";
 import AccountBalance from "./components/SharedComponent/AccountBalance";
 import Contract from "./components/SharedComponent/Contract";
 import { getAllApartment } from "./store/slices/apartmentSlice";
+import ContractByApart from "./components/InvestorPage/ContractByApart";
 
 function App() {
   const { isLogin, role, id } = useSelector((state) => state.accountReducer);
@@ -129,6 +130,10 @@ function App() {
           <Route
             path="/investor/project/:projectId"
             element={<InvestorApartment />}
+          />
+          <Route
+            path="/investor/project/apartment/:apartmentId"
+            element={<ContractByApart />}
           />
         </Route>
         {/* Route for AGENCY */}

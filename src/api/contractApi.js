@@ -6,7 +6,7 @@ export const contractApi = {
     return axiosClient.get(url);
   },
   getContractByApart(id) {
-    const url = `/api/agency/apartment/${id}`;
+    const url = `/api/contract/by-apartment/${id}`;
     return axiosClient.get(url);
   },
 };
